@@ -51,7 +51,7 @@ const Page = () => {
         </Row>
         <Row gutter={[12, 12]}>
           <Col span={7} className="bg-[#F9ECCE] h-[100px] ">
-            27749 วิชาน่ารัก
+            27749 วิชาน่ารัก sdfsdfdsfdsf
           </Col>
           <Col span={1} />
           <Col span={8} className="bg-[#F9ECCE] h-[100px]">
