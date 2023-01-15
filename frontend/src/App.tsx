@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
-import Home from "./components/Home";
+import Home from "./components/home";
 import Login from "./components/login";
+import logo from "./logo.svg";
 function App() {
   return (
-      <Login/>
+    <Home/>
   );
 }
 
