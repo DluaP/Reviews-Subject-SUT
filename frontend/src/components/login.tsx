@@ -1,19 +1,21 @@
-import { Card, Input, TabsProps, Form, Button, Tabs, Row, Col ,Image} from "antd";
-
+import { Card, Input, TabsProps, Form, Button, Tabs, Row, Col ,Image, notification} from "antd";
+import { fireNotification } from "./notification"
 const Login = () => {
+
   const signin = (element: any) => {
-    console.log(element);
+    fireNotification({ type: "success"});
   };
   const signup = (element: any) => {
     if(element.confirm != element.password){
-        console.log("รหัสผ่านไม่ตรงกัน");
+        fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
     }else{
-        console.log(element);
+        fireNotification({ type: "success"});
     }
   };
   const onChange = (key: string) => {
     console.log(key);
   };
+
   const items: TabsProps["items"] = [
     {
       key: "1",
