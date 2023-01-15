@@ -2,7 +2,7 @@ import { Form, Input, Row } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 
-const Page = () => {
+const Home = () => {
   const [form] = Form.useForm();
   const onFinish = () => {};
 
@@ -79,4 +79,4 @@ const Page = () => {
     </div>
   );
 };
-export default Page;
+export default Home;
