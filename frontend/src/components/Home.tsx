@@ -7,10 +7,10 @@ const Home = () => {
   const onFinish = () => {};
 
   return (
-    <div className="w-[100%] h-[1000px] ">
+    <div className="w-[100%] h-[100vh] ">
       <div className="p-[100px] text-center justify-center ">
+        <Form layout="vertical" onFinish={onFinish}>
         <Row gutter={[12, 6]}>
-          <Form form={form} layout="vertical" onFinish={onFinish}>
             <Col span={6}>
               <Form.Item
                 name="url"
@@ -46,9 +46,8 @@ const Home = () => {
                 <Input placeholder="input placeholder" />
               </Form.Item>
             </Col>
-            
-          </Form>
         </Row>
+        </Form>
         <Row gutter={[12, 12]}>
           <Col span={7} className="bg-[#F9ECCE] h-[100px] ">
             27749 วิชาน่ารัก sdfsdfdsfdsf
