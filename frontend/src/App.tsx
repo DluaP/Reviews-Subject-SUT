@@ -1,10 +1,10 @@
 import React from "react";
 import Home from "./components/home";
 import Login from "./components/login";
-import logo from "./logo.svg";
+import CreatePost from "./components/create-post";
 function App() {
   return (
-    <Home/>
+    <CreatePost/>
   );
 }
 
