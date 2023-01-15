@@ -1,4 +1,4 @@
-import { Card, Input, TabsProps, Form, Button, Tabs, Row, Col } from "antd";
+import { Card, Input, TabsProps, Form, Button, Tabs, Row, Col ,Image} from "antd";
 
 const Login = () => {
   const signin = (element: any) => {
@@ -87,7 +87,10 @@ const Login = () => {
   ];
   return (
     <div className="bg-[#F9ECCE] w-[100%] h-[100vh] ">
-      <div className="px-[50vh]  pt-32 !content-center">
+        <div className="text-center pt-20">
+        <Image  src="./images/Logo.png" preview={false}/>
+      </div>
+      <div className="px-[50vh]   !content-center">
         <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="bg-white px-10  pt-4 pb-10 rounded-lg"/>
       </div>
     </div>
