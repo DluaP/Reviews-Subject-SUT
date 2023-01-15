@@ -4,7 +4,7 @@ import Home from "./components/Home";
 import Login from "./components/login";
 function App() {
   return (
-      <Login/>
+      <Home/>
   );
 }
 
