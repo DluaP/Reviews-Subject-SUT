@@ -11,13 +11,14 @@ const Home = () => {
   const onFinish = () => { };
 
   return (
+
     <div className="w-[100%] h-[1000px] ">
       <div className="text-right pr-12 pt-10 "><Image style={{ width: 30, height: 30 }} src= './images/human.png' /></div>
       <div className="text-right pr-10 pt-1"> โปรไฟล์ </div>
       <div className="text-center "><Image style={{ width: 200, height: 100 }} src= './images/Logo.png' /></div>
       <div className="p-[100px] text-center justify-center ">
+ <Form form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={[12, 6]} >
-          {/* <Form form={form} layout="vertical" onFinish={onFinish}> */}
           <Col span={6}>
             <Form.Item
               name="url"
@@ -51,13 +52,13 @@ const Home = () => {
               <Input placeholder="input placeholder" />
             </Form.Item>
           </Col>
-
-          {/* </Form> */}
         </Row>
+        </Form>
 
         <Row gutter={[12, 12]}>
         <Col span={3} ></Col>
         </Row>
+
 
         <Row gutter={[12, 12]}>
           <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md" >
