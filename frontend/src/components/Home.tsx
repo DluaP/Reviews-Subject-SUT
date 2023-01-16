@@ -36,53 +36,89 @@ const Home = () => {
           preview={false}
         />
       </div>
-      <div className="px-[30vh] py-[100px] text-center justify-center ">
+      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>
             <Col span={6}>
               <Form.Item name="1" label="ชื่อวิชา">
-                <Input placeholder="input placeholder" />
+                <Input placeholder="ชื่อวิชา" />
               </Form.Item>
             </Col>
             <Col span={6}>
               <Form.Item name="2" label="รหัสวิชา">
-                <Input placeholder="input placeholder" />
+                <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
             <Col span={6}>
               <Form.Item name="3" label="ปี">
-                <Input placeholder="input placeholder" />
+                <Input placeholder="ปี" />
               </Form.Item>
             </Col>
             <Col span={6}>
               <Form.Item name="4" label="รูปแบบ">
-                <Input placeholder="input placeholder" />
+                <Input placeholder="รูปแบบ" />
               </Form.Item>
             </Col>
-          </Row>
-
-          <Row gutter={[12, 12]}>
             <Col span={3}>
-              <Button htmlType="submit" className="w-[100%]">
+              <Button htmlType="submit" className="w-[100%] text-[white] bg-[#46B072] " >
                 ค้นหา
               </Button>
             </Col>
             <Col span={3}>
-              <Button
-                className="w-[100%] "
-                onClick={() => {
-                  form.resetFields();
-                }}
-              >
+              <Button className="w-[100%] "onClick={() => {form.resetFields();}}>
                 ล้างข้อมูล
               </Button>
             </Col>
-            <Col span={20}></Col>
+            <Col span={3}>
+              <Button className="w-[100%] bg-[#FECC73]">
+                เขียนรีวิว
+              </Button>
+            </Col>
+            <Col span={17}></Col>
           </Row>
         </Form>
-        <Row gutter={[12, 12]}>
-          <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            27749 วิชาน่ารัก sdfsdfdsfdsf
+
+        <Row gutter={[12, 12]} className ="pt-6 " >
+        <Col span={7}>
+              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+              202324 ไทยศึกษาเชิงพหุวัฒนธรรม
+              </Button>
+            </Col>
+          <Col span={1} />
+          <Col span={8} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            202241 กฎหมายในชีวิตประจำวัน
+            </Button>
+          </Col>
+          <Col span={1} />
+          <Col span={7} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            202175 ศิลปวิจักษ์
+            </Button>
+          </Col>
+
+        </Row>
+        <Row gutter={[12, 12]} className="mt-10">
+          <Col span={7} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            202111 ภาษาไทยเพื่อการสื่อสาร
+            </Button>
+          </Col>
+          <Col span={1} />
+          <Col span={8} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            202331 อาเซียนศึกษา
+            </Button>
+          </Col>
+          <Col span={1} />
+          <Col span={7} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            202181 สุขภาพองค์รวม
+            </Button>
+          </Col>
+
+          {/* <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md " >
+                27749 วิชาน่ารัก sdfsdfdsfdsf
           </Col>
           <Col span={1} />
           <Col span={8} className="bg-[#F9ECCE] h-[100px] rounded-md">
@@ -104,8 +140,27 @@ const Home = () => {
           <Col span={1} />
           <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md">
             8841 ยังไงๆ
-          </Col>
+          </Col> */}
         </Row>
+        <Row gutter={[12, 12]} className="mt-10">
+        <Col span={7}>
+              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+              202203 มนุษย์กับสังคมและสิ่งแวดล้อม
+              </Button>
+            </Col>
+          <Col span={1} />
+          <Col span={8} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            214346 การบัญชีพื้นฐานเพื่อการจัดการ
+            </Button>
+          </Col>
+          <Col span={1} />
+          <Col span={7} >
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+            213305 ภาษาอังกฤษเพื่อการทำงาน
+            </Button>
+          </Col>
+          </Row>
       </div>
       <Drawer placement="right" onClose={onClose} open={open}>
         <Image
