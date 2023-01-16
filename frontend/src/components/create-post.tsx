@@ -1,4 +1,15 @@
-import { Divider, Drawer, Image, Row } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Drawer,
+  Form,
+  Image,
+  Input,
+  Row,
+  Select,
+} from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 const CreatePost = () => {
   const [open, setOpen] = useState(false);
@@ -9,9 +20,16 @@ const CreatePost = () => {
   const onClose = () => {
     setOpen(false);
   };
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+  
+  const onSearch = (value: string) => {
+    console.log('search:', value);
+  };
   return (
     <div>
-      <div className=" w-[100%] h-[100vh] ">
+      <div className=" w-[100%] ">
         <div onClick={showDrawer}>
           <div className="text-right pr-12 pt-10 ">
             <Image
@@ -25,13 +43,56 @@ const CreatePost = () => {
         <div className="text-center pt-20">
           <Image src="./images/Logo.png" preview={false} />
         </div>
-        <div className="px-[60vh]   !content-center"></div>
-        <Row >
-          
-        </Row>
+        <div className="px-[40vh]   !content-center">
+          <Form>
+            <Row gutter={[12, 12]}>
+              <Col span={21}>
+                <Form.Item name="namesub">
+                  <Select
+                    showSearch
+                    placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"
+                    optionFilterProp="children"
+                    onChange={onChange}
+                    onSearch={onSearch}
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={[
+                      {
+                        value: "jack",
+                        label: "Jack",
+                      },
+                      {
+                        value: "lucy",
+                        label: "Lucy",
+                      },
+                      {
+                        value: "tom",
+                        label: "Tom",
+                      },
+                    ]}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={3}>
+                <Button className="w-[100%]">ย้อนกลับ</Button>
+              </Col>
+              <Col span={24} >
+                <TextArea rows={6} />
+              </Col>
+              <Col span={12}>
+                ความพึงพอใจในวิชา
+              </Col>
+              <Col span={4}></Col>
+              <Col span={2}>ไม่พอใจ</Col>
+              <Col span={4}></Col>
+              <Col span={2}>พอใจมาก</Col>
+            </Row>
+          </Form>
+        </div>
       </div>
-
-
 
       <Drawer placement="right" onClose={onClose} open={open}>
         <Image
