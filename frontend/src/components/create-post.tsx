@@ -6,11 +6,13 @@ import {
   Form,
   Image,
   Input,
+  Radio,
   Row,
   Select,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
+import { fireNotification } from "./notification";
 const CreatePost = () => {
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
@@ -23,10 +25,15 @@ const CreatePost = () => {
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
-  
+
   const onSearch = (value: string) => {
-    console.log('search:', value);
+    console.log("search:", value);
   };
+  const onFinish = (e:any)=>{
+    fireNotification({ type: "success" });
+    console.log(e);
+    
+  }
   return (
     <div>
       <div className=" w-[100%] ">
@@ -43,8 +50,8 @@ const CreatePost = () => {
         <div className="text-center pt-20">
           <Image src="./images/Logo.png" preview={false} />
         </div>
-        <div className="px-[40vh]   !content-center">
-          <Form>
+        <div className="px-[40vh]  pb-10 !content-center">
+          <Form onFinish={onFinish}>
             <Row gutter={[12, 12]}>
               <Col span={21}>
                 <Form.Item name="namesub">
@@ -79,16 +86,104 @@ const CreatePost = () => {
               <Col span={3}>
                 <Button className="w-[100%]">ย้อนกลับ</Button>
               </Col>
-              <Col span={24} >
-                <TextArea rows={6} />
+              <Col span={24}>
+                <Form.Item name="text1">
+                  <TextArea rows={6} />
+                </Form.Item>
               </Col>
-              <Col span={12}>
-                ความพึงพอใจในวิชา
-              </Col>
+              <Col span={12}>ความพึงพอใจในวิชา</Col>
               <Col span={4}></Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Col span={4}></Col>
-              <Col span={2}>พอใจมาก</Col>
+              <Col span={3}></Col>
+              <Col span={3}>พอใจมาก</Col>
+
+              <Col span={1}></Col>
+              <Col span={15}>เนื้อหาและความหน้าสนใจ</Col>
+              <Col span={8}>
+                <Form.Item name="a">
+                  <Radio.Group className="pl-6">
+                    <Radio value="a1">1</Radio>
+                    <Radio value="a2">2</Radio>
+                    <Radio value="a3">3</Radio>
+                    <Radio value="a4">4</Radio>
+                    <Radio value="a5">5</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+
+              <Col span={1}></Col>
+              <Col span={15}>จำนวนงานและความเหมาะสม</Col>
+              <Col span={8}>
+                <Form.Item name="b">
+                  <Radio.Group className="pl-6">
+                    <Radio value="b1">1</Radio>
+                    <Radio value="b2">2</Radio>
+                    <Radio value="b3">3</Radio>
+                    <Radio value="b4">4</Radio>
+                    <Radio value="b5">5</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+
+              <Col span={1}></Col>
+              <Col span={15}>อาจารย์ผู้สอน</Col>
+              <Col span={8}>
+                <Form.Item name="c">
+                  <Radio.Group className="pl-6">
+                    <Radio value="c1">1</Radio>
+                    <Radio value="c2">2</Radio>
+                    <Radio value="c3">3</Radio>
+                    <Radio value="c4">4</Radio>
+                    <Radio value="c5">5</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+
+              <Col span={24}>
+                <Form.Item name="gpa" label="เกรดที่ได้">
+                  <Select placeholder="Please select favourite colors">
+                    <Select.Option value="80">A</Select.Option>
+                    <Select.Option value="75">B+</Select.Option>
+                    <Select.Option value="70">B</Select.Option>
+                    <Select.Option value="65">C+</Select.Option>
+                    <Select.Option value="60">C</Select.Option>
+                    <Select.Option value="50">F</Select.Option>
+                    <Select.Option value="0">ไม่ระบุ</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col span={24}>
+                <Form.Item name="term" label="เทอม">
+                  <Radio.Group>
+                    <Radio value="t1">1</Radio>
+                    <Radio value="t2">2</Radio>
+                    <Radio value="t3">3</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <p>กรุณาตรวจสอบความถูกต้องก่อนโพสรีวิว</p>
+              </Col>
+              <Col span={1}></Col>
+              <Col span={23}>
+                <p>1.ห้ามใช้คำหยาบคาย </p>
+                <p>2.ห้ามใช้ข้อความที่เป็นเท็จหรือเกินความจริง</p>
+                <p>3.ห้ามใช้ข้อความที่จะก่อให้เกิดความเข้าใจผิดในสาระสำคัญ</p>
+                <p>
+                  4.ห้ามใช้ข้อความที่จะทำให้เกิดความแตกแยกหรือเสื่อมเสียความสามัคคีในหมู่ประชาชน
+                </p>
+                <p>
+                  5.ห้ามใช้ข้อความที่เป็นการสนับสนุนโดยตรงหรือโดยอ้อมให้มีการกระทำผิดกฎหมายหรือศีลธรรม
+                </p>
+              </Col>
+              <Col span={10}>
+              </Col>
+              <Col span={4}>
+              <Button htmlType="submit" className="w-[100%]">โพสต์เลย!!</Button>
+              </Col>
+              <Col span={10}>
+              </Col>
             </Row>
           </Form>
         </div>
