@@ -68,16 +68,16 @@ const CreatePost = () => {
                     }
                     options={[
                       {
-                        value: "jack",
-                        label: "Jack",
+                        value: "214327",
+                        label: "214327",
                       },
                       {
-                        value: "lucy",
-                        label: "Lucy",
+                        value: "214328",
+                        label: "214328",
                       },
                       {
-                        value: "tom",
-                        label: "Tom",
+                        value: "214329",
+                        label: "214329",
                       },
                     ]}
                   />
