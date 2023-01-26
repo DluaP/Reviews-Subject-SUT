@@ -65,7 +65,12 @@ const Profile = () => {
             </Row>
             </div>
           </Col>
-          <Col span={16}>xxxx</Col>
+          {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
+          <Col span={16}>
+            <Row>
+              
+            </Row>
+          </Col>
         </Row>
       </div>
       <Drawer placement="right" onClose={onClose} open={open}>
