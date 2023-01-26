@@ -1,10 +1,13 @@
-import { Button, Divider, Drawer, Form, Input, Row } from "antd";
+import { Button, Divider, Drawer, Form, Input, Row, Select } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useState } from "react";
+import { useNavigate,NavLink,Route,Routes } from "react-router-dom";
+import CreatePost from "./create-post";
 
 const Home = () => {
+  const navigate = useNavigate()
   const [form] = Form.useForm();
   const onFinish = (e: any) => {
     console.log(e);
@@ -18,13 +21,15 @@ const Home = () => {
     setOpen(false);
   };
   return (
-    <div className="w-[100%] h-[100vh] ">
+    
+    <div className="w-[100%]  ">
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
           <Image
             style={{ width: 30, height: 30 }}
             src="./images/human.png"
             preview={false}
+            onClick={() => navigate("/")}
           />
         </div>
         <div className="text-right pr-10 pt-1"> โปรไฟล์ </div>
@@ -55,8 +60,12 @@ const Home = () => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="4" label="รูปแบบ">
-                <Input placeholder="รูปแบบ" />
+              <Form.Item name="4" label="เรียงตาม">
+              <Select defaultValue={"all"}>
+                    <Select.Option value="all">ทั้งหมด</Select.Option>
+                    <Select.Option value="like">ยอดไลก์</Select.Option>
+                    <Select.Option value="review">ยอดวิว</Select.Option>
+                  </Select>
               </Form.Item>
             </Col>
             <Col span={3}>
@@ -70,7 +79,10 @@ const Home = () => {
               </Button>
             </Col>
             <Col span={3}>
-              <Button className="w-[100%] bg-[#FECC73]">
+              <Button className="w-[100%] bg-[#FECC73]" 
+              onClick={()=>
+                navigate("/create-post")
+              }>
                 เขียนรีวิว
               </Button>
             </Col>
@@ -80,7 +92,7 @@ const Home = () => {
 
         <Row gutter={[12, 12]} className ="pt-6 " >
         <Col span={7}>
-              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]"  onClick={() => navigate("/review")}>
               202324 ไทยศึกษาเชิงพหุวัฒนธรรม
               </Button>
             </Col>
