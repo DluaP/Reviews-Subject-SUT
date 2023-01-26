@@ -12,8 +12,10 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fireNotification } from "./notification";
 const CreatePost = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -29,25 +31,25 @@ const CreatePost = () => {
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
-  const onFinish = (e:any)=>{
+  const onFinish = (e: any) => {
     fireNotification({ type: "success" });
     console.log(e);
-    
-  }
+  };
   return (
     <div>
       <div className=" w-[100%] ">
         <div onClick={showDrawer}>
-          <div className="text-right pr-12 pt-10 ">
+          <div className="text-right pr-12 pt-10 " >
             <Image
               style={{ width: 30, height: 30 }}
               src="./images/human.png"
               preview={false}
+             
             />
           </div>
           <div className="text-right pr-10 pt-1"> โปรไฟล์ </div>
         </div>
-        <div className="text-center pt-20">
+        <div className="text-center ">
           <Image src="./images/Logo.png" preview={false} />
         </div>
         <div className="px-[40vh]  pb-10 !content-center">
@@ -84,7 +86,12 @@ const CreatePost = () => {
                 </Form.Item>
               </Col>
               <Col span={3}>
-                <Button className="w-[100%]">ย้อนกลับ</Button>
+                <Button
+                  className="w-[100%]"
+                  onClick={() => navigate("/")}
+                >
+                  ย้อนกลับ
+                </Button>
               </Col>
               <Col span={24}>
                 <Form.Item name="text1">
@@ -152,7 +159,11 @@ const CreatePost = () => {
                   </Select>
                 </Form.Item>
               </Col>
-
+              <Col span={24}>
+                <Form.Item name="schoolYear" label="ปีการศึกษา">
+                  <Input placeholder="ปีการศึกษา" />
+                </Form.Item>
+              </Col>
               <Col span={24}>
                 <Form.Item name="term" label="เทอม">
                   <Radio.Group>
@@ -177,13 +188,13 @@ const CreatePost = () => {
                   5.ห้ามใช้ข้อความที่เป็นการสนับสนุนโดยตรงหรือโดยอ้อมให้มีการกระทำผิดกฎหมายหรือศีลธรรม
                 </p>
               </Col>
-              <Col span={10}>
-              </Col>
+              <Col span={10}></Col>
               <Col span={4}>
-              <Button htmlType="submit" className="w-[100%]">โพสต์เลย!!</Button>
+                <Button htmlType="submit" className="w-[100%]">
+                  โพสต์เลย!!
+                </Button>
               </Col>
-              <Col span={10}>
-              </Col>
+              <Col span={10}></Col>
             </Row>
           </Form>
         </div>
