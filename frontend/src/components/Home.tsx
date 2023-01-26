@@ -3,11 +3,11 @@ import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useState } from "react";
-import { useNavigate,NavLink,Route,Routes } from "react-router-dom";
+import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import CreatePost from "./create-post";
 
 const Home = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const onFinish = (e: any) => {
     console.log(e);
@@ -21,18 +21,21 @@ const Home = () => {
     setOpen(false);
   };
   return (
-    
     <div className="w-[100%]  ">
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
-          <Image
-            style={{ width: 30, height: 30 }}
-            src="./images/human.png"
-            preview={false}
-            onClick={() => navigate("/")}
-          />
+          <button>
+            <div className="text-center justify-center">
+              <Image
+                style={{ width: 30, height: 30 }}
+                src="./images/human.png"
+                preview={false}
+                onClick={() => navigate("/")}
+              />
+            </div>
+            <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
+          </button>
         </div>
-        <div className="text-right pr-10 pt-1"> โปรไฟล์ </div>
       </div>
       <div className="text-center ">
         <Image
@@ -61,28 +64,36 @@ const Home = () => {
             </Col>
             <Col span={6}>
               <Form.Item name="4" label="เรียงตาม">
-              <Select defaultValue={"all"}>
-                    <Select.Option value="all">ทั้งหมด</Select.Option>
-                    <Select.Option value="like">ยอดไลก์</Select.Option>
-                    <Select.Option value="review">ยอดวิว</Select.Option>
-                  </Select>
+                <Select defaultValue={"all"}>
+                  <Select.Option value="all">ทั้งหมด</Select.Option>
+                  <Select.Option value="like">ยอดไลก์</Select.Option>
+                  <Select.Option value="review">ยอดวิว</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
             <Col span={3}>
-              <Button htmlType="submit" className="w-[100%] text-[white] bg-[#46B072] " >
+              <Button
+                htmlType="submit"
+                className="w-[100%] text-[white] bg-[#46B072] "
+              >
                 ค้นหา
               </Button>
             </Col>
             <Col span={3}>
-              <Button className="w-[100%] "onClick={() => {form.resetFields();}}>
+              <Button
+                className="w-[100%] "
+                onClick={() => {
+                  form.resetFields();
+                }}
+              >
                 ล้างข้อมูล
               </Button>
             </Col>
             <Col span={3}>
-              <Button className="w-[100%] bg-[#FECC73]" 
-              onClick={()=>
-                navigate("/create-post")
-              }>
+              <Button
+                className="w-[100%] bg-[#FECC73]"
+                onClick={() => navigate("/create-post")}
+              >
                 เขียนรีวิว
               </Button>
             </Col>
@@ -90,42 +101,44 @@ const Home = () => {
           </Row>
         </Form>
 
-        <Row gutter={[12, 12]} className ="pt-6 " >
-        <Col span={7}>
-              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]"  onClick={() => navigate("/review")}>
+        <Row gutter={[12, 12]} className="pt-6 ">
+          <Col span={7}>
+            <Button
+              className="w-[100%] h-[100px] bg-[#F9ECCE]"
+              onClick={() => navigate("/review")}
+            >
               202324 ไทยศึกษาเชิงพหุวัฒนธรรม
-              </Button>
-            </Col>
-          <Col span={1} />
-          <Col span={8} >
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            202241 กฎหมายในชีวิตประจำวัน
             </Button>
           </Col>
           <Col span={1} />
-          <Col span={7} >
+          <Col span={8}>
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            202175 ศิลปวิจักษ์
+              202241 กฎหมายในชีวิตประจำวัน
             </Button>
           </Col>
-
+          <Col span={1} />
+          <Col span={7}>
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+              202175 ศิลปวิจักษ์
+            </Button>
+          </Col>
         </Row>
         <Row gutter={[12, 12]} className="mt-10">
-          <Col span={7} >
+          <Col span={7}>
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            202111 ภาษาไทยเพื่อการสื่อสาร
+              202111 ภาษาไทยเพื่อการสื่อสาร
             </Button>
           </Col>
           <Col span={1} />
-          <Col span={8} >
+          <Col span={8}>
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            202331 อาเซียนศึกษา
+              202331 อาเซียนศึกษา
             </Button>
           </Col>
           <Col span={1} />
-          <Col span={7} >
+          <Col span={7}>
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            202181 สุขภาพองค์รวม
+              202181 สุขภาพองค์รวม
             </Button>
           </Col>
 
@@ -155,36 +168,38 @@ const Home = () => {
           </Col> */}
         </Row>
         <Row gutter={[12, 12]} className="mt-10">
-        <Col span={7}>
-              <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+          <Col span={7}>
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
               202203 มนุษย์กับสังคมและสิ่งแวดล้อม
-              </Button>
-            </Col>
-          <Col span={1} />
-          <Col span={8} >
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            214346 การบัญชีพื้นฐานเพื่อการจัดการ
             </Button>
           </Col>
           <Col span={1} />
-          <Col span={7} >
+          <Col span={8}>
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-            213305 ภาษาอังกฤษเพื่อการทำงาน
+              214346 การบัญชีพื้นฐานเพื่อการจัดการ
             </Button>
           </Col>
-          </Row>
+          <Col span={1} />
+          <Col span={7}>
+            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
+              213305 ภาษาอังกฤษเพื่อการทำงาน
+            </Button>
+          </Col>
+        </Row>
       </div>
       <Drawer placement="right" onClose={onClose} open={open}>
-        <Image
-          src="./images/test-men.jpg"
-          preview={false}
-          style={{ width: "100px", height: "100px" }}
-          className="rounded-full text-center"
-        />
-        <p className="m-0">อ่อ ช่างแอ้</p>
+        <div className="text-center justify-center items-center">
+          <Image
+            src="./images/test-men.jpg"
+            preview={false}
+            style={{ width: "100px", height: "100px" }}
+            className="rounded-full text-center"
+          />
+          <p className="m-0">อ่อ ช่างแอ้</p>
+        </div>
         <Divider className="my-1" />
-        <p>โปรไฟล์</p>
-        <p>ตั้งค่าบัญชี</p>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left">ตั้งค่าบัญชี</button> </div>
         <Divider className="my-1" />
         <p>ออกจากระบบ</p>
       </Drawer>
