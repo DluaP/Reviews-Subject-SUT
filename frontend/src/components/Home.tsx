@@ -1,4 +1,4 @@
-import { Button, Divider, Drawer, Form, Input, Row, Select } from "antd";
+import { Affix, Button, Divider, Drawer, Form, Input, Row, Select } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
@@ -9,10 +9,11 @@ import CreatePost from "./create-post";
 const Home = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [top, setTop] = useState(10);
+  const [open, setOpen] = useState(false);  
   const onFinish = (e: any) => {
     console.log(e);
   };
-  const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -22,6 +23,7 @@ const Home = () => {
   };
   return (
     <div className="w-[100%]  ">
+      <Affix offsetTop={top}>
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
           <button>
@@ -36,6 +38,7 @@ const Home = () => {
           </button>
         </div>
       </div>
+      </Affix>
       <div className="text-center ">
       <button onClick={() => navigate("/")}>
         <Image

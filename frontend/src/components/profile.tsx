@@ -1,4 +1,5 @@
 import {
+  Affix,
   Button,
   Divider,
   Drawer,
@@ -16,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [top, setTop] = useState(10);
   const [form] = Form.useForm();
   const onFinish = (e: any) => {
     console.log(e);
@@ -31,27 +33,29 @@ const Profile = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-    <div onClick={showDrawer}>
-        <div className="text-right pr-12 pt-10 ">
-          <button>
-            <div className="text-center justify-center">
-              <Image
-                style={{ width: 30, height: 30 }}
-                src="./images/human.png"
-                preview={false}
-              />
-            </div>
-            <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
-          </button>
+      <Affix offsetTop={top}>
+        <div onClick={showDrawer}>
+          <div className="text-right pr-12 pt-10 ">
+            <button>
+              <div className="text-center justify-center">
+                <Image
+                  style={{ width: 30, height: 30 }}
+                  src="./images/human.png"
+                  preview={false}
+                />
+              </div>
+              <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
+            </button>
+          </div>
         </div>
-      </div>
+      </Affix>
       <div className="text-center ">
-      <button onClick={() => navigate("/")}>
-        <Image
-          style={{ width: "100%", height: "100%" }}
-          src="./images/Logo.png"
-          preview={false}
-        />
+        <button onClick={() => navigate("/")}>
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            src="./images/Logo.png"
+            preview={false}
+          />
         </button>
       </div>
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
@@ -103,7 +107,14 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
+                <Button
+                  className="w-[100%] "
+                  onClick={() => {
+                    navigate("/edit-post");
+                  }}
+                >
+                  แก้ไข
+                </Button>
               </Col>
               <Col span={3}>
                 <Button className="w-[100%] ">ลบ</Button>
@@ -126,7 +137,14 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
+                <Button
+                  className="w-[100%] "
+                  onClick={() => {
+                    navigate("/edit-post");
+                  }}
+                >
+                  แก้ไข
+                </Button>
               </Col>
               <Col span={3}>
                 <Button className="w-[100%] ">ลบ</Button>
@@ -149,10 +167,17 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
+                <Button
+                  className="w-[100%] "
+                  onClick={() => {
+                    navigate("/edit-post");
+                  }}
+                >
+                  แก้ไข
+                </Button>
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] " >ลบ</Button>
+                <Button className="w-[100%] ">ลบ</Button>
               </Col>
             </Row>
           </Col>
@@ -169,12 +194,49 @@ const Profile = () => {
           <p className="m-0">อ่อ ช่างแอ้</p>
         </div>
         <Divider className="my-1" />
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/profile")}
+          >
+            โปรไฟล์
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/edit-profile")}
+          >
+            ตั้งค่าบัญชี
+          </button>{" "}
+        </div>
         <Divider className="my-1" />
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/user-management")}>จัดการผู้ใช้ </button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/")}>ออกจากระบบ </button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/login")}
+          >
+            เข้าสู่ระบบ{" "}
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/user-management")}
+          >
+            จัดการผู้ใช้{" "}
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
+            ออกจากระบบ{" "}
+          </button>{" "}
+        </div>
       </Drawer>
     </div>
   );

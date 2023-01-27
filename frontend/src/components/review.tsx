@@ -8,6 +8,7 @@ import {
   Select,
   Modal,
   Checkbox,
+  Affix,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -19,6 +20,7 @@ import type { CheckboxValueType } from "antd/es/checkbox/Group";
 const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [top, setTop] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);  
   const [open, setOpen] = useState(false);
   
@@ -51,6 +53,7 @@ const Review = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
+      <Affix offsetTop={top}>
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
           <button>
@@ -65,6 +68,7 @@ const Review = () => {
           </button>
         </div>
       </div>
+      </Affix>
       <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image

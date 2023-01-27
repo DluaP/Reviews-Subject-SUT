@@ -1,4 +1,5 @@
 import {
+  Affix,
     Button,
     Col,
     Divider,
@@ -17,6 +18,7 @@ import {
   const EditPost = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [top, setTop] = useState(10);
     const showDrawer = () => {
       setOpen(true);
     };
@@ -38,6 +40,7 @@ import {
     return (
       <div>
         <div className=" w-[100%] ">
+        <Affix offsetTop={top}>
         <div onClick={showDrawer}>
           <div className="text-right pr-12 pt-10 ">
             <button>
@@ -52,6 +55,7 @@ import {
             </button>
           </div>
         </div>
+        </Affix>
         <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
