@@ -19,7 +19,9 @@ import type { CheckboxValueType } from "antd/es/checkbox/Group";
 const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);  
+  const [open, setOpen] = useState(false);
+  
   const onFinish = (e: any) => {
     console.log(e);
   };
@@ -27,7 +29,7 @@ const Review = () => {
     console.log("checked = ", checkedValues);
   };
 
-  const [open, setOpen] = useState(false);
+
   const showDrawer = () => {
     setOpen(true);
   };
