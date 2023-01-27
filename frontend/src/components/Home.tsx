@@ -30,7 +30,6 @@ const Home = () => {
                 style={{ width: 30, height: 30 }}
                 src="./images/human.png"
                 preview={false}
-                onClick={() => navigate("/")}
               />
             </div>
             <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
@@ -38,11 +37,13 @@ const Home = () => {
         </div>
       </div>
       <div className="text-center ">
+      <button onClick={() => navigate("/")}>
         <Image
           style={{ width: "100%", height: "100%" }}
           src="./images/Logo.png"
           preview={false}
         />
+        </button>
       </div>
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -199,9 +200,11 @@ const Home = () => {
         </div>
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left">ตั้งค่าบัญชี</button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
         <Divider className="my-1" />
-        <p>ออกจากระบบ</p>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/user-management")}>จัดการผู้ใช้ </button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/")}>ออกจากระบบ </button> </div>
       </Drawer>
     </div>
   );

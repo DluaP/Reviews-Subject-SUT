@@ -38,21 +38,30 @@ const CreatePost = () => {
   return (
     <div>
       <div className=" w-[100%] ">
-        <div onClick={showDrawer}>
-          <div className="text-right pr-12 pt-10 " >
-            <Image
-              style={{ width: 30, height: 30 }}
-              src="./images/human.png"
-              preview={false}
-             
-            />
-          </div>
-          <div className="text-right pr-10 pt-1"> โปรไฟล์ </div>
+      <div onClick={showDrawer}>
+        <div className="text-right pr-12 pt-10 ">
+          <button>
+            <div className="text-center justify-center">
+              <Image
+                style={{ width: 30, height: 30 }}
+                src="./images/human.png"
+                preview={false}
+              />
+            </div>
+            <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
+          </button>
         </div>
-        <div className="text-center ">
-          <Image src="./images/Logo.png" preview={false} />
-        </div>
-        <div className="px-[40vh]  pb-10 !content-center">
+      </div>
+      <div className="text-center ">
+      <button onClick={() => navigate("/")}>
+        <Image
+          style={{ width: "100%", height: "100%" }}
+          src="./images/Logo.png"
+          preview={false}
+        />
+        </button>
+      </div>
+        <div className="px-[40vh] pt-[50px] pb-10 !content-center">
           <Form onFinish={onFinish}>
             <Row gutter={[12, 12]}>
               <Col span={21}>
@@ -201,18 +210,22 @@ const CreatePost = () => {
       </div>
 
       <Drawer placement="right" onClose={onClose} open={open}>
-        <Image
-          src="./images/test-men.jpg"
-          preview={false}
-          style={{ width: "100px", height: "100px" }}
-          className="rounded-full text-center"
-        />
-        <p className="m-0">อ่อ ช่างแอ้</p>
+        <div className="text-center justify-center items-center">
+          <Image
+            src="./images/test-men.jpg"
+            preview={false}
+            style={{ width: "100px", height: "100px" }}
+            className="rounded-full text-center"
+          />
+          <p className="m-0">อ่อ ช่างแอ้</p>
+        </div>
         <Divider className="my-1" />
-        <p>โปรไฟล์</p>
-        <p>ตั้งค่าบัญชี</p>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
         <Divider className="my-1" />
-        <p>ออกจากระบบ</p>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/user-management")}>จัดการผู้ใช้ </button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/")}>ออกจากระบบ </button> </div>
       </Drawer>
     </div>
   );

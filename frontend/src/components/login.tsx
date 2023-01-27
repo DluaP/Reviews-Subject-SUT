@@ -11,8 +11,10 @@ import {
   notification,
   Empty,
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import { fireNotification } from "./notification";
 const Login = () => {
+  const navigate = useNavigate();
   const signin = (element: any) => {
     fireNotification({ type: "success" });
   };
@@ -50,7 +52,7 @@ const Login = () => {
               </Col>
             </Row>
             <Button htmlType="submit">Login</Button>
-            <Button>Back</Button>
+            <Button onClick={() => navigate("/")}>Back</Button>
           </Form>
         </div>
       ),
@@ -95,7 +97,7 @@ const Login = () => {
             </Row>
 
             <Button htmlType="submit">Sign up</Button>
-            <Button>Back</Button>
+            <Button onClick={() => navigate("/")}>Back</Button>
           </Form>
         </div>
       ),
