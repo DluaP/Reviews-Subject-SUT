@@ -1,5 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import CreatePost from "../components/create-post";
+import EditPost from "../components/edit-post";
 import EditProfile from "../components/edit-profile";
 import Home from "../components/Home";
 import Login from "../components/login";
@@ -35,5 +36,9 @@ export const APP_ROUTER: RouteObject[] = [
   {
     path: "/user-management",
     element: <UserManagement />,
+  },
+  {
+    path: "/edit-post",
+    element: <EditPost />,
   },
 ];

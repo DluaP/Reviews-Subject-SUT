@@ -103,7 +103,7 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] ">แก้ไข</Button>
+                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
               </Col>
               <Col span={3}>
                 <Button className="w-[100%] ">ลบ</Button>
@@ -126,7 +126,7 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] ">แก้ไข</Button>
+                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
               </Col>
               <Col span={3}>
                 <Button className="w-[100%] ">ลบ</Button>
@@ -149,10 +149,10 @@ const Profile = () => {
                 <Divider className="m-1" />
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] ">แก้ไข</Button>
+                <Button className="w-[100%] " onClick={()=>{navigate("/edit-post")}}>แก้ไข</Button>
               </Col>
               <Col span={3}>
-                <Button className="w-[100%] ">ลบ</Button>
+                <Button className="w-[100%] " >ลบ</Button>
               </Col>
             </Row>
           </Col>
