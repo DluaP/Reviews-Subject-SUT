@@ -62,6 +62,20 @@ const Home = () => {
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
+            <Col span={6}>
+              <Form.Item name="3" label="ปี">
+                <Input placeholder="ปี" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item name="4" label="เรียงตาม">
+                <Select defaultValue={"all"}>
+                  <Select.Option value="all">ทั้งหมด</Select.Option>
+                  <Select.Option value="like">ยอดไลก์</Select.Option>
+                  <Select.Option value="review">ยอดวิว</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
             <Col span={3}>
               <Button
                 htmlType="submit"
