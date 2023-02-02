@@ -61,12 +61,12 @@ const Home = () => {
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            {/* <Col span={6}>
               <Form.Item name="3" label="ปี">
                 <Input placeholder="ปี" />
               </Form.Item>
-            </Col>
-            <Col span={6}>
+            </Col> */}
+            {/* <Col span={6}>
               <Form.Item name="4" label="เรียงตาม">
                 <Select defaultValue={"all"}>
                   <Select.Option value="all">ทั้งหมด</Select.Option>
@@ -74,18 +74,18 @@ const Home = () => {
                   <Select.Option value="review">ยอดวิว</Select.Option>
                 </Select>
               </Form.Item>
-            </Col>
-            <Col span={3}>
+            </Col> */}
+           <Col span={3}>
               <Button
                 htmlType="submit"
-                className="w-[100%] text-[white] bg-[#46B072] "
+                className="w-[100%] text-[white] bg-[#46B072] top-7"
               >
                 ค้นหา
               </Button>
             </Col>
             <Col span={3}>
               <Button
-                className="w-[100%] "
+                className="w-[100%] top-7 "
                 onClick={() => {
                   form.resetFields();
                 }}
@@ -95,13 +95,14 @@ const Home = () => {
             </Col>
             <Col span={3}>
               <Button
-                className="w-[100%] bg-[#FECC73]"
-                onClick={() => navigate("/create-post")}
+                className="w-[100%] top-7 "
+                onClick={() => {
+                  navigate("/");
+                }}
               >
-                เขียนรีวิว
+                ย้อนกลับ
               </Button>
             </Col>
-            <Col span={17}></Col>
           </Row>
         </Form>
 
