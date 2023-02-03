@@ -10,15 +10,26 @@ import {
     Radio,
     Row,
     Select,
+    Popconfirm,
   } from "antd";
   import TextArea from "antd/es/input/TextArea";
   import { useState } from "react";
   import { useNavigate } from "react-router-dom";
   import { fireNotification } from "./notification";
+
+
+
   const EditPost = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [top, setTop] = useState(10);
+
+    const confirm = () =>
+    new Promise((resolve) => { 
+      navigate("/profile")
+      setTimeout(() => resolve(null), 3000);
+    });
+
     const showDrawer = () => {
       setOpen(true);
     };
@@ -201,11 +212,19 @@ import {
                     5.ห้ามใช้ข้อความที่เป็นการสนับสนุนโดยตรงหรือโดยอ้อมให้มีการกระทำผิดกฎหมายหรือศีลธรรม
                   </p>
                 </Col>
+
                 <Col span={10}></Col>
                 <Col span={4}>
-                  <Button htmlType="submit" className="w-[100%]" onClick={()=>{navigate("/profile")}}>
-                    บันทึก
+
+                <Popconfirm
+                  title="คำเตือน!!!"
+                  description="เนื้อหาไม่มีคำหยาบคาย และ เนื้อหาไม่มีการพาดพิงถึงผู้อื่น"
+                  onConfirm={confirm}
+                  onOpenChange={() => console.log('open change')}>
+                  <Button htmlType="submit" className="w-[100%]" >
+                    บันทึก 
                   </Button>
+                </Popconfirm>
                 </Col>
                 <Col span={10}></Col>
               </Row>
@@ -225,6 +244,7 @@ import {
           </div>
           <Divider className="my-1" />
           <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
+          <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
           <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
           <Divider className="my-1" />
           <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>

@@ -81,6 +81,7 @@ const Home = () => {
                 ล้างข้อมูล
               </Button>
             </Col>
+
             <Col span={3}>
               <Button
                 className="w-[100%] bg-[#FECC73] top-7"
@@ -88,6 +89,7 @@ const Home = () => {
                 เขียนรีวิว
               </Button>
             </Col>
+            <Col span={17}></Col>
           </Row>
         </Form>
 
@@ -131,31 +133,6 @@ const Home = () => {
               202181 สุขภาพองค์รวม
             </Button>
           </Col>
-
-          {/* <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md " >
-                27749 วิชาน่ารัก sdfsdfdsfdsf
-          </Col>
-          <Col span={1} />
-          <Col span={8} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            27743 รักนะจุ๊บๆ
-          </Col>
-          <Col span={1} />
-          <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            8841 ยังไงๆ
-          </Col>
-        </Row>
-        <Row gutter={[12, 12]} className="mt-10">
-          <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            27749 วิชาน่ารัก
-          </Col>
-          <Col span={1} />
-          <Col span={8} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            27743 รักนะจุ๊บๆ
-          </Col>
-          <Col span={1} />
-          <Col span={7} className="bg-[#F9ECCE] h-[100px] rounded-md">
-            8841 ยังไงๆ
-          </Col> */}
         </Row>
         <Row gutter={[12, 12]} className="mt-10">
           <Col span={7}>
@@ -189,6 +166,7 @@ const Home = () => {
         </div>
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>

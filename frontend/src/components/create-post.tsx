@@ -7,6 +7,7 @@ import {
   Form,
   Image,
   Input,
+  Popconfirm,
   Radio,
   Row,
   Select,
@@ -47,6 +48,11 @@ const CreatePost = () => {
     })
 
   };
+  const confirm = () =>
+    new Promise((resolve) => { 
+      navigate("/")
+      setTimeout(() => resolve(null), 3000);
+    });
   return (
     <div>
       <div className=" w-[100%] ">
@@ -116,11 +122,13 @@ const CreatePost = () => {
                   ย้อนกลับ
                 </Button>
               </Col>
+
               <Col span={24}>
                 <Form.Item name="post_curse">
                   <TextArea rows={6} />
                 </Form.Item>
               </Col>
+
               <Col span={12}>ความพึงพอใจในวิชา</Col>
               <Col span={4}></Col>
               <Col span={2}>ไม่พอใจ</Col>
@@ -211,13 +219,23 @@ const CreatePost = () => {
                   5.ห้ามใช้ข้อความที่เป็นการสนับสนุนโดยตรงหรือโดยอ้อมให้มีการกระทำผิดกฎหมายหรือศีลธรรม
                 </p>
               </Col>
+
               <Col span={10}></Col>
               <Col span={4}>
+
+              <Popconfirm
+                  title="คำเตือน!!!"
+                  description="เนื้อหาไม่มีคำหยาบคาย และ เนื้อหาไม่มีการพาดพิงถึงผู้อื่น"
+                  onConfirm={confirm}
+                  onOpenChange={() => console.log('open change')}>
                 <Button htmlType="submit" className="w-[100%]">
                   โพสต์เลย!!
                 </Button>
+                </Popconfirm>
               </Col>
               <Col span={10}></Col>
+
+
             </Row>
           </Form>
         </div>
@@ -243,6 +261,7 @@ const CreatePost = () => {
             โปรไฟล์
           </button>{" "}
         </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
         <div className="p-2">
           {" "}
           <button
