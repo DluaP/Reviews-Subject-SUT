@@ -269,6 +269,7 @@ const Review = () => {
             โปรไฟล์
           </button>{" "}
         </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
         <div className="p-2">
           {" "}
           <button

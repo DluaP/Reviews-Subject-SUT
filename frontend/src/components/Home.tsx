@@ -93,7 +93,16 @@ const Home = () => {
                 ล้างข้อมูล
               </Button>
             </Col>
+
             <Col span={3}>
+              <Button
+                className="w-[100%] bg-[#FECC73] top-7"
+                onClick={() => navigate("/create-post")}>
+                เขียนรีวิว
+              </Button>
+            </Col>
+            <Col span={17}></Col>
+            {/* <Col span={3}>
               <Button
                 className="w-[100%] top-7 "
                 onClick={() => {
@@ -102,7 +111,7 @@ const Home = () => {
               >
                 ย้อนกลับ
               </Button>
-            </Col>
+            </Col> */}
           </Row>
         </Form>
 
@@ -204,6 +213,7 @@ const Home = () => {
         </div>
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
