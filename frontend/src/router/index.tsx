@@ -5,6 +5,7 @@ import EditProfile from "../components/edit-profile";
 import Home from "../components/Home";
 import Login from "../components/login";
 import Profile from "../components/profile";
+import ReportManagement from "../components/report-management";
 import Review from "../components/review";
 import UserManagement from "../components/user-management";
 
@@ -40,5 +41,9 @@ export const APP_ROUTER: RouteObject[] = [
   {
     path: "/edit-post",
     element: <EditPost />,
+  },  
+  {
+    path: "/report-management",
+    element: <ReportManagement />,
   },
 ];

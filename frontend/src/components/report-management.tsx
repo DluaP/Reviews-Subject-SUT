@@ -1,55 +1,50 @@
 import {
-  Button,
-  Divider,
-  Drawer,
-  Form,
-  Input,
-  Row,
-  Select,
-  Modal,
-  Checkbox,
-  Table,
-  Space,
-  Tag,
-  Typography,
-} from "antd";
-import form from "antd/es/form";
-import { Col } from "antd/es/grid";
-import { Image } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
-import { render } from "@testing-library/react";
-import { ColumnsType } from "antd/es/table";
-import { baseURL } from "./login";
+    Button,
+    Divider,
+    Drawer,
+    Form,
+    Input,
+    Row,
+    Select,
+    Modal,
+    Checkbox,
+    Table,
+    Space,
+    Tag,
+    Typography,
+  } from "antd";
+  import form from "antd/es/form";
+  import { Col } from "antd/es/grid";
+  import { Image } from "antd";
+  import { useEffect, useState } from "react";
+  import { useNavigate } from "react-router-dom";
+  import type { CheckboxValueType } from "antd/es/checkbox/Group";
+  import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+  import { render } from "@testing-library/react";
+  import { ColumnsType } from "antd/es/table";
+  import { baseURL } from "./login";
 
-export interface IuserManagement {
-  id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  nickName: string;
-  facebook: string;
-  ig: string;
-  email: string;
-  bio: string;
-  avatar: string;
-  isActive: string;
-  create_date?: string;
-  update_date?: string;
-}
+  export interface IreportManagement {
+    id: number;
+    report_id : number;
+    post_id: string;
+    student_id: string;
+    report_detail: string;
+    create_date: string;
+    update_date: string;
 
-const UserManagement = () => {
-  const navigate = useNavigate();
-  const [form] = Form.useForm();
-  const [data1, setDatas] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const onFinish = (e: any) => {
-    console.log(e);
-  };
+  }
 
+  const ReportManagement = () => {
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+    const [data1, setDatas] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const onFinish = (e: any) => {
+      console.log(e);
+    };
+
+    
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -76,54 +71,29 @@ const UserManagement = () => {
       console.log("e.data",e.data);
       console.log("data",(data1));
     });
-   
-  }, []);
-  const dataSource = [
+
+}, []);
+
+
+const dataSource = [
     {
       key: "1",
-      username: "totokimuchi",
-      name: "สุดหล่อ ท่อดัง",
-      nickname: "ตอโต้คนน่ารัก",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "2",
-      username: "pluto555",
-      name: "ถั่วพลู ดาวพลูโต",
-      nickname: "Nam yuu hyu",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "3",
-      username: "farmyeiei",
-      name: "นวดล คนจริงใจ",
+      post_id: "202324-024",
+      report_id: "คำหยาบ,พาดพิง",
       nickname: "ฟาร์มคนน่ารัก",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "4",
-      username: "pisittikkatok",
-      name: "พิสิษฐ์ จิตแจ่มใส",
-      nickname: "หน่องพีคนขี้เหงา",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
     },
   ];
 
-  const columns: ColumnsType<IuserManagement> = [
+  const columns = [
     {
-      title: "ชื่อผู้ใช้",
-      dataIndex: "username",
-      key: "username",
+      title: "โพสต์รีวิว",
+      dataIndex: "post_id",
+      key: "post_id",
     },
     {
-      title: "ชื่อ-สกุล",
-      dataIndex: "firstName",
-      key: "firstName",
-    },
-    {
-      title: "ชื่อเล่น",
-      dataIndex: "nickName",
-      key: "nickName",
+      title: "การรายงาน",
+      dataIndex: "report_id",
+      key: "report_id",
     },
     {
       title: "จัดการ",
@@ -146,7 +116,7 @@ const UserManagement = () => {
     },
   ];
 
-  return (
+return (
     <div className="w-[100%] h-[100vh] ">
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
@@ -211,9 +181,9 @@ const UserManagement = () => {
           </Row>
         </Form>
         <div className="text-left text-2xl">
-          จัดการผู้ใช้ <br />
+          รายงานรีวิว <br />
         </div>
-        <Table dataSource={data1} columns={columns} />;
+        <Table dataSource={dataSource} columns={columns} />;
       </div>
 
       <Drawer placement="right" onClose={onClose} open={open}>
@@ -268,4 +238,4 @@ const UserManagement = () => {
     </div>
   );
 };
-export default UserManagement;
+export default ReportManagement;
