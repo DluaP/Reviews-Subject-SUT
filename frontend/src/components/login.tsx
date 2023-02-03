@@ -23,10 +23,14 @@ export const baseURL = axios.create({
 
 const Login = () => {
   const navigate = useNavigate();
+
   const signin = (data: any) => {
     baseURL.post("/auth/login", data).then((e: any) => {
+      // localStorage.setItem("access-token", e.data.access_token);
       setToken(e.data.access_token)
-      console.log(e);
+      console.log("setToken",setToken(e.data.access_token));
+      navigate("/", { replace: true })
+      console.log(e.data.access_token);
     });
 
     fireNotification({ type: "success" });

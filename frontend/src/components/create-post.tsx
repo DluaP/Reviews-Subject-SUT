@@ -12,9 +12,13 @@ import {
   Select,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "./login";
 import { fireNotification } from "./notification";
+
+
 const CreatePost = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(10);
@@ -33,9 +37,15 @@ const CreatePost = () => {
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
-  const onFinish = (e: any) => {
-    fireNotification({ type: "success" });
-    console.log(e);
+  const onFinish = (element: any) => {
+    console.log(element); 
+    baseURL.post("/curse", element).then((e: any) => {
+      // localStorage.setItem("access-token", e.data.access_token);
+      console.log("tttt",e);   
+      fireNotification({ type: "success" });
+      navigate("/", { replace: true })
+    })
+
   };
   return (
     <div>
@@ -72,7 +82,7 @@ const CreatePost = () => {
           <Form onFinish={onFinish}>
             <Row gutter={[12, 12]}>
               <Col span={21}>
-                <Form.Item name="namesub">
+                <Form.Item name="name_curse">
                   <Select
                     showSearch
                     placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"
@@ -107,7 +117,7 @@ const CreatePost = () => {
                 </Button>
               </Col>
               <Col span={24}>
-                <Form.Item name="text1">
+                <Form.Item name="post_curse">
                   <TextArea rows={6} />
                 </Form.Item>
               </Col>
@@ -120,7 +130,7 @@ const CreatePost = () => {
               <Col span={1}></Col>
               <Col span={15}>เนื้อหาและความหน้าสนใจ</Col>
               <Col span={8}>
-                <Form.Item name="a">
+                <Form.Item name="satisfied_point">
                   <Radio.Group className="pl-6">
                     <Radio value="a1">1</Radio>
                     <Radio value="a2">2</Radio>
@@ -134,7 +144,7 @@ const CreatePost = () => {
               <Col span={1}></Col>
               <Col span={15}>จำนวนงานและความเหมาะสม</Col>
               <Col span={8}>
-                <Form.Item name="b">
+                <Form.Item name="appropriate_point">
                   <Radio.Group className="pl-6">
                     <Radio value="b1">1</Radio>
                     <Radio value="b2">2</Radio>
@@ -148,7 +158,7 @@ const CreatePost = () => {
               <Col span={1}></Col>
               <Col span={15}>อาจารย์ผู้สอน</Col>
               <Col span={8}>
-                <Form.Item name="c">
+                <Form.Item name="teacher_point">
                   <Radio.Group className="pl-6">
                     <Radio value="c1">1</Radio>
                     <Radio value="c2">2</Radio>
@@ -160,7 +170,7 @@ const CreatePost = () => {
               </Col>
 
               <Col span={24}>
-                <Form.Item name="gpa" label="เกรดที่ได้">
+                <Form.Item name="grade" label="เกรดที่ได้">
                   <Select placeholder="Please select favourite colors">
                     <Select.Option value="80">A</Select.Option>
                     <Select.Option value="75">B+</Select.Option>
@@ -173,7 +183,7 @@ const CreatePost = () => {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="schoolYear" label="ปีการศึกษา">
+                <Form.Item name="semester" label="ปีการศึกษา">
                   <Input placeholder="ปีการศึกษา" />
                 </Form.Item>
               </Col>

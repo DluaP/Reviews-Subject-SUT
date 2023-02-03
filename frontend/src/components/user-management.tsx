@@ -1,17 +1,50 @@
-import { Button, Divider, Drawer, Form, Input, Row, Select, Modal, Checkbox, Table, Space, Tag, Typography } from "antd";
+import {
+  Button,
+  Divider,
+  Drawer,
+  Form,
+  Input,
+  Row,
+  Select,
+  Modal,
+  Checkbox,
+  Table,
+  Space,
+  Tag,
+  Typography,
+} from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { DeleteOutlined, FormOutlined } from '@ant-design/icons';
+import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 import { render } from "@testing-library/react";
+import { ColumnsType } from "antd/es/table";
+import { baseURL } from "./login";
 
+export interface IuserManagement {
+  id: number;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  nickName: string;
+  facebook: string;
+  ig: string;
+  email: string;
+  bio: string;
+  avatar: string;
+  isActive: string;
+  create_date?: string;
+  update_date?: string;
+}
 
 const UserManagement = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [data1, setDatas] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const onFinish = (e: any) => {
     console.log(e);
@@ -21,7 +54,7 @@ const UserManagement = () => {
   const showDrawer = () => {
     setOpen(true);
   };
-
+  //ttt
   const onClose = () => {
     setOpen(false);
   };
@@ -37,70 +70,80 @@ const UserManagement = () => {
     setIsModalOpen(false);
   };
 
-
-
+  useEffect(() => {    
+    baseURL.get("/curse").then((e: any) => {
+      setDatas(e.data);
+      console.log("e.data",e.data);
+      console.log("data",(data1));
+    });
+   
+  }, []);
   const dataSource = [
     {
-      key: '1',
-      username: 'totokimuchi',
-      name: 'สุดหล่อ ท่อดัง',
-      nickname: 'ตอโต้คนน่ารัก',
-      manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
+      key: "1",
+      username: "totokimuchi",
+      name: "สุดหล่อ ท่อดัง",
+      nickname: "ตอโต้คนน่ารัก",
+      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
     },
     {
-      key: '2',
-      username: 'pluto555',
-      name: 'ถั่วพลู ดาวพลูโต',
-      nickname: 'Nam yuu hyu',
-      manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
+      key: "2",
+      username: "pluto555",
+      name: "ถั่วพลู ดาวพลูโต",
+      nickname: "Nam yuu hyu",
+      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
     },
     {
-      key: '3',
-      username: 'farmyeiei',
-      name: 'นวดล คนจริงใจ',
-      nickname: 'ฟาร์มคนน่ารัก',
-      manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
+      key: "3",
+      username: "farmyeiei",
+      name: "นวดล คนจริงใจ",
+      nickname: "ฟาร์มคนน่ารัก",
+      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
     },
     {
-      key: '4',
-      username: 'pisittikkatok',
-      name: 'พิสิษฐ์ จิตแจ่มใส',
-      nickname: 'หน่องพีคนขี้เหงา',
-      manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
+      key: "4",
+      username: "pisittikkatok",
+      name: "พิสิษฐ์ จิตแจ่มใส",
+      nickname: "หน่องพีคนขี้เหงา",
+      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
     },
   ];
 
-  const columns = [
+  const columns: ColumnsType<IuserManagement> = [
     {
-      title: 'ชื่อผู้ใช้',
-      dataIndex: 'username',
-      key: 'username',
+      title: "ชื่อผู้ใช้",
+      dataIndex: "username",
+      key: "username",
     },
     {
-      title: 'ชื่อ-สกุล',
-      dataIndex: 'name',
-      key: 'name',
+      title: "ชื่อ-สกุล",
+      dataIndex: "firstName",
+      key: "firstName",
     },
     {
-      title: 'ชื่อเล่น',
-      dataIndex: 'nickname',
-      key: 'nickname',
+      title: "ชื่อเล่น",
+      dataIndex: "nickName",
+      key: "nickName",
     },
     {
-      title: 'จัดการ',
-      dataIndex: 'manage',
-      key: 'manage',
+      title: "จัดการ",
+      dataIndex: "manage",
+      key: "manage",
       render: () => {
-        return (<span>
-          <Space size="middle">
-            <Typography.Link><DeleteOutlined /></Typography.Link>
-            <Typography.Link><FormOutlined /></Typography.Link>
-          </Space>
-        </span>);
-      }
+        return (
+          <span>
+            <Space size="middle">
+              <Typography.Link>
+                <DeleteOutlined />
+              </Typography.Link>
+              <Typography.Link>
+                <FormOutlined />
+              </Typography.Link>
+            </Space>
+          </span>
+        );
+      },
     },
-
-
   ];
 
   return (
@@ -128,7 +171,6 @@ const UserManagement = () => {
           />
         </button>
       </div>
-
 
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -168,12 +210,11 @@ const UserManagement = () => {
             </Col>
           </Row>
         </Form>
-        <div className="text-left text-2xl">จัดการผู้ใช้ <br /></div>
-        <Table dataSource={dataSource} columns={columns} />;
-
+        <div className="text-left text-2xl">
+          จัดการผู้ใช้ <br />
+        </div>
+        <Table dataSource={data1} columns={columns} />;
       </div>
-
-
 
       <Drawer placement="right" onClose={onClose} open={open}>
         <div className="text-center justify-center items-center">
@@ -186,12 +227,49 @@ const UserManagement = () => {
           <p className="m-0">อ่อ ช่างแอ้</p>
         </div>
         <Divider className="my-1" />
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/profile")}
+          >
+            โปรไฟล์
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/edit-profile")}
+          >
+            ตั้งค่าบัญชี
+          </button>{" "}
+        </div>
         <Divider className="my-1" />
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/user-management")}>จัดการผู้ใช้ </button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/")}>ออกจากระบบ </button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/login")}
+          >
+            เข้าสู่ระบบ{" "}
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/user-management")}
+          >
+            จัดการผู้ใช้{" "}
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
+            ออกจากระบบ{" "}
+          </button>{" "}
+        </div>
       </Drawer>
     </div>
   );

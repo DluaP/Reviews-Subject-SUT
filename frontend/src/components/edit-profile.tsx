@@ -15,6 +15,7 @@ import { Image } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
+import { baseURL } from "./login";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const EditProfile = () => {
         </button>
       </div>
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form layout="vertical">
+        <Form layout="vertical" onFinish={onFinish}>
           <Row
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
