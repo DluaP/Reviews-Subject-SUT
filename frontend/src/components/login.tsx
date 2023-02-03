@@ -11,34 +11,57 @@ import {
   notification,
   Empty,
 } from "antd";
+import axios from "axios";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "./context/auth";
 import { fireNotification } from "./notification";
+
+export const baseURL = axios.create({
+  baseURL: "http://localhost:3100",
+});
+
 const Login = () => {
   const navigate = useNavigate();
-  const signin = (element: any) => {
+  const signin = (data: any) => {
+    baseURL.post("/auth/login", data).then((e: any) => {
+      setToken(e.data.access_token)
+      console.log(e);
+    });
+
     fireNotification({ type: "success" });
   };
   const signup = (element: any) => {
-
-      if (element.confirm != element.password) {
-        fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
-      } else {
-        console.log(element);
-        
-        fireNotification({ type: "success" });
-      }
+    if (element.confirm != element.password) {
+      fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
+    } else {
+      console.log(element);
+      baseURL.post("/users", element).then((e: any) => {
+        console.log(e);
+      });
+      fireNotification({ type: "success" });
+    }
   };
   const onChange = (key: string) => {
     console.log(key);
   };
 
+  const test = () => {
+    baseURL.get("/users").then((e: any) => {
+      console.log(e);
+    });
+  };
+
+  useEffect(() => {
+    test();
+  }, []);
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: `Login`,
       children: (
         <div>
-          <Form layout="vertical" onFinish={signin}>
+          <Form layout="vertical" name="login" onFinish={signin}>
             <Row gutter={[12, 0]}>
               <Col span={24}>
                 <Form.Item name="username" label="Username">
@@ -62,7 +85,7 @@ const Login = () => {
       label: `Sign up`,
       children: (
         <div>
-          <Form layout="vertical" onFinish={signup}>
+          <Form layout="vertical" name="signUp" onFinish={signup}>
             <Row gutter={[12, 0]}>
               <Col span={24}>
                 <Form.Item name="username" label="Username">
@@ -70,17 +93,17 @@ const Login = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="firstname" label="Firstname">
+                <Form.Item name="firstName" label="Firstname">
                   <Input placeholder="Firstname" />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="surname" label="Surname">
-                  <Input placeholder="Surname" />
+                <Form.Item name="lastName" label="LastName">
+                  <Input placeholder="LastName" />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="nickname" label="Nickname">
+                <Form.Item name="nickName" label="Nickname">
                   <Input placeholder="Nickname" />
                 </Form.Item>
               </Col>
@@ -103,6 +126,7 @@ const Login = () => {
       ),
     },
   ];
+
   return (
     <div className="bg-[#F9ECCE] w-[100%] h-[100vh] ">
       <div className="text-center pt-20">

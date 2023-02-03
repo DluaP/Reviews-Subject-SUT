@@ -5,6 +5,7 @@ import { Image } from "antd";
 import { useState } from "react";
 import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import CreatePost from "./create-post";
+import { Logout } from "./context/auth";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -61,12 +62,12 @@ const Home = () => {
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
-            {/* <Col span={6}>
+            <Col span={6}>
               <Form.Item name="3" label="ปี">
                 <Input placeholder="ปี" />
               </Form.Item>
-            </Col> */}
-            {/* <Col span={6}>
+            </Col>
+            <Col span={6}>
               <Form.Item name="4" label="เรียงตาม">
                 <Select defaultValue={"all"}>
                   <Select.Option value="all">ทั้งหมด</Select.Option>
@@ -74,8 +75,8 @@ const Home = () => {
                   <Select.Option value="review">ยอดวิว</Select.Option>
                 </Select>
               </Form.Item>
-            </Col> */}
-           <Col span={3}>
+            </Col>
+            <Col span={3}>
               <Button
                 htmlType="submit"
                 className="w-[100%] text-[white] bg-[#46B072] top-7"
@@ -218,7 +219,7 @@ const Home = () => {
         <Divider className="my-1" />
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/login")}>เข้าสู่ระบบ </button> </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/user-management")}>จัดการผู้ใช้ </button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/")}>ออกจากระบบ </button> </div>
+        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => {navigate("/");Logout()}}>ออกจากระบบ </button> </div>
       </Drawer>
     </div>
   );
