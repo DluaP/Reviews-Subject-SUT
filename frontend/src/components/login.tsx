@@ -44,6 +44,7 @@ const Login = () => {
         console.log(e);
       });
       fireNotification({ type: "success" });
+      window.location.reload();
     }
   };
   const onChange = (key: string) => {

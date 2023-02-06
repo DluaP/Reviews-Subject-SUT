@@ -44,15 +44,15 @@ const CreatePost = () => {
       // localStorage.setItem("access-token", e.data.access_token);
       console.log("tttt",e);   
       fireNotification({ type: "success" });
-      navigate("/", { replace: true })
+      
     })
 
   };
-  const confirm = () =>
-    new Promise((resolve) => { 
-      navigate("/")
-      setTimeout(() => resolve(null), 3000);
-    });
+  // const confirm = (element: any) =>
+  //   new Promise((resolve) => { 
+  //     navigate("/")
+  //     setTimeout(() => resolve(null), 3000);
+  //   });
   return (
     <div>
       <div className=" w-[100%] ">
@@ -226,7 +226,7 @@ const CreatePost = () => {
               <Popconfirm
                   title="คำเตือน!!!"
                   description="เนื้อหาไม่มีคำหยาบคาย และ เนื้อหาไม่มีการพาดพิงถึงผู้อื่น"
-                  onConfirm={confirm}
+                  onConfirm={onFinish}
                   onOpenChange={() => console.log('open change')}>
                 <Button htmlType="submit" className="w-[100%]">
                   โพสต์เลย!!

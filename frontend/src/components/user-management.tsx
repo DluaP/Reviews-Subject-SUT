@@ -12,6 +12,7 @@ import {
   Space,
   Tag,
   Typography,
+  Popconfirm,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -70,45 +71,26 @@ const UserManagement = () => {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {    
-    baseURL.get("/curse").then((e: any) => {
+  const test = () => {
+    baseURL.get("/users").then((e: any) => {
       setDatas(e.data);
-      console.log("e.data",e.data);
-      console.log("data",(data1));
+      console.log("e.data", e.data);
     });
-   
-  }, []);
-  const dataSource = [
-    {
-      key: "1",
-      username: "totokimuchi",
-      name: "สุดหล่อ ท่อดัง",
-      nickname: "ตอโต้คนน่ารัก",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "2",
-      username: "pluto555",
-      name: "ถั่วพลู ดาวพลูโต",
-      nickname: "Nam yuu hyu",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "3",
-      username: "farmyeiei",
-      name: "นวดล คนจริงใจ",
-      nickname: "ฟาร์มคนน่ารัก",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-    {
-      key: "4",
-      username: "pisittikkatok",
-      name: "พิสิษฐ์ จิตแจ่มใส",
-      nickname: "หน่องพีคนขี้เหงา",
-      // manage: <div><Typography.Link><DeleteOutlined /></Typography.Link> <Typography.Link><FormOutlined /></Typography.Link></div>,
-    },
-  ];
+  };
 
+  const fetchData = () =>{
+    baseURL.get("/users").then((res) => {
+      setDatas(res.data);
+    });
+  }
+  useEffect(() => {
+    test();
+  }, []);
+
+  const handleDelete = (id: any) => {
+    baseURL.delete(`/user/${id}`).then((res)=>{fetchData()})
+    test();  
+  };
   const columns: ColumnsType<IuserManagement> = [
     {
       title: "ชื่อผู้ใช้",
@@ -128,21 +110,21 @@ const UserManagement = () => {
     {
       title: "จัดการ",
       dataIndex: "manage",
-      key: "manage",
-      render: () => {
-        return (
-          <span>
-            <Space size="middle">
-              <Typography.Link>
-                <DeleteOutlined />
-              </Typography.Link>
-              <Typography.Link>
-                <FormOutlined />
-              </Typography.Link>
-            </Space>
-          </span>
-        );
-      },
+      key: "id",
+      render: (_, record) =>
+        data1.length >= 1 ? (
+          <Space size="middle">
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => {
+                handleDelete(record.id);
+                console.log("de;ete", record.id);
+              }}
+            >
+              <DeleteOutlined />
+            </Popconfirm>
+          </Space>
+        ) : null,
     },
   ];
 
@@ -162,6 +144,14 @@ const UserManagement = () => {
           </button>
         </div>
       </div>
+      <Button
+        className="w-[100%] text-[white] bg-[#46B072] top-7"
+        onClick={() => {
+          console.log("data1", data1);
+        }}
+      >
+        test
+      </Button>
       <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
@@ -245,9 +235,33 @@ const UserManagement = () => {
             ตั้งค่าบัญชี
           </button>{" "}
         </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/profile")}
+          >
+            โปรไฟล์
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/create-post")}
+          >
+            เขียนรีวิว
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/edit-profile")}
+          >
+            ตั้งค่าบัญชี
+          </button>{" "}
+        </div>
         <Divider className="my-1" />
         <div className="p-2">
           {" "}
