@@ -2,11 +2,12 @@ import { Affix, Button, Divider, Drawer, Form, Input, Row, Select } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import CreatePost from "./create-post";
 import { Logout } from "./context/auth";
 import { useReview } from "./context/review";
+import { baseURL } from "./login";
 
 const mockdata = [
   { id: 1, course_id: "204561", course_name: "vvvvvvvv" },
@@ -23,7 +24,24 @@ const mockdata = [
 const HomePage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [dataCourse, setDataCourse] = useState([]);
   const { setCouresId } = useReview();
+  
+  const getData = () => {
+    baseURL.get("/course").then((e: any) => {
+      setDataCourse(e.data);
+    });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const fetchData = () => {
+    baseURL.get("/course").then((res) => {
+      setDataCourse(res.data);
+    });
+  };
   const onFinish = (e: any) => {
     console.log(e);
   };
@@ -76,7 +94,7 @@ const HomePage = () => {
         </Form>
 
         <Row gutter={[20, 20]} className="">
-          {mockdata?.map((item: any, index: any) => (
+          {dataCourse?.map((item: any, index: any) => (
             <Col span={8}>
               <a
                 onClick={() => {

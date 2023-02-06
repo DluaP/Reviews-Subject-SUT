@@ -4,9 +4,12 @@ const ReviewContext = createContext<any>({});
 
 const ReviewProvider = ({ children }: { children: JSX.Element }) => {
   const [courseId, setCouresId] = useState<any>();
+  const [courseReviwe, setCouresReview] = useState<any[]>();
 
   return (
-    <ReviewContext.Provider value={{ courseId, setCouresId }}>
+    <ReviewContext.Provider
+      value={{ courseId, setCouresId, courseReviwe, setCouresReview }}
+    >
       {children}
     </ReviewContext.Provider>
   );

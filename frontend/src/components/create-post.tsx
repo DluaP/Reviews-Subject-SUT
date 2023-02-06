@@ -14,15 +14,21 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
-import { useState } from "react";
+import { log } from "console";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { fireNotification } from "./notification";
 
-
 const CreatePost = () => {
   const navigate = useNavigate();
-  
+  const { courseReviwe, setCouresReview } = useReview();
+  let options: any = [];
+
+  useEffect(() => {
+    fetchCourse();
+  }, []);
 
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -31,56 +37,46 @@ const CreatePost = () => {
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
-  const onFinish = (element: any) => {
-    console.log(element); 
-    baseURL.post("/curse", element).then((e: any) => {
-      // localStorage.setItem("access-token", e.data.access_token);
-      console.log("tttt",e);   
-      fireNotification({ type: "success" });
-      
-    })
 
+  const onFinish = (e: any) => {
+    console.log(e);
+    baseURL.post("/reviews", e).then((e: any) => {
+      // localStorage.setItem("access-token", e.data.access_token);
+      console.log("tttt", e);
+      fireNotification({ type: "success" });
+    });
   };
-  // const confirm = (element: any) =>
-  //   new Promise((resolve) => { 
-  //     navigate("/")
-  //     setTimeout(() => resolve(null), 3000);
-  //   });
+
+  const fetchCourse = async () => {
+    await baseURL.get(`/course`).then((res) => {
+      setCouresReview(res.data);
+    });
+  };
+
+  courseReviwe?.map((item: any) => {
+    options.push({
+      value: `${item?.course_id} ${item?.course_name}`,
+      label: `${item?.course_id} ${item?.course_name}`,
+    });
+  });
+
+  console.log(options);
+
   return (
     <div>
       <div className=" w-[100%] ">
-      
-    
         <div className="px-[40vh] pt-[50px] pb-10 !content-center">
-          <Form onFinish={onFinish}>
+          <Form onFinish={onFinish} name="">
             <Row gutter={[12, 12]}>
               <Col span={21}>
-                <Form.Item name="name_curse">
+                <Form.Item name="course_id">
                   <Select
                     showSearch
                     placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"
                     optionFilterProp="children"
                     onChange={onChange}
                     onSearch={onSearch}
-                    filterOption={(input, option) =>
-                      (option?.label ?? "")
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
-                    options={[
-                      {
-                        value: "214327",
-                        label: "214327",
-                      },
-                      {
-                        value: "214328",
-                        label: "214328",
-                      },
-                      {
-                        value: "214329",
-                        label: "214329",
-                      },
-                    ]}
+                    options={options}
                   />
                 </Form.Item>
               </Col>
@@ -91,7 +87,7 @@ const CreatePost = () => {
               </Col>
 
               <Col span={24}>
-                <Form.Item name="post_curse">
+                <Form.Item name="review_detail">
                   <TextArea rows={6} />
                 </Form.Item>
               </Col>
@@ -189,20 +185,17 @@ const CreatePost = () => {
 
               <Col span={10}></Col>
               <Col span={4}>
-
-              <Popconfirm
+                {/* <Popconfirm
                   title="คำเตือน!!!"
                   description="เนื้อหาไม่มีคำหยาบคาย และ เนื้อหาไม่มีการพาดพิงถึงผู้อื่น"
                   onConfirm={onFinish}
-                  onOpenChange={() => console.log('open change')}>
+                  onOpenChange={() => console.log("open change")}
+                ></Popconfirm>{" "} */}
                 <Button htmlType="submit" className="w-[100%]">
                   โพสต์เลย!!
                 </Button>
-                </Popconfirm>
               </Col>
               <Col span={10}></Col>
-
-
             </Row>
           </Form>
         </div>

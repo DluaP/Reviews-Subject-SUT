@@ -226,7 +226,7 @@ const Review = () => {
           </Checkbox.Group>
         </Modal>
       </div>
-      <Drawer placement="right" onClose={onClose} open={open}>
+  
         <div className="text-center justify-center items-center">
           <Image
             src="./images/test-men.jpg"
@@ -298,7 +298,7 @@ const Review = () => {
             ออกจากระบบ{" "}
           </button>{" "}
         </div>
-      </Drawer>
+
     </div>
   );
 };

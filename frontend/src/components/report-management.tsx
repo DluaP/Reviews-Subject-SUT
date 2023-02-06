@@ -118,8 +118,6 @@ const dataSource = [
 
 return (
     <div className="w-[100%] h-[100vh] ">
-      
-    
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>
@@ -164,55 +162,7 @@ return (
         <Table dataSource={dataSource} columns={columns} />;
       </div>
 
-      <Drawer placement="right" onClose={onClose} open={open}>
-        <div className="text-center justify-center items-center">
-          <Image
-            src="./images/test-men.jpg"
-            preview={false}
-            style={{ width: "100px", height: "100px" }}
-            className="rounded-full text-center"
-          />
-          <p className="m-0">อ่อ ช่างแอ้</p>
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/login")}
-          >
-            เข้าสู่ระบบ{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/user-management")}
-          >
-            จัดการผู้ใช้{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/report-management")}
-          >
-            จัดการรายงาน{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
-            ออกจากระบบ{" "}
-          </button>{" "}
-        </div>
-      </Drawer>
+      
     </div>
   );
 };

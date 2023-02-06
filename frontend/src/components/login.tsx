@@ -15,6 +15,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "./context/auth";
+import { useUser } from "./context/user";
 import { fireNotification } from "./notification";
 
 export const baseURL = axios.create({
@@ -23,18 +24,22 @@ export const baseURL = axios.create({
 
 const Login = () => {
   const navigate = useNavigate();
+  const { findByToken } = useUser();
 
   const signin = (data: any) => {
     baseURL.post("/auth/login", data).then((e: any) => {
+      setToken(e.data.access_token);
+      // setUser("555")
+      findByToken(e.data.access_token);
+      navigate("/", { replace: true });
       // localStorage.setItem("access-token", e.data.access_token);
-      setToken(e.data.access_token)
-      console.log("setToken",setToken(e.data.access_token));
-      navigate("/", { replace: true })
-      console.log(e.data.access_token);
+      // console.log("setToken", setToken(e.data.access_token));
+      // console.log(e.data.access_token);
     });
 
     fireNotification({ type: "success" });
   };
+
   const signup = (element: any) => {
     if (element.confirm != element.password) {
       fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
@@ -60,6 +65,7 @@ const Login = () => {
   useEffect(() => {
     test();
   }, []);
+
   const items: TabsProps["items"] = [
     {
       key: "1",

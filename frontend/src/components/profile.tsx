@@ -158,71 +158,7 @@ const Profile = () => {
           </Col>
         </Row>
       </div>
-      <Drawer placement="right" onClose={onClose} open={open}>
-        <div className="text-center justify-center items-center">
-          <Image
-            src="./images/test-men.jpg"
-            preview={false}
-            style={{ width: "100px", height: "100px" }}
-            className="rounded-full text-center"
-          />
-          <p className="m-0">อ่อ ช่างแอ้</p>
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/profile")}
-          >
-            โปรไฟล์
-          </button>{" "}
-        </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/edit-profile")}
-          >
-            ตั้งค่าบัญชี
-          </button>{" "}
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/login")}
-          >
-            เข้าสู่ระบบ{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/user-management")}
-          >
-            จัดการผู้ใช้{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/report-management")}
-          >
-            จัดการรายงาน{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
-            ออกจากระบบ{" "}
-          </button>{" "}
-        </div>
-      </Drawer>
+      
     </div>
   );
 };
