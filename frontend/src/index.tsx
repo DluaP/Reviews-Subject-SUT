@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home";
+import ReviewProvider from "./components/context/review";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Home />
-      <App />
+      <ReviewProvider>
+        <App />
+      </ReviewProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -16,6 +16,8 @@ import { Image } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import { useReview } from "./context/review";
+import { log } from "console";
 
 const Review = () => {
   const navigate = useNavigate();
@@ -23,6 +25,8 @@ const Review = () => {
   const [top, setTop] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const { courseId } = useReview();
+  console.log(courseId);
 
   const onFinish = (e: any) => {
     console.log(e);
@@ -52,7 +56,6 @@ const Review = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>
