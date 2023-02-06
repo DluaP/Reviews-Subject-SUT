@@ -42,7 +42,7 @@ export const APP_ROUTER: RouteObject[] = [
   {
     path: "/edit-post",
     element: <EditPost />,
-  },  
+  },
   {
     path: "/report-management",
     element: <ReportManagement />,

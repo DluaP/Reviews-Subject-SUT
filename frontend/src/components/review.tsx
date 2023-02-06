@@ -21,16 +21,15 @@ const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [top, setTop] = useState(10);
-  const [isModalOpen, setIsModalOpen] = useState(false);  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  
+
   const onFinish = (e: any) => {
     console.log(e);
   };
   const onChange = (checkedValues: CheckboxValueType[]) => {
     console.log("checked = ", checkedValues);
   };
-
 
   const showDrawer = () => {
     setOpen(true);
@@ -53,22 +52,6 @@ const Review = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <Affix offsetTop={top}>
-      <div onClick={showDrawer}>
-        <div className="text-right pr-12 pt-10 ">
-          <button>
-            <div className="text-center justify-center">
-              <Image
-                style={{ width: 30, height: 30 }}
-                src="./images/human.png"
-                preview={false}
-              />
-            </div>
-            <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
-          </button>
-        </div>
-      </div>
-      </Affix>
       <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
@@ -188,7 +171,6 @@ const Review = () => {
                   ปรากฏการณ์ที่เกิดขึ้นในสังคมมาวิเคราะห์วิจารณ์ด้วยหลักการทางวิชาการได้
                 </li>
                 <li>
-  
                   - การวิพากษ์วิจารณ์สังคม
                   และวัฒนธรรมที่มีหลักคิดที่เป็นเหตุและผล
                 </li>
@@ -269,7 +251,15 @@ const Review = () => {
             โปรไฟล์
           </button>{" "}
         </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
+        <div className="p-2">
+          {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/create-post")}
+          >
+            เขียนรีวิว
+          </button>{" "}
+        </div>
         <div className="p-2">
           {" "}
           <button

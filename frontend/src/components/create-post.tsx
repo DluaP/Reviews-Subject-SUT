@@ -22,15 +22,8 @@ import { fireNotification } from "./notification";
 
 const CreatePost = () => {
   const navigate = useNavigate();
-  const [top, setTop] = useState(10);
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
-  };
+  
 
-  const onClose = () => {
-    setOpen(false);
-  };
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -56,25 +49,7 @@ const CreatePost = () => {
   return (
     <div>
       <div className=" w-[100%] ">
-        <Affix offsetTop={top}>
-          <div onClick={showDrawer}>
-            <div className="text-right pr-12 pt-10 ">
-              <button>
-                <div className="text-center justify-center">
-                  <Image
-                    style={{ width: 30, height: 30 }}
-                    src="./images/human.png"
-                    preview={false}
-                  />
-                </div>
-                <div className="text-center justify-center  pt-1">
-                  {" "}
-                  โปรไฟล์{" "}
-                </div>
-              </button>
-            </div>
-          </div>
-        </Affix>
+      
         <div className="text-center ">
           <button onClick={() => navigate("/")}>
             <Image
@@ -240,72 +215,6 @@ const CreatePost = () => {
           </Form>
         </div>
       </div>
-
-      <Drawer placement="right" onClose={onClose} open={open}>
-        <div className="text-center justify-center items-center">
-          <Image
-            src="./images/test-men.jpg"
-            preview={false}
-            style={{ width: "100px", height: "100px" }}
-            className="rounded-full text-center"
-          />
-          <p className="m-0">อ่อ ช่างแอ้</p>
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/profile")}
-          >
-            โปรไฟล์
-          </button>{" "}
-        </div>
-        <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/edit-profile")}
-          >
-            ตั้งค่าบัญชี
-          </button>{" "}
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/login")}
-          >
-            เข้าสู่ระบบ{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/user-management")}
-          >
-            จัดการผู้ใช้{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/report-management")}
-          >
-            จัดการรายงาน{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
-            ออกจากระบบ{" "}
-          </button>{" "}
-        </div>
-      </Drawer>
     </div>
   );
 };
