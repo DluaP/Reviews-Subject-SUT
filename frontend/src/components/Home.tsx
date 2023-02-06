@@ -6,18 +6,30 @@ import { useState } from "react";
 import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import CreatePost from "./create-post";
 import { Logout } from "./context/auth";
+import { useReview } from "./context/review";
+
+const mockdata = [
+  { id: 1, course_id: "204561", course_name: "vvvvvvvv" },
+  { id: 2, course_id: "456054", course_name: "aaaaaaaaa" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
+];
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
+  const { setCouresId } = useReview();
   const onFinish = (e: any) => {
     console.log(e);
   };
 
   return (
     <div className="w-[100%]  ">
-     
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>
@@ -63,8 +75,22 @@ const HomePage = () => {
           </Row>
         </Form>
 
-        <Row gutter={[12, 12]} className="pt-6 ">
-          <Col span={7}>
+        <Row gutter={[20, 20]} className="">
+          {mockdata?.map((item: any, index: any) => (
+            <Col span={8}>
+              <a
+                onClick={() => {
+                  navigate("/review");
+                  setCouresId(item?.id);
+                }}
+              >
+                <div className="bg-[#F9ECCE] p-10 rounded-md">
+                  {item?.course_id} {item?.course_name}
+                </div>
+              </a>
+            </Col>
+          ))}
+          {/* <Col span={7}>
             <Button
               className="w-[100%] h-[100px] bg-[#F9ECCE]"
               onClick={() => navigate("/review")}
@@ -121,7 +147,7 @@ const HomePage = () => {
             <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
               213305 ภาษาอังกฤษเพื่อการทำงาน
             </Button>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </div>
