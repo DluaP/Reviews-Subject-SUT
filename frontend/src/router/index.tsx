@@ -1,4 +1,5 @@
 import { RouteObject } from "react-router-dom";
+import AddCourse from "../components/add-course";
 import CreatePost from "../components/create-post";
 import EditPost from "../components/edit-post";
 import EditProfile from "../components/edit-profile";
@@ -45,5 +46,9 @@ export const APP_ROUTER: RouteObject[] = [
   {
     path: "/report-management",
     element: <ReportManagement />,
+  },
+  {
+    path: "/add-curse",
+    element: <AddCourse />,
   },
 ];
