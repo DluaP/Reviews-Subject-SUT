@@ -48,7 +48,7 @@ export const APP_ROUTER: RouteObject[] = [
     element: <ReportManagement />,
   },
   {
-    path: "/add-curse",
+    path: "/add-course",
     element: <AddCourse />,
   },
 ];

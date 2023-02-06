@@ -17,15 +17,7 @@ const HomePage = () => {
 
   return (
     <div className="w-[100%]  ">
-      <div className="text-center ">
-        <button onClick={() => navigate("/")}>
-          <Image
-            style={{ width: "100%", height: "100%" }}
-            src="./images/Logo.png"
-            preview={false}
-          />
-        </button>
-      </div>
+     
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>

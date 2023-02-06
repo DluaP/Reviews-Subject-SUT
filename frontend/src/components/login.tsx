@@ -133,11 +133,8 @@ const Login = () => {
   ];
 
   return (
-    <div className="bg-[#F9ECCE] w-[100%] h-[100vh] ">
-      <div className="text-center pt-20">
-        <Image src="./images/Logo.png" preview={false} />
-      </div>
-      <div className="px-[50vh]   !content-center">
+    <div className="w-[100%] h-[100vh] ">
+      <div className="mx-[50vh]   !content-center border-2 border-[#F9ECCE] rounded-lg">
         <Tabs
           defaultActiveKey="1"
           items={items}

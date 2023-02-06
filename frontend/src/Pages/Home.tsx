@@ -34,6 +34,15 @@ function Home({}: Props) {
           </div>
         </div>
       </Affix>
+      <div className="text-center ">
+        <button onClick={() => navigate("/")}>
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            src="./images/Logo.png"
+            preview={false}
+          />
+        </button>
+      </div>
       <Drawer placement="right" onClose={triger} open={open}>
         <div className="text-center justify-center items-center">
           <Image
@@ -94,11 +103,33 @@ function Home({}: Props) {
           <button
             className="w-[100%] text-left"
             onClick={() => {
+              navigate("/add-course");
+              triger();
+            }}
+          >
+            เพิ่มรายวิชา
+          </button>
+        </div>
+        <div className="p-2">
+          <button
+            className="w-[100%] text-left"
+            onClick={() => {
               navigate("/user-management");
               triger();
             }}
           >
             จัดการผู้ใช้
+          </button>
+        </div>
+        <div className="p-2">
+          <button
+            className="w-[100%] text-left"
+            onClick={() => {
+              navigate("/report-management");
+              triger();
+            }}
+          >
+            จัดการรีวิว
           </button>
         </div>
         <div className="p-2">
