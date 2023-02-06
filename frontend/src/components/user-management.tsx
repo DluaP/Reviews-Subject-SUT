@@ -49,7 +49,7 @@ const UserManagement = () => {
 
   const onFinish = (e: any) => {
     if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
-      test();
+      geetData();
     } else {
       baseURL
         .get(
@@ -61,7 +61,7 @@ const UserManagement = () => {
     }
   };
 
-  const test = () => {
+  const geetData = () => {
     baseURL.get("/users").then((e: any) => {
       setDatas(e.data);
     });
@@ -74,7 +74,7 @@ const UserManagement = () => {
   };
 
   useEffect(() => {
-    test();
+    geetData();
   }, []);
 
   const handleDelete = (id: any) => {
@@ -82,7 +82,7 @@ const UserManagement = () => {
       fetchData();
       console.log("1111");
     });
-    test();
+    geetData();
   };
   const columns: ColumnsType<IuserManagement> = [
     {
@@ -170,7 +170,7 @@ const UserManagement = () => {
                 className="w-[100%] top-7 "
                 onClick={() => {
                   form.resetFields();
-                  test();
+                  geetData();
                 }}
               >
                 ล้างข้อมูล
@@ -178,10 +178,12 @@ const UserManagement = () => {
             </Col>
           </Row>
         </Form>
+        <div className="border-2 border-[#F9ECCE] rounded-lg text-left p-4">
         <div className="text-left text-2xl">
           จัดการผู้ใช้ <br />
         </div>
         <Table dataSource={data1} columns={columns} pagination={false} />
+        </div>
       </div>
     </div>
   );
