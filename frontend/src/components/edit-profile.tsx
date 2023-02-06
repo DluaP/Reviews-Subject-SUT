@@ -203,6 +203,15 @@ const EditProfile = () => {
         </div>
         <div className="p-2">
           {" "}
+          <button
+            className="w-[100%] text-left"
+            onClick={() => navigate("/report-management")}
+          >
+            จัดการรายงาน{" "}
+          </button>{" "}
+        </div>
+        <div className="p-2">
+          {" "}
           <button className="w-[100%] text-left" onClick={() => navigate("/")}>
             ออกจากระบบ{" "}
           </button>{" "}

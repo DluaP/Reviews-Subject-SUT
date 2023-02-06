@@ -1,56 +1,50 @@
 import {
-  Button,
-  Divider,
-  Drawer,
-  Form,
-  Input,
-  Row,
-  Select,
-  Modal,
-  Checkbox,
-  Table,
-  Space,
-  Tag,
-  Typography,
-  Popconfirm,
-} from "antd";
-import form from "antd/es/form";
-import { Col } from "antd/es/grid";
-import { Image } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
-import { render } from "@testing-library/react";
-import { ColumnsType } from "antd/es/table";
-import { baseURL } from "./login";
+    Button,
+    Divider,
+    Drawer,
+    Form,
+    Input,
+    Row,
+    Select,
+    Modal,
+    Checkbox,
+    Table,
+    Space,
+    Tag,
+    Typography,
+  } from "antd";
+  import form from "antd/es/form";
+  import { Col } from "antd/es/grid";
+  import { Image } from "antd";
+  import { useEffect, useState } from "react";
+  import { useNavigate } from "react-router-dom";
+  import type { CheckboxValueType } from "antd/es/checkbox/Group";
+  import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+  import { render } from "@testing-library/react";
+  import { ColumnsType } from "antd/es/table";
+  import { baseURL } from "./login";
 
-export interface IuserManagement {
-  id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  nickName: string;
-  facebook: string;
-  ig: string;
-  email: string;
-  bio: string;
-  avatar: string;
-  isActive: string;
-  create_date?: string;
-  update_date?: string;
-}
+  export interface IreportManagement {
+    id: number;
+    report_id : number;
+    post_id: string;
+    student_id: string;
+    report_detail: string;
+    create_date: string;
+    update_date: string;
 
-const UserManagement = () => {
-  const navigate = useNavigate();
-  const [form] = Form.useForm();
-  const [data1, setDatas] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const onFinish = (e: any) => {
-    console.log(e);
-  };
+  }
 
+  const ReportManagement = () => {
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+    const [data1, setDatas] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const onFinish = (e: any) => {
+      console.log(e);
+    };
+
+    
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -71,64 +65,58 @@ const UserManagement = () => {
     setIsModalOpen(false);
   };
 
-  const test = () => {
-    baseURL.get("/users").then((e: any) => {
+  useEffect(() => {    
+    baseURL.get("/curse").then((e: any) => {
       setDatas(e.data);
-      console.log("e.data", e.data);
+      console.log("e.data",e.data);
+      console.log("data",(data1));
     });
-  };
 
-  const fetchData = () =>{
-    baseURL.get("/users").then((res) => {
-      setDatas(res.data);
-    });
-  }
-  useEffect(() => {
-    test();
-  }, []);
+}, []);
 
-  const handleDelete = (id: any) => {
-    baseURL.delete(`/user/${id}`).then((res)=>{fetchData()})
-    test();  
-  };
-  const columns: ColumnsType<IuserManagement> = [
+
+const dataSource = [
     {
-      title: "ชื่อผู้ใช้",
-      dataIndex: "username",
-      key: "username",
+      key: "1",
+      post_id: "202324-024",
+      report_id: "คำหยาบ,พาดพิง",
+      nickname: "ฟาร์มคนน่ารัก",
+    },
+  ];
+
+  const columns = [
+    {
+      title: "โพสต์รีวิว",
+      dataIndex: "post_id",
+      key: "post_id",
     },
     {
-      title: "ชื่อ-สกุล",
-      dataIndex: "firstName",
-      key: "firstName",
-    },
-    {
-      title: "ชื่อเล่น",
-      dataIndex: "nickName",
-      key: "nickName",
+      title: "การรายงาน",
+      dataIndex: "report_id",
+      key: "report_id",
     },
     {
       title: "จัดการ",
       dataIndex: "manage",
-      key: "id",
-      render: (_, record) =>
-        data1.length >= 1 ? (
-          <Space size="middle">
-            <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => {
-                handleDelete(record.id);
-                console.log("de;ete", record.id);
-              }}
-            >
-              <DeleteOutlined />
-            </Popconfirm>
-          </Space>
-        ) : null,
+      key: "manage",
+      render: () => {
+        return (
+          <span>
+            <Space size="middle">
+              <Typography.Link>
+                <DeleteOutlined />
+              </Typography.Link>
+              <Typography.Link>
+                <FormOutlined />
+              </Typography.Link>
+            </Space>
+          </span>
+        );
+      },
     },
   ];
 
-  return (
+return (
     <div className="w-[100%] h-[100vh] ">
       <div onClick={showDrawer}>
         <div className="text-right pr-12 pt-10 ">
@@ -144,14 +132,6 @@ const UserManagement = () => {
           </button>
         </div>
       </div>
-      <Button
-        className="w-[100%] text-[white] bg-[#46B072] top-7"
-        onClick={() => {
-          console.log("data1", data1);
-        }}
-      >
-        test
-      </Button>
       <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
@@ -201,9 +181,9 @@ const UserManagement = () => {
           </Row>
         </Form>
         <div className="text-left text-2xl">
-          จัดการผู้ใช้ <br />
+          รายงานรีวิว <br />
         </div>
-        <Table dataSource={data1} columns={columns} />;
+        <Table dataSource={dataSource} columns={columns} />;
       </div>
 
       <Drawer placement="right" onClose={onClose} open={open}>
@@ -217,51 +197,6 @@ const UserManagement = () => {
           <p className="m-0">อ่อ ช่างแอ้</p>
         </div>
         <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/profile")}
-          >
-            โปรไฟล์
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/edit-profile")}
-          >
-            ตั้งค่าบัญชี
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/profile")}
-          >
-            โปรไฟล์
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/create-post")}
-          >
-            เขียนรีวิว
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/edit-profile")}
-          >
-            ตั้งค่าบัญชี
-          </button>{" "}
-        </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/profile")}>โปรไฟล์</button> </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/create-post")}>เขียนรีวิว</button> </div>
         <div className="p-2"> <button className="w-[100%] text-left" onClick={() => navigate("/edit-profile")}>ตั้งค่าบัญชี</button> </div>
@@ -303,4 +238,4 @@ const UserManagement = () => {
     </div>
   );
 };
-export default UserManagement;
+export default ReportManagement;
