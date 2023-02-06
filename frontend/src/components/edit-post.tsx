@@ -51,22 +51,7 @@ import {
     return (
       <div>
         <div className=" w-[100%] ">
-        <Affix offsetTop={top}>
-        <div onClick={showDrawer}>
-          <div className="text-right pr-12 pt-10 ">
-            <button>
-              <div className="text-center justify-center">
-                <Image
-                  style={{ width: 30, height: 30 }}
-                  src="./images/human.png"
-                  preview={false}
-                />
-              </div>
-              <div className="text-center justify-center  pt-1"> โปรไฟล์ </div>
-            </button>
-          </div>
-        </div>
-        </Affix>
+        
         <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
