@@ -57,7 +57,7 @@ function Home({}: Props) {
           </div>
         </Affix>
       )}
-
+      
       <div className="text-center ">
         <button onClick={() => navigate("/")}>
           <Image
@@ -67,7 +67,8 @@ function Home({}: Props) {
           />
         </button>
       </div>
-      <Drawer placement="right" onClose={triger} open={open}>
+{userDetail?.status !== "admin" ? (
+  <Drawer placement="right" onClose={triger} open={open}>
         <div className="text-center justify-center items-center">
           <Image
             src="./images/test-men.jpg"
@@ -114,62 +115,7 @@ function Home({}: Props) {
           </button>
         </div>
         <Divider className="my-1" />
-        <div className="p-2">
-          <button
-            className="w-[100%] text-left"
-            onClick={() => {
-              navigate("/login");
-              triger();
-              refreshPage();
-            }}
-          >
-            เข้าสู่ระบบ
-          </button>
-        </div>
-        <div className="p-2">
-          <button
-            className="w-[100%] text-left"
-            onClick={() => {
-              navigate("/add-course");
-              triger();
-            }}
-          >
-            เพิ่มรายวิชา
-          </button>
-        </div>
-        <div className="p-2">
-          <button
-            className="w-[100%] text-left"
-            onClick={() => {
-              navigate("/user-management");
-              triger();
-            }}
-          >
-            จัดการผู้ใช้
-          </button>
-        </div>
-        <div className="p-2">
-          <button
-            className="w-[100%] text-left"
-            onClick={() => {
-              navigate("/report-management");
-              triger();
-            }}
-          >
-            จัดการรีวิว
-          </button>
-        </div>
-        <div className="p-2">
-          <button
-            className="w-[100%] text-left"
-            onClick={() => {
-              navigate("/report-management");
-              triger();
-            }}
-          >
-            จัดการรายงาน
-          </button>
-        </div>
+      
         <div className="p-2">
           <button
             className="w-[100%] text-left"
@@ -184,6 +130,112 @@ function Home({}: Props) {
           </button>
         </div>
       </Drawer>
+): (<Drawer placement="right" onClose={triger} open={open}>
+<div className="text-center justify-center items-center">
+  <Image
+    src="./images/test-men.jpg"
+    preview={false}
+    style={{ width: "100px", height: "100px" }}
+    className="rounded-full text-center"
+  />
+  <p className="m-0">
+    {userDetail?.firstName} {userDetail?.lastName}
+  </p>
+</div>
+<Divider className="my-1" />
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/profile");
+      triger();
+    }}
+  >
+    โปรไฟล์
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/create-post");
+      triger();
+    }}
+  >
+    เขียนรีวิว
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/edit-profile");
+      triger();
+    }}
+  >
+    ตั้งค่าบัญชี
+  </button>
+</div>
+<Divider className="my-1" />
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/add-course");
+      triger();
+    }}
+  >
+    เพิ่มรายวิชา
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/user-management");
+      triger();
+    }}
+  >
+    จัดการผู้ใช้
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/reviews-management");
+      triger();
+    }}
+  >
+    จัดการรีวิว
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/report-management");
+      triger();
+    }}
+  >
+    จัดการรายงาน
+  </button>
+</div>
+<div className="p-2">
+  <button
+    className="w-[100%] text-left"
+    onClick={() => {
+      navigate("/");
+      refreshPage();
+      triger();
+      //   Logout();
+    }}
+  >
+    ออกจากระบบ
+  </button>
+</div>
+</Drawer>)}
+      
     </React.Fragment>
   );
 }

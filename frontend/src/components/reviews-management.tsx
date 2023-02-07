@@ -1,66 +1,52 @@
+import { DeleteOutlined } from "@ant-design/icons";
 import {
-  Button,
-  Form,
-  Input,
-  Row,
-  Select,
-  Table,
-  Space,
   Popconfirm,
-  Card,
-  Col
+  Row,
+  Space,
+  Typography,
+  Form,
+  Col,
+  Button,
+  Input,
+  Table,
 } from "antd";
-
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
+import { useEffect, useState } from "react";
+
 import { baseURL } from "./login";
 
-export interface IuserManagement {
+export interface IreviewManagement {
   id: number;
   username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  nickName: string;
-  facebook: string;
-  ig: string;
-  email: string;
-  bio: string;
-  avatar: string;
-  status: string;
-  create_date?: string;
-  update_date?: string;
+  mickName: string;
+  user_id: string;
+  course_id: string;
+  course_name: string;
+  review_detail: string;
+  satisfied_point: string;
+  appropriate_point: string;
+  teacher_point: string;
+  grade: string;
+  semester: string;
+  term: string;
+  view_post: number;
+  like_post: number;
+  create_date: string;
 }
 
-const UserManagement = () => {
-  const navigate = useNavigate();
+const ReviewsManagement = () => {
   const [form] = Form.useForm();
   const [data1, setDatas] = useState([]);
-  
-  const onSearch = (e: any) => {
-    if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
-      getData();
-    } else {
-      baseURL
-        .get(
-          `/users?username=${e.username}&firstName=${e.firstName}&lastName=${e.lastName}&nickName=${e.nickName}`
-        )
-        .then((res) => {
-          setDatas(res.data);
-        });
-    }
-  };
+  const onSearch = (e: any) => {};
 
   const getData = () => {
-    baseURL.get("/users").then((e: any) => {
+    baseURL.get("/reviews").then((e: any) => {
       setDatas(e.data);
     });
   };
 
   const fetchData = () => {
-    baseURL.get("/users").then((res) => {
+    baseURL.get("/reviews").then((res) => {
       setDatas(res.data);
     });
   };
@@ -70,14 +56,14 @@ const UserManagement = () => {
   }, []);
 
   const handleDelete = (id: any) => {
-    baseURL.delete(`/users/${id}`).then((res) => {
+    baseURL.delete(`/reviews/${id}`).then((res) => {
       fetchData();
       console.log("1111");
     });
     getData();
   };
 
-  const columns: ColumnsType<IuserManagement> = [
+  const columns: ColumnsType<IreviewManagement> = [
     {
       title: "id",
       dataIndex: "id",
@@ -89,46 +75,23 @@ const UserManagement = () => {
       key: "username",
     },
     {
+      title: "รหัสวิชา และ ชื่อวิชา",
+      dataIndex: "course_name",
+      key: "course_name",
+    },
+    {
       title: "ชื่อ-สกุล",
       // dataIndex: "firstName",
-      key: "firstName",
+      key: "review_detail",
       render: (_, rc) => {
         return (
           <>
-            {rc?.firstName} {rc?.lastName}
+            <Typography.Text>{rc?.review_detail}</Typography.Text>
           </>
         );
       },
     },
-    {
-      title: "ชื่อเล่น",
-      dataIndex: "nickName",
-      key: "nickName",
-    },
-    {
-      title: "สถานะ",
-      dataIndex: "status",
-      width: "20%",
-      render: (_, rc) => {
-        return (
-          <Select
-            className="w-[100%]"
-            placeholder="สถานะ"
-            defaultValue={rc?.status}
-            onChange={(e) => {
-              baseURL.patch(`/users/${rc?.id}`, { status: e }).then((res) => {
-                console.log("e", res.status);
-              });
-            }}
-            options={[
-              { value: "student", label: "นักศึกษา" },
-              { value: "teacher", label: "คุณครู" },
-              { value: "admin", label: "แอดมิน" },
-            ]}
-          />
-        );
-      },
-    },
+
     {
       title: "จัดการ",
       // dataIndex: "manage",
@@ -156,7 +119,7 @@ const UserManagement = () => {
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form form={form} layout="vertical" onFinish={onSearch}>
+        <Form name="s" layout="vertical" form={form} onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col span={5}>
               <Form.Item name="username" label="ชื่อผู้ใช้">
@@ -209,4 +172,5 @@ const UserManagement = () => {
     </div>
   );
 };
-export default UserManagement;
+
+export default ReviewsManagement;

@@ -98,7 +98,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input.Password placeholder="รหัสผ่าน" type="password" />
+                  <Input.Password placeholder="รหัสผ่าน"  />
                 </Form.Item>
               </Col>
             </Row>
@@ -198,7 +198,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="รหัสผ่าน" type="password" />
+                  <Input.Password placeholder="รหัสผ่าน"  />
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -211,7 +211,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="ยืนยัน รหัสผ่าน" type="password" />
+                  <Input.Password placeholder="ยืนยัน รหัสผ่าน"  />
                 </Form.Item>
               </Col>
             </Row>

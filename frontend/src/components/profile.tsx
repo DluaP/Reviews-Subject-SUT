@@ -12,13 +12,16 @@ import {
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./context/user";
+import { baseURL } from "./login";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [top, setTop] = useState(10);
+  const { userDetail } = useUser();
   const [form] = Form.useForm();
+  const [review, setReview] = useState<any[]>([]);
   const onFinish = (e: any) => {
     console.log(e);
   };
@@ -31,8 +34,17 @@ const Profile = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    getReviewUserId();
+  }, []);
+  const getReviewUserId = () => {
+    baseURL.get(`/reviews?user_id=${userDetail?.id}`).then((res) => {
+      console.log(res.data);
+      setReview(res.data);
+    });
+  };
   return (
-    <div className="w-[100%] h-[100vh] ">    
+    <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Row gutter={[12, 12]}>
           <Col span={8}>
@@ -46,119 +58,48 @@ const Profile = () => {
                     className="rounded-full text-center"
                   />
                 </Col>
-                <Col span={24}>อ้อ ช่างแอ้</Col>
+                <Col span={24}>{userDetail.nickName}</Col>
                 <div className=" text-left">
-                  <Col span={24}>
-                    <span>#โสด</span>
-                    <br />
-                    <span>#หล่อ</span>
-                    <br />
-                    <span>#ตี๋</span>
-                  </Col>
+                  <Col span={24}>{userDetail.bio}</Col>
                   <Col span={24} className="pt-4">
-                    Facebook : อ้อ ช่างแอ้
+                    Facebook : {userDetail.facebook}
                   </Col>
-                  <Col span={24}>Instagram : O_Chang_Ae</Col>
-                  <Col span={24}>Email : Ohchangair@gmail.com</Col>
+                  <Col span={24}>Instagram : {userDetail.ig}</Col>
+                  <Col span={24}>Email : {userDetail.email}</Col>
                 </div>
               </Row>
             </div>
           </Col>
           {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
           <Col span={16}>
-            <Row
-              className=" text-left border-2 p-4 border-[#F9ECCE] rounded-lg"
-              gutter={[12, 12]}
-            >
-              <Col span={24}>
-                <span className="!text-lx">รหัสวิชา 21720 วิชาแปลกๆ</span>
-              </Col>
-              <Col span={24}>
-                <Typography.Text>
-                  ***เทคนิคการเรียนให้ไม่ F 1.อ่านล่วงหน้าใน e-learning ไปให้หมด
-                  (ชีทมันจะมีให้โหลดใน e-learning 1) แล้วอ่านบ่อยๆ จนแบบจำได้อะ
-                  เพราะว่าข้อสอบมันออกตามแบบฝึกหัดใน e-learning เลย
-                </Typography.Text>
-                <Divider className="m-1" />
-              </Col>
-              <Col span={3}>
-                <Button
-                  className="w-[100%] "
-                  onClick={() => {
-                    navigate("/edit-post");
-                  }}
-                >
-                  แก้ไข
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button className="w-[100%] ">ลบ</Button>
-              </Col>
-            </Row>
+            <div className=" text-left border-2 p-4 border-[#F9ECCE] rounded-lg">
+              {review?.map((item: any, index: any) => (
+                <>
+                  <div className="!text-lx">{item?.course_name}</div>
+                  <div>{item?.review_detail}</div>
+                  <Divider className="m-1" />
+                  <Row>
+                    <Col span={3}>
+                      <Button
+                        className="w-[100%] "
+                        onClick={() => {
+                          navigate("/edit-post");
+                        }}
+                      >
+                        แก้ไข
+                      </Button>
+                    </Col>
 
-            <Row
-              className=" text-left border-2 p-4 border-[#F9ECCE] mt-2 rounded-lg"
-              gutter={[12, 12]}
-            >
-              <Col span={24}>
-                <span className="!text-lx">รหัสวิชา 21721 วิชาแปลกๆ</span>
-              </Col>
-              <Col span={24}>
-                <Typography.Text>
-                  ***เทคนิคการเรียนให้ไม่ F 1.อ่านล่วงหน้าใน e-learning ไปให้หมด
-                  (ชีทมันจะมีให้โหลดใน e-learning 1) แล้วอ่านบ่อยๆ จนแบบจำได้อะ
-                  เพราะว่าข้อสอบมันออกตามแบบฝึกหัดใน e-learning เลย
-                </Typography.Text>
-                <Divider className="m-1" />
-              </Col>
-              <Col span={3}>
-                <Button
-                  className="w-[100%] "
-                  onClick={() => {
-                    navigate("/edit-post");
-                  }}
-                >
-                  แก้ไข
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button className="w-[100%] ">ลบ</Button>
-              </Col>
-            </Row>
-
-            <Row
-              className=" text-left border-2 p-4 border-[#F9ECCE] mt-2 rounded-lg"
-              gutter={[12, 12]}
-            >
-              <Col span={24}>
-                <span className="!text-lx">รหัสวิชา 21721 วิชาแปลกๆ</span>
-              </Col>
-              <Col span={24}>
-                <Typography.Text>
-                  ***เทคนิคการเรียนให้ไม่ F 1.อ่านล่วงหน้าใน e-learning ไปให้หมด
-                  (ชีทมันจะมีให้โหลดใน e-learning 1) แล้วอ่านบ่อยๆ จนแบบจำได้อะ
-                  เพราะว่าข้อสอบมันออกตามแบบฝึกหัดใน e-learning เลย
-                </Typography.Text>
-                <Divider className="m-1" />
-              </Col>
-              <Col span={3}>
-                <Button
-                  className="w-[100%] "
-                  onClick={() => {
-                    navigate("/edit-post");
-                  }}
-                >
-                  แก้ไข
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button className="w-[100%] ">ลบ</Button>
-              </Col>
-            </Row>
+                    <Col span={3}>
+                      <Button className="w-[100%] ">ลบ</Button>
+                    </Col>
+                  </Row>
+                </>
+              ))}
+            </div>
           </Col>
         </Row>
       </div>
-      
     </div>
   );
 };

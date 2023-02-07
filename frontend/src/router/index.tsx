@@ -8,6 +8,7 @@ import Login from "../components/login";
 import Profile from "../components/profile";
 import ReportManagement from "../components/report-management";
 import Review from "../components/review";
+import ReviewsManagement from "../components/reviews-management";
 import UserManagement from "../components/user-management";
 
 export const APP_ROUTER: RouteObject[] = [
@@ -51,4 +52,8 @@ export const APP_ROUTER: RouteObject[] = [
     path: "/add-course",
     element: <AddCourse />,
   },
+  {
+    path:"/reviews-management",
+    element: <ReviewsManagement/>
+  }
 ];

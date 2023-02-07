@@ -12,32 +12,37 @@ import {
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { baseURL } from "./login";
+import { useUser } from "./context/user";
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(10);
   const [form] = Form.useForm();
+  const { userDetail, setUserDetail } = useUser();
   const onFinish = (e: any) => {
+    baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
+      console.log("e", e);
+      setUserDetail(e)
+    });
+
     console.log(e);
   };
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    form.setFieldsValue({
+      ...userDetail,
+    }); 
+    console.log("userDetail?.id",userDetail?.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDetail]);
 
   return (
     <div className="w-[100%] h-[100vh] ">
-  
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form layout="vertical" form={form} onFinish={onFinish}>
           <Row
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
@@ -56,17 +61,21 @@ const EditProfile = () => {
                       className="rounded-full text-center"
                     />
                     <Button className="w-[100%]">อัพโหลดรูปภาพ</Button>
-                  </Col>
+                  </Col> 
+                  <Form.Item name="id">
+                      <Input  hidden/>
+                    </Form.Item>
                   <Col span={18}>
-                    <Form.Item name="nickname" label="ชื่อเล่น">
+                 
+                    <Form.Item name="nickName" label="ชื่อเล่น">
                       <Input placeholder="ชื่อเล่น" />
                     </Form.Item>
-                    <Form.Item name="vio" label="เกี่ยวกับฉัน">
+                    <Form.Item name="bio" label="เกี่ยวกับฉัน">
                       <TextArea rows={2} />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="facebok" label="facebok">
+                    <Form.Item name="facebook" label="facebok">
                       <Input placeholder="facebok" />
                     </Form.Item>
                   </Col>
@@ -91,23 +100,23 @@ const EditProfile = () => {
                     <div className="text-xl">จัดการบัญชี</div>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="username" label="Username">
-                      <Input placeholder="Username" />
+                    <Form.Item name="username" label="ชื่อผู้ใช้">
+                      <Input placeholder="ชื่อผู้ใช้" disabled />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="firstname" label="Firstname">
-                      <Input placeholder="Firstname" />
+                    <Form.Item name="firstName" label="ชื่อ">
+                      <Input placeholder="ชื่อ" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="surname" label="Surname">
-                      <Input placeholder="Surname" />
+                    <Form.Item name="lastName" label="นามสกุล">
+                      <Input placeholder="นามสกุล" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
                     <Form.Item name="password" label="Password">
-                      <Input placeholder="Password" type="password" />
+                      <Input.Password placeholder="Password" />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -128,7 +137,6 @@ const EditProfile = () => {
           </Row>
         </Form>
       </div>
-
     </div>
   );
 };

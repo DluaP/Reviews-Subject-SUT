@@ -12,9 +12,7 @@ import {
   Row,
   Select,
 } from "antd";
-import TextArea from "antd/es/input/TextArea";
-import axios from "axios";
-import { log } from "console";
+import ReactQuill from "react-quill"; // ES6
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useReview } from "./context/review";
@@ -26,6 +24,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const { courseReviwe, setCouresReview } = useReview();
   const { userDetail } = useUser();
+  const [value, setValue] = useState("");
   let options: any = [];
   console.log(userDetail);
 
@@ -101,7 +100,13 @@ const CreatePost = () => {
 
               <Col span={24}>
                 <Form.Item name="review_detail">
-                  <TextArea rows={6} />
+                <ReactQuill
+                theme="snow"
+                value={value}
+                onChange={setValue}
+                className="h-[300px] pb-8"
+                placeholder={"รีวิวเลย!!"}
+              />
                 </Form.Item>
               </Col>
 

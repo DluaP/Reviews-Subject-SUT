@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home";
 import ReviewProvider from "./components/context/review";
 import UserProvider from "./components/context/user";
+import 'react-quill/dist/quill.snow.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

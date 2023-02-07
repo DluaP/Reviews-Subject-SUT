@@ -10,6 +10,8 @@ import {
   Checkbox,
   Affix,
   Card,
+  Switch,
+  Typography,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -20,6 +22,9 @@ import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { log } from "console";
+import parse from "html-react-parser";
+
+const { Paragraph, Text } = Typography;
 
 const Review = () => {
   const navigate = useNavigate();
@@ -27,9 +32,12 @@ const Review = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { courseId } = useReview();
   const [review, setReview] = useState<any[]>([]);
+  const [inreview, setInreviw] = useState<any>();
+  const [ellipsis, setEllipsis] = useState(true);
 
   useEffect(() => {
     getReviewCourse();
+    console.log("review",review)
   }, [courseId]);
 
   const onFinish = (e: any) => {
@@ -51,12 +59,28 @@ const Review = () => {
     setIsModalOpen(false);
   };
 
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const handleOk2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
+  };
+
   const getReviewCourse = () => {
     baseURL.get(`/reviews?course_id=${courseId}`).then((res) => {
       console.log(res.data);
       setReview(res.data);
     });
   };
+
+  const onFComment = (e: any) => {};
 
   return (
     <div className="w-[100%] h-[100vh] ">
@@ -69,8 +93,8 @@ const Review = () => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="4" label="เรียงตาม">
-                <Select defaultValue={"all"}>
+              <Form.Item name="4" label="เรียงตาม" initialValue="all">
+                <Select >
                   <Select.Option value="all">ทั้งหมด</Select.Option>
                   <Select.Option value="like">ยอดไลก์</Select.Option>
                   <Select.Option value="review">ยอดวิว</Select.Option>
@@ -111,16 +135,33 @@ const Review = () => {
           <Col span={24} className="text-left text-4xl">
             {review[0]?.course_name}
           </Col>
-
-          {review?.map((item: any, index: any) => (
+          {!review[0]?.course_name ? ("ไม่มีรีวิววิชานี้"):(
+            <div>
+              {review?.map((item: any, index: any) => (
             <Card
               style={{ width: "100%" }}
               className="bg-[#F9ECCE] w-[100%]  rounded-md !text-left"
             >
-              <div>{item?.review_detail}</div>
-              <div className=" border-b-2 pb-3 mb-2 mt-4">โดย : {item?.nickName}</div>
+              <Paragraph
+                ellipsis={
+                  ellipsis
+                    ? { rows: 5, expandable: true, symbol: "more" }
+                    : false
+                }
+              >
+                {parse(item?.review_detail)} 
+              </Paragraph>
+              <div className=" border-b-2 pb-3 mb-2 mt-4">
+                โดย : {item?.nickName}
+              </div>
               <div className="justify-between flex">
-                <Button className=" text-[black] bg-[#FED584] ">
+                <Button
+                  className=" text-[black] bg-[#FED584] "
+                  onClick={(e) => {
+                    setInreviw(item);
+                    showModal2();
+                  }}
+                >
                   {"ดูรีวิวนี้"}
                 </Button>
                 <Button
@@ -131,96 +172,11 @@ const Review = () => {
                 </Button>
               </div>
             </Card>
-          ))}
-
+          ))}</div>
+          )}
+          
         </Row>
-        {/* <Row gutter={[12, 12]} className="pt-6 ">
-          <Col span={24} className="text-left text-4xl">
-            ไทยศึกษาเชิงพหุวัฒนธรรม
-            <br />
-          </Col>
 
-          <Col
-            span={24}
-            className="bg-[#F9ECCE] w-[100%]  rounded-md !text-left"
-          >
-            <div className="p-4">
-              ไทยศึกษาเชิงพหุวัฒนธรรมเรียนอะไรบ้าง ? <br />
-              <br />
-              <ul>
-                <li> - ส่วนใหญ่จะเรียนเรื่องการเมืองในประเทศ (แบบดุดัน)</li>
-                <li> - พหุลักษณ์ของสังคมวัฒนธรรมไทยและความเป็นพลเมือง</li>
-                <li>
-                  {" "}
-                  -
-                  ปรากฏการณ์ที่เกิดขึ้นในสังคมมาวิเคราะห์วิจารณ์ด้วยหลักการทางวิชาการได้
-                </li>
-                <li>
-                  {" "}
-                  - การวิพากษ์วิจารณ์สังคม
-                  และวัฒนธรรมที่มีหลักคิดที่เป็นเหตุและผล{" "}
-                </li>
-                <li> - การตั้งคำถามให้คิดเกี่ยวกับสังคมในปัจจุบัน </li>
-              </ul>
-              <br />
-              คำเตือน !! ต้องเข้าเรียนด้วยนะ เพราะมีหลายคนน้ำตาตกมาแล้วววว{" "}
-              <br />
-              อาจารย์ ผู้สอน อ.ปราโมทย์ ภักดีณรงค์
-              <br />
-              <br />
-              โดย: บักพีเอวสปริง
-              <Divider className="my-1" />
-              <Button className="w-[10%] text-[black] bg-[#FED584] ">
-                ดูรีวิวนี้
-              </Button>
-              <Button
-                className="w-[10%] text-[black] bg-[#FED584] absolute bottom-4 right-4"
-                onClick={showModal}
-              >
-                รายงาน
-              </Button>
-            </div>
-          </Col>
-          <Col
-            span={24}
-            className="bg-[#F9ECCE] w-[100%]  rounded-md !text-left"
-          >
-            <div className="p-4">
-              ไทยศึกษาเชิงพหุวัฒนธรรมเรียนอะไรบ้าง ? <br />
-              <br />
-              <ul>
-                <li> - ส่วนใหญ่จะเรียนเรื่องการเมืองในประเทศ (แบบดุดัน)</li>
-                <li> - พหุลักษณ์ของสังคมวัฒนธรรมไทยและความเป็นพลเมือง</li>
-                <li>
-                  -
-                  ปรากฏการณ์ที่เกิดขึ้นในสังคมมาวิเคราะห์วิจารณ์ด้วยหลักการทางวิชาการได้
-                </li>
-                <li>
-                  - การวิพากษ์วิจารณ์สังคม
-                  และวัฒนธรรมที่มีหลักคิดที่เป็นเหตุและผล
-                </li>
-                <li> - การตั้งคำถามให้คิดเกี่ยวกับสังคมในปัจจุบัน </li>
-              </ul>
-              <br />
-              คำเตือน !! ต้องเข้าเรียนด้วยนะ เพราะมีหลายคนน้ำตาตกมาแล้วววว
-              <br />
-              อาจารย์ ผู้สอน อ.ปราโมทย์ ภักดีณรงค์
-              <br />
-              <br />
-              โดย: บักพีเอวสปริง
-              <Divider className="my-1" />
-              <Button className="w-[10%] text-[black] bg-[#FED584] ">
-                ดูรีวิวนี้
-              </Button>
-              <Button
-                className="w-[10%] text-[black] bg-[#FED584] absolute bottom-4 right-4"
-                onClick={showModal}
-              >
-                รายงาน
-              </Button>
-            </div>
-          </Col>
-        </Row> */}
         <Modal
           title="รายงานรีวิว"
           open={isModalOpen}
@@ -255,8 +211,43 @@ const Review = () => {
             </Row>
           </Checkbox.Group>
         </Modal>
-      </div>
 
+        <Modal
+          title="รีวิว"
+          open={isModalOpen2}
+          onOk={handleOk2}
+          onCancel={handleCancel2}
+          footer={null}
+        >
+          <div className="border-2 p-4 border-[#F9ECCE] rounded-lg">
+            <div>{inreview?.course_name}</div>
+            <div>{inreview?.review_detail}</div>
+            <div>{inreview?.satisfied_point}</div>
+            <div>เกรดที่ได้ : {inreview?.grade} </div>
+            <div>
+              ปีการศึกษา : {inreview?.semester} เทอม : {inreview?.term}
+            </div>
+            <div> </div>
+            <div></div>
+          </div>
+          <Button htmlType="submit">Submit</Button>
+
+          <div className="border-2 m-4 p-4 border-[#F9ECCE] rounded-lg">
+            <div>test</div>
+          </div>
+          <Form layout="vertical" name="comment" onFinish={onFComment}>
+            <Form.Item name="comment_detail">
+              <Input.Group compact>
+                <Input
+                  style={{ width: "calc(100% - 75px)" }}
+                  placeholder="แสดงความิดเห็น"
+                />
+                <Button htmlType="submit">Submit</Button>
+              </Input.Group>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </div>
   );
 };
