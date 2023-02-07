@@ -10,6 +10,7 @@ import {
   Image,
   notification,
   Empty,
+  Select,
 } from "antd";
 import axios from "axios";
 import { useEffect } from "react";
@@ -29,7 +30,6 @@ const Login = () => {
   const signin = (data: any) => {
     baseURL.post("/auth/login", data).then((e: any) => {
       setToken(e.data.access_token);
-      // setUser("555")
       findByToken(e.data.access_token);
       navigate("/", { replace: true });
       // localStorage.setItem("access-token", e.data.access_token);
@@ -64,6 +64,7 @@ const Login = () => {
 
   useEffect(() => {
     test();
+    
   }, []);
 
   const items: TabsProps["items"] = [
@@ -75,13 +76,29 @@ const Login = () => {
           <Form layout="vertical" name="login" onFinish={signin}>
             <Row gutter={[12, 0]}>
               <Col span={24}>
-                <Form.Item name="username" label="Username">
-                  <Input placeholder="Username" />
+                <Form.Item
+                  name="username"
+                  label="ชื่อผู้ใช้"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="ชื่อผู้ใช้" />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="password" label="Password">
-                  <Input placeholder="Password" type="password" />
+                <Form.Item
+                  name="password"
+                  label="รหัสผ่าน"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="รหัสผ่าน" type="password" />
                 </Form.Item>
               </Col>
             </Row>
@@ -99,33 +116,102 @@ const Login = () => {
           <Form layout="vertical" name="signUp" onFinish={signup}>
             <Row gutter={[12, 0]}>
               <Col span={24}>
-                <Form.Item name="username" label="Username">
-                  <Input placeholder="Username" />
+                <Form.Item
+                  name="username"
+                  label="ชื่อผู้ใช้"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="ชื่อผู้ใช้" />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="firstName" label="Firstname">
-                  <Input placeholder="Firstname" />
+                <Form.Item
+                  name="firstName"
+                  label="ชื่อ"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="ชื่อ" />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="lastName" label="LastName">
-                  <Input placeholder="LastName" />
+                <Form.Item
+                  name="lastName"
+                  label="นามสกุล"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="นามสกุล" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="nickName"
+                  label="ชื่อเล่น"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="ชื่อเล่น" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="status"
+                  label="สถานะ"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                  initialValue="studen"
+                >
+                  <Select
+                    placeholder="สถานะ"
+                    options={[
+                      { value: "studen", label: "นักศึกษา" },
+                      { value: "teacher", label: "คุณครู" },
+                      { value: "admin", label: "แอดมิน", disabled: true },
+                    ]}
+                  />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="nickName" label="Nickname">
-                  <Input placeholder="Nickname" />
+                <Form.Item
+                  name="password"
+                  label="รหัสผ่าน"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="รหัสผ่าน" type="password" />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="password" label="Password">
-                  <Input placeholder="Password" type="password" />
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item name="confirm" label="Confirm Password">
-                  <Input placeholder="Confirm Password" type="password" />
+                <Form.Item
+                  name="confirm"
+                  label="ยืนยัน รหัสผ่าน"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder="ยืนยัน รหัสผ่าน" type="password" />
                 </Form.Item>
               </Col>
             </Row>

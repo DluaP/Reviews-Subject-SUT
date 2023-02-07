@@ -18,13 +18,16 @@ import { log } from "console";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useReview } from "./context/review";
+import { useUser } from "./context/user";
 import { baseURL } from "./login";
 import { fireNotification } from "./notification";
 
 const CreatePost = () => {
   const navigate = useNavigate();
   const { courseReviwe, setCouresReview } = useReview();
+  const { userDetail } = useUser();
   let options: any = [];
+  console.log(userDetail);
 
   useEffect(() => {
     fetchCourse();
@@ -40,11 +43,23 @@ const CreatePost = () => {
 
   const onFinish = (e: any) => {
     console.log(e);
-    baseURL.post("/reviews", e).then((e: any) => {
-      // localStorage.setItem("access-token", e.data.access_token);
-      console.log("tttt", e);
-      fireNotification({ type: "success" });
-    });
+    let course_name = `${e.course.split(" ")[0]} ${e.course.split(" ")[1]}`;
+    let course_id = `${e.course.split(" ")[2]}`;
+    delete e.course;
+    baseURL
+      .post("/reviews", {
+        ...e,
+        nickName: userDetail?.nickName,
+        course_id: course_id,
+        course_name: course_name,
+        username: userDetail?.username,
+        user_id: userDetail?.id,
+      })
+      .then((e: any) => {
+        // localStorage.setItem("access-token", e.data.access_token);
+        console.log("tttt", e);
+        fireNotification({ type: "success" });
+      });
   };
 
   const fetchCourse = async () => {
@@ -55,21 +70,19 @@ const CreatePost = () => {
 
   courseReviwe?.map((item: any) => {
     options.push({
-      value: `${item?.course_id} ${item?.course_name}`,
+      value: `${item?.course_id} ${item?.course_name} ${item?.id}`,
       label: `${item?.course_id} ${item?.course_name}`,
     });
   });
-
-  console.log(options);
 
   return (
     <div>
       <div className=" w-[100%] ">
         <div className="px-[40vh] pt-[50px] pb-10 !content-center">
-          <Form onFinish={onFinish} name="">
+          <Form onFinish={onFinish} name="reviews">
             <Row gutter={[12, 12]}>
               <Col span={21}>
-                <Form.Item name="course_id">
+                <Form.Item name="course">
                   <Select
                     showSearch
                     placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"

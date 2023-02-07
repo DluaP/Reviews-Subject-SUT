@@ -9,24 +9,28 @@ import {
   Modal,
   Checkbox,
   Affix,
+  Card,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useReview } from "./context/review";
+import { baseURL } from "./login";
 import { log } from "console";
 
 const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [top, setTop] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
   const { courseId } = useReview();
-  console.log(courseId);
+  const [review, setReview] = useState<any[]>([]);
+
+  useEffect(() => {
+    getReviewCourse();
+  }, [courseId]);
 
   const onFinish = (e: any) => {
     console.log(e);
@@ -35,13 +39,6 @@ const Review = () => {
     console.log("checked = ", checkedValues);
   };
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -52,6 +49,13 @@ const Review = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const getReviewCourse = () => {
+    baseURL.get(`/reviews?course_id=${courseId}`).then((res) => {
+      console.log(res.data);
+      setReview(res.data);
+    });
   };
 
   return (
@@ -103,8 +107,34 @@ const Review = () => {
             </Col>
           </Row>
         </Form>
+        <Row gutter={[20, 20]} className="pt-6">
+          <Col span={24} className="text-left text-4xl">
+            {review[0]?.course_name}
+          </Col>
 
-        <Row gutter={[12, 12]} className="pt-6 ">
+          {review?.map((item: any, index: any) => (
+            <Card
+              style={{ width: "100%" }}
+              className="bg-[#F9ECCE] w-[100%]  rounded-md !text-left"
+            >
+              <div>{item?.review_detail}</div>
+              <div className=" border-b-2 pb-3 mb-2 mt-4">โดย : {item?.nickName}</div>
+              <div className="justify-between flex">
+                <Button className=" text-[black] bg-[#FED584] ">
+                  {"ดูรีวิวนี้"}
+                </Button>
+                <Button
+                  className=" text-[black] bg-[#FED584]   "
+                  onClick={showModal}
+                >
+                  {"รายงาน"}
+                </Button>
+              </div>
+            </Card>
+          ))}
+
+        </Row>
+        {/* <Row gutter={[12, 12]} className="pt-6 ">
           <Col span={24} className="text-left text-4xl">
             ไทยศึกษาเชิงพหุวัฒนธรรม
             <br />
@@ -190,7 +220,7 @@ const Review = () => {
               </Button>
             </div>
           </Col>
-        </Row>
+        </Row> */}
         <Modal
           title="รายงานรีวิว"
           open={isModalOpen}
@@ -226,78 +256,6 @@ const Review = () => {
           </Checkbox.Group>
         </Modal>
       </div>
-  
-        <div className="text-center justify-center items-center">
-          <Image
-            src="./images/test-men.jpg"
-            preview={false}
-            style={{ width: "100px", height: "100px" }}
-            className="rounded-full text-center"
-          />
-          <p className="m-0">อ่อ ช่างแอ้</p>
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/profile")}
-          >
-            โปรไฟล์
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/create-post")}
-          >
-            เขียนรีวิว
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/edit-profile")}
-          >
-            ตั้งค่าบัญชี
-          </button>{" "}
-        </div>
-        <Divider className="my-1" />
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/login")}
-          >
-            เข้าสู่ระบบ{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/user-management")}
-          >
-            จัดการผู้ใช้{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button
-            className="w-[100%] text-left"
-            onClick={() => navigate("/report-management")}
-          >
-            จัดการรายงาน{" "}
-          </button>{" "}
-        </div>
-        <div className="p-2">
-          {" "}
-          <button className="w-[100%] text-left" onClick={() => navigate("/")}>
-            ออกจากระบบ{" "}
-          </button>{" "}
-        </div>
 
     </div>
   );

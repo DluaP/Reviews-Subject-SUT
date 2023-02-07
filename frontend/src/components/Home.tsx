@@ -8,6 +8,8 @@ import CreatePost from "./create-post";
 import { Logout } from "./context/auth";
 import { useReview } from "./context/review";
 import { baseURL } from "./login";
+import { useUser } from "./context/user";
+import { log } from "console";
 
 const mockdata = [
   { id: 1, course_id: "204561", course_name: "vvvvvvvv" },
@@ -26,16 +28,17 @@ const HomePage = () => {
   const [form] = Form.useForm();
   const [dataCourse, setDataCourse] = useState([]);
   const { setCouresId } = useReview();
-  
+  const { userDatail, user } = useUser();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const getData = () => {
     baseURL.get("/course").then((e: any) => {
       setDataCourse(e.data);
     });
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const fetchData = () => {
     baseURL.get("/course").then((res) => {
@@ -108,64 +111,6 @@ const HomePage = () => {
               </a>
             </Col>
           ))}
-          {/* <Col span={7}>
-            <Button
-              className="w-[100%] h-[100px] bg-[#F9ECCE]"
-              onClick={() => navigate("/review")}
-            >
-              202324 ไทยศึกษาเชิงพหุวัฒนธรรม
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202241 กฎหมายในชีวิตประจำวัน
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={7}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202175 ศิลปวิจักษ์
-            </Button>
-          </Col>
-        </Row>
-        <Row gutter={[12, 12]} className="mt-10">
-          <Col span={7}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202111 ภาษาไทยเพื่อการสื่อสาร
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202331 อาเซียนศึกษา
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={7}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202181 สุขภาพองค์รวม
-            </Button>
-          </Col>
-        </Row>
-        <Row gutter={[12, 12]} className="mt-10">
-          <Col span={7}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              202203 มนุษย์กับสังคมและสิ่งแวดล้อม
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              214346 การบัญชีพื้นฐานเพื่อการจัดการ
-            </Button>
-          </Col>
-          <Col span={1} />
-          <Col span={7}>
-            <Button className="w-[100%] h-[100px] bg-[#F9ECCE]">
-              213305 ภาษาอังกฤษเพื่อการทำงาน
-            </Button>
-          </Col> */}
         </Row>
       </div>
     </div>

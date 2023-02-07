@@ -7,6 +7,7 @@ import {
   Routes,
   useRoutes,
 } from "react-router-dom";
+import Home from "./Pages/Home";
 import { APP_ROUTER } from "./router";
 
 function App() {
@@ -15,6 +16,11 @@ function App() {
 }
 
 const Wrapper = () => {
-  return <App />;
+  return (
+    <>
+      <Home></Home>
+      <App />
+    </>
+  );
 };
 export default Wrapper;

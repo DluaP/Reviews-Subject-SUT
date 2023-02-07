@@ -9,23 +9,22 @@ import HomePage from "../components/Home";
 import { UserOutlined, MenuOutlined } from "@ant-design/icons";
 import { useUser } from "../components/context/user";
 import { log } from "console";
+import { baseURL } from "../components/login";
 type Props = {};
+
+export function refreshPage() {
+  window.location.reload();
+}
 
 function Home({}: Props) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(10);
-  const { user, setUser , userDatail } = useUser();
-
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  const { user, setUser, userDetail, setUserDetail } = useUser();
 
   const triger = () => {
     setOpen(!open);
   };
-
-  console.log(user, "55");
 
   return (
     <React.Fragment>
@@ -76,7 +75,9 @@ function Home({}: Props) {
             style={{ width: "100px", height: "100px" }}
             className="rounded-full text-center"
           />
-          <p className="m-0">อ่อ ช่างแอ้</p>
+          <p className="m-0">
+            {userDetail?.firstName} {userDetail?.lastName}
+          </p>
         </div>
         <Divider className="my-1" />
         <div className="p-2">
@@ -119,6 +120,7 @@ function Home({}: Props) {
             onClick={() => {
               navigate("/login");
               triger();
+              refreshPage();
             }}
           >
             เข้าสู่ระบบ
@@ -173,6 +175,7 @@ function Home({}: Props) {
             className="w-[100%] text-left"
             onClick={() => {
               navigate("/");
+              refreshPage();
               triger();
               //   Logout();
             }}

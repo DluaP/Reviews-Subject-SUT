@@ -13,6 +13,7 @@ import {
   Tag,
   Typography,
   Popconfirm,
+  Card,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -24,6 +25,7 @@ import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 import { render } from "@testing-library/react";
 import { ColumnsType } from "antd/es/table";
 import { baseURL } from "./login";
+import { log } from "console";
 
 export interface IuserManagement {
   id: number;
@@ -37,7 +39,7 @@ export interface IuserManagement {
   email: string;
   bio: string;
   avatar: string;
-  isActive: string;
+  status: string;
   create_date?: string;
   update_date?: string;
 }
@@ -46,10 +48,10 @@ const UserManagement = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [data1, setDatas] = useState([]);
-
+  
   const onFinish = (e: any) => {
     if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
-      geetData();
+      getData();
     } else {
       baseURL
         .get(
@@ -61,7 +63,7 @@ const UserManagement = () => {
     }
   };
 
-  const geetData = () => {
+  const getData = () => {
     baseURL.get("/users").then((e: any) => {
       setDatas(e.data);
     });
@@ -74,7 +76,7 @@ const UserManagement = () => {
   };
 
   useEffect(() => {
-    geetData();
+    getData();
   }, []);
 
   const handleDelete = (id: any) => {
@@ -82,9 +84,15 @@ const UserManagement = () => {
       fetchData();
       console.log("1111");
     });
-    geetData();
+    getData();
   };
+
   const columns: ColumnsType<IuserManagement> = [
+    {
+      title: "id",
+      dataIndex: "id",
+      key: "id",
+    },
     {
       title: "ชื่อผู้ใช้",
       dataIndex: "username",
@@ -106,6 +114,30 @@ const UserManagement = () => {
       title: "ชื่อเล่น",
       dataIndex: "nickName",
       key: "nickName",
+    },
+    {
+      title: "สถานะ",
+      dataIndex: "status",
+      width: "20%",
+      render: (_, rc) => {
+        return (
+          <Select
+            className="w-[100%]"
+            placeholder="สถานะ"
+            defaultValue={rc?.status}
+            onChange={(e) => {
+              baseURL.patch(`/users/${rc?.id}`, { status: e }).then((res) => {
+                console.log("e", res.status);
+              });
+            }}
+            options={[
+              { value: "student", label: "นักศึกษา" },
+              { value: "teacher", label: "คุณครู" },
+              { value: "admin", label: "แอดมิน" },
+            ]}
+          />
+        );
+      },
     },
     {
       title: "จัดการ",
@@ -133,7 +165,6 @@ const UserManagement = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Row gutter={[12, 6]}>
@@ -170,7 +201,7 @@ const UserManagement = () => {
                 className="w-[100%] top-7 "
                 onClick={() => {
                   form.resetFields();
-                  geetData();
+                  getData();
                 }}
               >
                 ล้างข้อมูล
@@ -179,10 +210,10 @@ const UserManagement = () => {
           </Row>
         </Form>
         <div className="border-2 border-[#F9ECCE] rounded-lg text-left p-4">
-        <div className="text-left text-2xl">
-          จัดการผู้ใช้ <br />
-        </div>
-        <Table dataSource={data1} columns={columns} pagination={false} />
+          <div className="text-left text-2xl">
+            จัดการผู้ใช้ <br />
+          </div>
+          <Table dataSource={data1} columns={columns} pagination={false} />
         </div>
       </div>
     </div>
