@@ -16,6 +16,15 @@ export function refreshPage() {
   window.location.reload();
 }
 
+
+// export function session(){
+//   const navigate = useNavigate();
+//   const { user, setUser, userDetail, setUserDetail } = useUser();
+
+//   useEffect(() => {
+//    (user !== undefined ? (""):(navigate("/login")))
+//   }, []);
+// }
 function Home({}: Props) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -45,9 +54,9 @@ function Home({}: Props) {
         </Affix>
       ) : (
         <Affix offsetTop={top}>
-          <div onClick={triger}>
+          <div >
             <div className="text-right pr-12 pt-10 ">
-              <button>
+              <button onClick={triger}>
                 <div className="text-center justify-center">
                   <MenuOutlined className=" text-2xl" />
                 </div>

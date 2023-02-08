@@ -7,6 +7,7 @@ import {
   Form,
   Image,
   Input,
+  notification,
   Popconfirm,
   Radio,
   Row,
@@ -23,10 +24,30 @@ import { fireNotification } from "./notification";
 const CreatePost = () => {
   const navigate = useNavigate();
   const { courseReviwe, setCouresReview } = useReview();
-  const { userDetail } = useUser();
   const [value, setValue] = useState("");
   let options: any = [];
-  console.log(userDetail);
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
+  const session = () => {
+    if(user !== undefined){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+
+    session()
+  }, []);
 
   useEffect(() => {
     fetchCourse();

@@ -12,8 +12,11 @@ import {
   Card,
   Switch,
   Typography,
+  InputNumber,
+  MenuProps,
+  Dropdown,
+  Space,
 } from "antd";
-import form from "antd/es/form";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
@@ -23,21 +26,29 @@ import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { log } from "console";
 import parse from "html-react-parser";
+import { useUser } from "./context/user";
+import { EllipsisOutlined } from "@ant-design/icons";
 
 const { Paragraph, Text } = Typography;
 
 const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { courseId } = useReview();
   const [review, setReview] = useState<any[]>([]);
+  const [comment, setComment] = useState<any[]>([]);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [inreview, setInreviw] = useState<any>();
   const [ellipsis, setEllipsis] = useState(true);
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+  const [commentId, setCommentId] = useState();
 
   useEffect(() => {
     getReviewCourse();
-    console.log("review",review)
+
+    console.log("review", review);
   }, [courseId]);
 
   const onFinish = (e: any) => {
@@ -51,15 +62,35 @@ const Review = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
+  const onFReport = async (e: any) => {
+    console.log("event", e);
+    let reports_detail = "";
+    for (let i = 0; i < e.reports_detail.length; i++) {
+      // if ((i = 0)) {
+      //   reports_detail = `${e?.reports_detail[i]}`;
+      // }
+      reports_detail = `${reports_detail}${e?.reports_detail[i]}, `;
+    }
+    console.log(reports_detail);
+    delete e.reports_detail;
+
+    await baseURL
+      .post(`/report`, {
+        ...e,
+        report_detail: reports_detail,
+        user_id: userDetail?.id,
+        nickName: userDetail?.nickName,
+        review_id: inreview?.id,
+      })
+      .then((res) => {
+        console.log("ส่งค่าจ้าา", res.data);
+      });
     setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
 
   const showModal2 = () => {
     setIsModalOpen2(true);
@@ -71,16 +102,51 @@ const Review = () => {
 
   const handleCancel2 = () => {
     setIsModalOpen2(false);
+    setComment([]);
   };
 
-  const getReviewCourse = () => {
-    baseURL.get(`/reviews?course_id=${courseId}`).then((res) => {
+  const getReviewCourse = async () => {
+    await baseURL.get(`/reviews?course_id=${courseId}`).then((res) => {
       console.log(res.data);
       setReview(res.data);
     });
   };
 
-  const onFComment = (e: any) => {};
+  const onFComment = async (e: any) => {
+    await baseURL
+      .post(`/comment`, {
+        ...e,
+        user_id: userDetail?.id,
+        nickName: userDetail?.nickName,
+        review_id: inreview?.id,
+      })
+      .then((res: any) => {
+        getComment(res.data?.review_id);
+        console.log(res.data);
+        form2.resetFields();
+      });
+  };
+
+  const getComment = async (id: string) => {
+    await baseURL.get(`/comment?review_id=${id}`).then((res) => {
+      console.log("comentttttt", res.data);
+      setComment(res.data);
+    });
+  };
+
+  const deleteComment = async (e: any) => {
+    await baseURL.delete(`/comment/${commentId}`).then((res) => {
+      console.log("comentttttt", res.data);
+      getComment(inreview?.id);
+    });
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: <a onClick={deleteComment}>ลบ</a>,
+      key: "0",
+    },
+  ];
 
   return (
     <div className="w-[100%] h-[100vh] ">
@@ -94,7 +160,7 @@ const Review = () => {
             </Col>
             <Col span={6}>
               <Form.Item name="4" label="เรียงตาม" initialValue="all">
-                <Select >
+                <Select>
                   <Select.Option value="all">ทั้งหมด</Select.Option>
                   <Select.Option value="like">ยอดไลก์</Select.Option>
                   <Select.Option value="review">ยอดวิว</Select.Option>
@@ -135,119 +201,185 @@ const Review = () => {
           <Col span={24} className="text-left text-4xl">
             {review[0]?.course_name}
           </Col>
-          {!review[0]?.course_name ? ("ไม่มีรีวิววิชานี้"):(
-            <div>
-              {review?.map((item: any, index: any) => (
-            <Card
-              style={{ width: "100%" }}
-              className="bg-[#F9ECCE] w-[100%]  rounded-md !text-left"
-            >
-              <Paragraph
-                ellipsis={
-                  ellipsis
-                    ? { rows: 5, expandable: true, symbol: "more" }
-                    : false
-                }
-              >
-                {parse(item?.review_detail)} 
-              </Paragraph>
-              <div className=" border-b-2 pb-3 mb-2 mt-4">
-                โดย : {item?.nickName}
-              </div>
-              <div className="justify-between flex">
-                <Button
-                  className=" text-[black] bg-[#FED584] "
-                  onClick={(e) => {
-                    setInreviw(item);
-                    showModal2();
-                  }}
-                >
-                  {"ดูรีวิวนี้"}
-                </Button>
-                <Button
-                  className=" text-[black] bg-[#FED584]   "
-                  onClick={showModal}
-                >
-                  {"รายงาน"}
-                </Button>
-              </div>
-            </Card>
-          ))}</div>
-          )}
-          
         </Row>
-
-        <Modal
-          title="รายงานรีวิว"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <Checkbox.Group style={{ width: "100%" }} onChange={onChange}>
-            <Row gutter={[12, 12]}>
-              <Col span={24}>
-                <Checkbox value="A">ใช้ถ้อยคำหยาบคาย</Checkbox>
-              </Col>
-              <Col span={24}>
-                <Checkbox value="B">
-                  ใช้ข้อความที่เป็นเท็จหรือเกินความจริง
-                </Checkbox>
-              </Col>
-              <Col span={24}>
-                <Checkbox value="C">
-                  ใช้ข้อความที่จะก่อให้เกิดความเข้าใจผิดในสาระสำคัญ
-                </Checkbox>
-              </Col>
-              <Col span={24}>
-                <Checkbox value="D">
-                  ใช้ข้อความที่จะทำให้เกิดความแตกแยกหรือเสื่อมเสียความสามัคคีในหมู่ประชาชน
-                </Checkbox>
-              </Col>
-              <Col span={24}>
-                <Checkbox value="E">
-                  ใช้ข้อความที่เป็นการสนับสนุนให้มีการกระทำผิดกฎหมายหรือศีลธรรม
-                </Checkbox>
-              </Col>
-            </Row>
-          </Checkbox.Group>
-        </Modal>
-
-        <Modal
-          title="รีวิว"
-          open={isModalOpen2}
-          onOk={handleOk2}
-          onCancel={handleCancel2}
-          footer={null}
-        >
-          <div className="border-2 p-4 border-[#F9ECCE] rounded-lg">
-            <div>{inreview?.course_name}</div>
-            <div>{inreview?.review_detail}</div>
-            <div>{inreview?.satisfied_point}</div>
-            <div>เกรดที่ได้ : {inreview?.grade} </div>
-            <div>
-              ปีการศึกษา : {inreview?.semester} เทอม : {inreview?.term}
-            </div>
-            <div> </div>
-            <div></div>
+        {!review[0]?.course_name ? (
+          "ไม่มีรีวิววิชานี้"
+        ) : (
+          <div>
+            {review?.map((item: any, index: any) => (
+              <Card
+                style={{ width: "100%" }}
+                className="bg-[#F9ECCE] rounded-md !text-left mb-3"
+              >
+                <Paragraph
+                  ellipsis={
+                    ellipsis
+                      ? { rows: 5, expandable: true, symbol: "more" }
+                      : false
+                  }
+                >
+                  {parse(item?.review_detail)}
+                </Paragraph>
+                <div className=" border-b-2 pb-3 mb-2 mt-4">
+                  โดย : {item?.nickName}
+                </div>
+                <div className="justify-between flex">
+                  <Button
+                    className=" text-[black] bg-[#FED584] "
+                    onClick={async (e) => {
+                      await setInreviw(item);
+                      console.log("item", item);
+                      showModal2();
+                      getComment(item?.id);
+                    }}
+                  >
+                    {"ดูรีวิวนี้"}
+                  </Button>
+                  <Button
+                    className=" text-[black] bg-[#FED584]   "
+                    onClick={showModal}
+                  >
+                    {"รายงาน"}
+                  </Button>
+                </div>
+              </Card>
+            ))}
           </div>
-          <Button htmlType="submit">Submit</Button>
-
-          <div className="border-2 m-4 p-4 border-[#F9ECCE] rounded-lg">
-            <div>test</div>
-          </div>
-          <Form layout="vertical" name="comment" onFinish={onFComment}>
-            <Form.Item name="comment_detail">
-              <Input.Group compact>
-                <Input
-                  style={{ width: "calc(100% - 75px)" }}
-                  placeholder="แสดงความิดเห็น"
-                />
-                <Button htmlType="submit">Submit</Button>
-              </Input.Group>
-            </Form.Item>
-          </Form>
-        </Modal>
+        )}
       </div>
+
+      <Modal
+        title="รายงาน"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form name="report" onFinish={onFReport}>
+          <Form.Item name="reports_detail">
+            <Checkbox.Group style={{ width: "100%" }} onChange={onChange}>
+              <Row gutter={[12, 12]}>
+                <Col span={24}>
+                  <Checkbox value="ใช้ถ้อยคำหยาบคาย">ใช้ถ้อยคำหยาบคาย</Checkbox>
+                </Col>
+                <Col span={24}>
+                  <Checkbox value="ใช้ข้อความที่เป็นเท็จหรือเกินความจริง">
+                    ใช้ข้อความที่เป็นเท็จหรือเกินความจริง
+                  </Checkbox>
+                </Col>
+                <Col span={24}>
+                  <Checkbox value="ใช้ข้อความที่จะก่อให้เกิดความเข้าใจผิดในสาระสำคัญ">
+                    ใช้ข้อความที่จะก่อให้เกิดความเข้าใจผิดในสาระสำคัญ
+                  </Checkbox>
+                </Col>
+                <Col span={24}>
+                  <Checkbox value="ใช้ข้อความที่จะทำให้เกิดความแตกแยกหรือเสื่อมเสียความสามัคคีในหมู่ประชาชน">
+                    ใช้ข้อความที่จะทำให้เกิดความแตกแยกหรือเสื่อมเสียความสามัคคีในหมู่ประชาชน
+                  </Checkbox>
+                </Col>
+                <Col span={24}>
+                  <Checkbox value="ใช้ข้อความที่เป็นการสนับสนุนให้มีการกระทำผิดกฎหมายหรือศีลธรรม">
+                    ใช้ข้อความที่เป็นการสนับสนุนให้มีการกระทำผิดกฎหมายหรือศีลธรรม
+                  </Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit">ยืนยัน</Button>
+            <Button onClick={handleCancel}>ยกเลิก</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title={`โดย : ${inreview?.nickName}`}
+        open={isModalOpen2}
+        onCancel={handleCancel2}
+        footer={null}
+        className=" !w-[100vh]"
+      >
+        <div className="border-2 p-4 border-[#F9ECCE] rounded-lg">
+          <div className="flex justify-between">
+            <div>{inreview?.course_name}</div>
+            <div>
+              <a
+                onClick={async (e) => {
+                  e.preventDefault();
+                  showModal();
+                  await setInreviw(inreview);
+                  // console.log("eeee", e);
+                }}
+              >
+                รายงาน
+              </a>
+            </div>
+          </div>
+          <Paragraph
+            ellipsis={
+              ellipsis ? { rows: 5, expandable: true, symbol: "more" } : false
+            }
+          >
+            {parse(String(inreview?.review_detail))}
+          </Paragraph>
+          <div>{inreview?.satisfied_point}</div>
+          <div>เกรดที่ได้ : {inreview?.grade} </div>
+          <div>
+            ปีการศึกษา : {inreview?.semester} เทอม : {inreview?.term}
+          </div>
+          <div className="flex">
+            <div>like:{inreview?.like_post}</div>
+            <div className="ml-4">view :{inreview?.view_post} </div>
+          </div>
+        </div>
+        <Button htmlType="submit" className="mb-5">
+          Like
+        </Button>
+        {comment?.map((item: any, index: any) => (
+          <div>
+            <div className="flex justify-between">
+              <div>{item?.nickName}</div>
+              {String(userDetail?.id) === String(item?.user_id) ? (
+                <div>
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <a
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await setCommentId(item?.id);
+                        // console.log("eeee", e);
+                      }}
+                    >
+                      <Space>
+                        <EllipsisOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="border-2 m-4 p-4 border-[#F9ECCE] rounded-lg">
+              <div>{item?.comment_detail}</div>
+            </div>
+          </div>
+        ))}
+
+        <Form
+          layout="vertical"
+          name="comment"
+          form={form2}
+          onFinish={onFComment}
+        >
+          <Form.Item name="comment_detail">
+            <div className=" flex">
+              <Input
+                style={{ width: "calc(100% - 75px)", borderRight: "none" }}
+                placeholder="แสดงความิดเห็น"
+              />
+              <Button htmlType="submit">Submit</Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

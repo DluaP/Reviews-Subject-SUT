@@ -12,6 +12,7 @@ import {
     Space,
     Tag,
     Typography,
+    notification,
   } from "antd";
   import form from "antd/es/form";
   import { Col } from "antd/es/grid";
@@ -23,6 +24,7 @@ import {
   import { render } from "@testing-library/react";
   import { ColumnsType } from "antd/es/table";
   import { baseURL } from "./login";
+import { useUser } from "./context/user";
 
   export interface IreportManagement {
     id: number;
@@ -40,6 +42,29 @@ import {
     const [form] = Form.useForm();
     const [data1, setDatas] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { user, setUser, userDetail, setUserDetail } = useUser();
+
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
+  const session = () => {
+    if(user !== undefined && userDetail?.status !== "admin"){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+    session()
+  }, []);
+
     const onFinish = (e: any) => {
       console.log(e);
     };
@@ -65,14 +90,7 @@ import {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {    
-    baseURL.get("/curse").then((e: any) => {
-      setDatas(e.data);
-      console.log("e.data",e.data);
-      console.log("data",(data1));
-    });
 
-}, []);
 
 
 const dataSource = [

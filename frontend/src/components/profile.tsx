@@ -5,9 +5,11 @@ import {
   Drawer,
   Form,
   Input,
+  Popconfirm,
   Row,
   Select,
-  Typography,
+  Typography,notification
+
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -16,31 +18,46 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./context/user";
 import { baseURL } from "./login";
+import { useReview } from "./context/review";
+import parse from "html-react-parser";
 
 const Profile = () => {
+  
   const navigate = useNavigate();
-  const { userDetail } = useUser();
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+  const { setEditReview } = useReview();
   const [form] = Form.useForm();
-  const [review, setReview] = useState<any[]>([]);
-  const onFinish = (e: any) => {
-    console.log(e);
+  const [review, setReview ] = useState<any[]>([]);
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
   };
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
+  
+  const session = () => {
+    if(user !== undefined){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
   useEffect(() => {
     getReviewUserId();
+    session()
   }, []);
   const getReviewUserId = () => {
     baseURL.get(`/reviews?user_id=${userDetail?.id}`).then((res) => {
       console.log(res.data);
       setReview(res.data);
+    });
+  };
+
+  const handleDelete = (id: any) => {
+    baseURL.delete(`/reviews/${id}`).then((res) => {
+      getReviewUserId();
+      console.log("1111");
     });
   };
   return (
@@ -58,14 +75,14 @@ const Profile = () => {
                     className="rounded-full text-center"
                   />
                 </Col>
-                <Col span={24}>{userDetail.nickName}</Col>
+                <Col span={24}>{userDetail?.nickName}</Col>
                 <div className=" text-left">
-                  <Col span={24}>{userDetail.bio}</Col>
+                  <Col span={24}>{userDetail?.bio}</Col>
                   <Col span={24} className="pt-4">
-                    Facebook : {userDetail.facebook}
+                    Facebook : {userDetail?.facebook}
                   </Col>
-                  <Col span={24}>Instagram : {userDetail.ig}</Col>
-                  <Col span={24}>Email : {userDetail.email}</Col>
+                  <Col span={24}>Instagram : {userDetail?.ig}</Col>
+                  <Col span={24}>Email : {userDetail?.email}</Col>
                 </div>
               </Row>
             </div>
@@ -73,29 +90,48 @@ const Profile = () => {
           {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
           <Col span={16}>
             <div className=" text-left border-2 p-4 border-[#F9ECCE] rounded-lg">
-              {review?.map((item: any, index: any) => (
+              {review.length > 0 ? (
                 <>
-                  <div className="!text-lx">{item?.course_name}</div>
-                  <div>{item?.review_detail}</div>
-                  <Divider className="m-1" />
-                  <Row>
-                    <Col span={3}>
-                      <Button
-                        className="w-[100%] "
-                        onClick={() => {
-                          navigate("/edit-post");
-                        }}
-                      >
-                        แก้ไข
-                      </Button>
-                    </Col>
+                  {review?.map((item: any, index: any) => (
+                    <>
+                      <div className="!text-lx">{item?.course_name}</div>
+                      <div>{parse(item?.review_detail)}</div>
+                      <Divider className="m-1" />
+                      <Row>
+                        <Col span={3}>
+                          <Button
+                            className="w-[100%] "
+                            onClick={() => {
+                              setEditReview(item)
+                              navigate("/edit-post");
+                            }}
+                          >
+                            แก้ไข
+                          </Button>
+                        </Col>
 
-                    <Col span={3}>
-                      <Button className="w-[100%] ">ลบ</Button>
-                    </Col>
-                  </Row>
+                        <Col span={3}>
+                          <Popconfirm
+                            key={item?.id}
+                            title="ยืนยันการลบ ?"
+                            cancelText="ยกเลิก"
+                            okText="ยืนยัน"
+                            okType="default"
+                            onConfirm={() => {
+                              handleDelete(item?.id);
+                              // console.log("de;ete", record.id);
+                            }}
+                          >
+                            <Button className="w-[100%] ">ลบ</Button>
+                          </Popconfirm>
+                        </Col>
+                      </Row>
+                    </>
+                  ))}
                 </>
-              ))}
+              ) : (
+                <>NO REVIEW</>
+              )}
             </div>
           </Col>
         </Row>

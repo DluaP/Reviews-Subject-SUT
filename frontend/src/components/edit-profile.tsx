@@ -5,6 +5,7 @@ import {
   Drawer,
   Form,
   Input,
+  notification,
   Row,
   Select,
   Typography,
@@ -22,7 +23,28 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(10);
   const [form] = Form.useForm();
-  const { userDetail, setUserDetail } = useUser();
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
+  const session = () => {
+    if(user !== undefined){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+
+    session()
+  }, []);
   const onFinish = (e: any) => {
     baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
       console.log("e", e);
@@ -87,6 +109,10 @@ const EditProfile = () => {
                   <Col span={24}>
                     <Form.Item name="email" label="email">
                       <Input placeholder="email" />
+                    </Form.Item>
+                    
+                    <Form.Item name="status" >
+                      <Input hidden />
                     </Form.Item>
                   </Col>
                 </Row>

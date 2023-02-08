@@ -1,27 +1,13 @@
-import { Affix, Button, Divider, Drawer, Form, Input, Row, Select } from "antd";
-import form from "antd/es/form";
+import { Affix, Button, Divider, Drawer, Form, Input, Row, Select ,notification} from "antd";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
-import CreatePost from "./create-post";
-import { Logout } from "./context/auth";
+
 import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
-import { log } from "console";
-
-const mockdata = [
-  { id: 1, course_id: "204561", course_name: "vvvvvvvv" },
-  { id: 2, course_id: "456054", course_name: "aaaaaaaaa" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-  { id: 3, course_id: "54664", course_name: "wwwwwwwww" },
-];
+import { fireNotification } from "./notification";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -30,6 +16,14 @@ const HomePage = () => {
   const { setCouresId } = useReview();
   const { userDatail, user } = useUser();
 
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
   useEffect(() => {
     getData();
   }, []);
@@ -87,7 +81,9 @@ const HomePage = () => {
             <Col span={3}>
               <Button
                 className="w-[100%] bg-[#FECC73] top-7"
-                onClick={() => navigate("/create-post")}
+                onClick={() => {
+                  {user !== undefined ? (navigate("/create-post")):(openNotification())}
+                  }}
               >
                 เขียนรีวิว
               </Button>
@@ -98,14 +94,14 @@ const HomePage = () => {
 
         <Row gutter={[20, 20]} className="">
           {dataCourse?.map((item: any, index: any) => (
-            <Col span={8}>
+            <Col span={8} >
               <a
                 onClick={() => {
                   navigate("/review");
                   setCouresId(item?.id);
                 }}
               >
-                <div className="bg-[#F9ECCE] p-10 rounded-md">
+                <div className="bg-[#F9ECCE] p-10 rounded-md !h-[110px]">
                   {item?.course_id} {item?.course_name}
                 </div>
               </a>

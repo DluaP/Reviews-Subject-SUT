@@ -8,6 +8,7 @@ import {
   Table,
   Space,
   Popconfirm,
+  notification,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { baseURL } from "./login";
 import { fireNotification } from "./notification";
 import { DeleteOutlined } from "@ant-design/icons";
+import { useUser } from "./context/user";
 export interface IcourseManagement {
   id: number;
   course_id: string;
@@ -26,6 +28,28 @@ export interface IcourseManagement {
 const AddCourse = () => {
   const [dataCourse, setDataCourse] = useState([]);
   const navigate = useNavigate();
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
+  const session = () => {
+    if(user !== undefined){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+
+    session()
+  }, []);
+
   const onFinish = (element: any) => {
     console.log(element);
     baseURL.post("/course", element).then((e: any) => {

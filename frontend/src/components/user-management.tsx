@@ -8,7 +8,8 @@ import {
   Space,
   Popconfirm,
   Card,
-  Col
+  Col,
+  notification
 } from "antd";
 
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import { baseURL } from "./login";
+import { useUser } from "./context/user";
 
 export interface IuserManagement {
   id: number;
@@ -38,11 +40,32 @@ const UserManagement = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [data1, setDatas] = useState([]);
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
   
+  const session = () => {
+    if(user !== undefined && userDetail?.status !== "admin"){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+    session()
+  }, []);
   const onSearch = (e: any) => {
     if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
       getData();
     } else {
+      console.log("e",e)
       baseURL
         .get(
           `/users?username=${e.username}&firstName=${e.firstName}&lastName=${e.lastName}&nickName=${e.nickName}`
@@ -108,22 +131,21 @@ const UserManagement = () => {
     {
       title: "สถานะ",
       dataIndex: "status",
-      width: "20%",
       render: (_, rc) => {
         return (
           <Select
             className="w-[100%]"
             placeholder="สถานะ"
-            defaultValue={rc?.status}
+            defaultValue={`${rc?.status}`}
             onChange={(e) => {
               baseURL.patch(`/users/${rc?.id}`, { status: e }).then((res) => {
                 console.log("e", res.status);
               });
             }}
             options={[
-              { value: "student", label: "นักศึกษา" },
-              { value: "teacher", label: "คุณครู" },
-              { value: "admin", label: "แอดมิน" },
+              { value: "student", label: "student" },
+              { value: "teacher", label: "teacher" },
+              { value: "admin", label: "admin" },
             ]}
           />
         );

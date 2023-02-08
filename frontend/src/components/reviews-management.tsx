@@ -9,11 +9,14 @@ import {
   Button,
   Input,
   Table,
+  notification,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-
+import parse from "html-react-parser";
 import { baseURL } from "./login";
+import { useUser } from "./context/user";
+import { useNavigate } from "react-router-dom";
 
 export interface IreviewManagement {
   id: number;
@@ -37,6 +40,28 @@ export interface IreviewManagement {
 const ReviewsManagement = () => {
   const [form] = Form.useForm();
   const [data1, setDatas] = useState([]);
+  const navigate = useNavigate();
+  const { user, setUser, userDetail, setUserDetail } = useUser();
+
+
+  const openNotification = () => {
+    notification.open({
+      message: 'คำเเตือน!!!',
+      description:
+        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+    });
+  };
+  
+  const session = () => {
+    if(user !== undefined && userDetail?.status !== "admin"){
+    }else{
+      navigate("/login");
+      openNotification();
+    }
+  }
+  useEffect(() => {
+    session()
+  }, []);
   const onSearch = (e: any) => {};
 
   const getData = () => {
@@ -80,13 +105,15 @@ const ReviewsManagement = () => {
       key: "course_name",
     },
     {
-      title: "ชื่อ-สกุล",
+      title: "ข้อความ",
       // dataIndex: "firstName",
       key: "review_detail",
       render: (_, rc) => {
         return (
           <>
-            <Typography.Text>{rc?.review_detail}</Typography.Text>
+            <Typography.Text ellipsis={true} className="w-[200px] !h-[60px]">
+              {parse(String(rc?.review_detail))}
+            </Typography.Text>
           </>
         );
       },
