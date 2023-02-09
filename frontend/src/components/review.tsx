@@ -16,6 +16,8 @@ import {
   MenuProps,
   Dropdown,
   Space,
+  notification,
+  Tooltip,
 } from "antd";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
@@ -27,7 +29,7 @@ import { baseURL } from "./login";
 import { log } from "console";
 import parse from "html-react-parser";
 import { useUser } from "./context/user";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { EllipsisOutlined, EyeOutlined, LikeOutlined } from "@ant-design/icons";
 
 const { Paragraph, Text } = Typography;
 
@@ -35,6 +37,7 @@ const Review = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
+  const [form3] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { courseId } = useReview();
   const [review, setReview] = useState<any[]>([]);
@@ -44,16 +47,55 @@ const Review = () => {
   const [ellipsis, setEllipsis] = useState(true);
   const { user, setUser, userDetail, setUserDetail } = useUser();
   const [commentId, setCommentId] = useState();
-
+  const [like, setLike] = useState<number>();
+  const [view, setView] = useState<number>();
   useEffect(() => {
     getReviewCourse();
-
-    console.log("review", review);
   }, [courseId]);
 
-  const onFinish = (e: any) => {
-    console.log(e);
+  const onLikeCilck = async (e: any) => {
+    console.log("like_post", e?.like_post);
+    setLike(Number(e?.like_post) + 1);
+    console.log("like", Number(like));
+    
+    await baseURL
+      .patch(`/reviews/${e?.id}`, { like_post: like })
+      .then((res: any) => {
+        // localStorage.setItem("access-token", e.data.access_token);
+        // setLike(Number(e?.like_post) + 1);
+        getReviewCourse();
+        console.log("tttt", res);
+      });
   };
+  const onViewCilck = async (e: any) => {
+    console.log("setView", e?.setView);
+    setLike(Number(e?.setView) + 1);
+    console.log("view", Number(view));
+    
+    await baseURL
+      .patch(`/reviews/${e?.id}`, { view_post: view })
+      .then((res: any) => {
+        // localStorage.setItem("access-token", e.data.access_token);
+        // setLike(Number(e?.like_post) + 1);
+        getReviewCourse();
+        console.log("tttt", res);
+      });
+  };
+  const onSearch = (e: any) => {
+    // if (!e.semester && !e.orderBy ) {
+    //   getReviewCourse();
+    // } else {
+    //   console.log("e",e)
+    //   baseURL
+    //     .get(
+    //       `/review?semester=${e.semester}`
+    //     )
+    //     .then((res) => {
+    //       setReview(res.data);
+    //     });
+    // }
+  };
+
   const onChange = (checkedValues: CheckboxValueType[]) => {
     console.log("checked = ", checkedValues);
   };
@@ -63,6 +105,7 @@ const Review = () => {
   };
 
   const onFReport = async (e: any) => {
+    form3.resetFields();
     console.log("event", e);
     let reports_detail = "";
     for (let i = 0; i < e.reports_detail.length; i++) {
@@ -94,10 +137,7 @@ const Review = () => {
 
   const showModal2 = () => {
     setIsModalOpen2(true);
-  };
-
-  const handleOk2 = () => {
-    setIsModalOpen2(false);
+    // setLike((inreview?.like_post))
   };
 
   const handleCancel2 = () => {
@@ -112,19 +152,29 @@ const Review = () => {
     });
   };
 
+  const openNotification = () => {
+    notification.open({
+      message: "คำเเตือน!!!",
+      description: `กรุณาเข้าสู่ระบบก่อนแสดงความคิดเห็น `,
+    });
+  };
   const onFComment = async (e: any) => {
-    await baseURL
-      .post(`/comment`, {
-        ...e,
-        user_id: userDetail?.id,
-        nickName: userDetail?.nickName,
-        review_id: inreview?.id,
-      })
-      .then((res: any) => {
-        getComment(res.data?.review_id);
-        console.log(res.data);
-        form2.resetFields();
-      });
+    if (user !== undefined && userDetail?.id !== undefined) {
+      await baseURL
+        .post(`/comment`, {
+          ...e,
+          user_id: userDetail?.id,
+          nickName: userDetail?.nickName,
+          review_id: inreview?.id,
+        })
+        .then((res: any) => {
+          getComment(res.data?.review_id);
+          console.log(res.data);
+          form2.resetFields();
+        });
+    } else {
+      openNotification();
+    }
   };
 
   const getComment = async (id: string) => {
@@ -151,19 +201,23 @@ const Review = () => {
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col span={6}>
-              <Form.Item name="3" label="ปี">
+              <Form.Item name="semester" label="ปี">
                 <Input placeholder="ปี" />
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="4" label="เรียงตาม" initialValue="all">
+              <Form.Item
+                name="orderBy"
+                label="เรียงตาม"
+                initialValue="created_at"
+              >
                 <Select>
-                  <Select.Option value="all">ทั้งหมด</Select.Option>
-                  <Select.Option value="like">ยอดไลก์</Select.Option>
-                  <Select.Option value="review">ยอดวิว</Select.Option>
+                  <Select.Option value="created_at">ทั้งหมด</Select.Option>
+                  <Select.Option value="like_post">ยอดไลก์</Select.Option>
+                  <Select.Option value="view_post">ยอดวิว</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -223,7 +277,9 @@ const Review = () => {
                 <div className=" border-b-2 pb-3 mb-2 mt-4">
                   โดย : {item?.nickName}
                 </div>
+                
                 <div className="justify-between flex">
+                  <div>
                   <Button
                     className=" text-[black] bg-[#FED584] "
                     onClick={async (e) => {
@@ -231,16 +287,37 @@ const Review = () => {
                       console.log("item", item);
                       showModal2();
                       getComment(item?.id);
+                      getReviewCourse();
+                      // setView(item?.view_post);
+                      // onViewCilck(item);
                     }}
                   >
                     {"ดูรีวิวนี้"}
                   </Button>
+                  <Tooltip title="Double click!!">
                   <Button
-                    className=" text-[black] bg-[#FED584]   "
-                    onClick={showModal}
+                    className=" text-[black] bg-[#FED584] "
+                    onClick={() => {
+                      // setLike(item?.like_post+1);
+                      // getReviewCourse();
+                      console.log("item?.like_post", item?.like_post);
+                      // likeC();
+                      // onLikeCilck(item);
+                      getReviewCourse();
+                    }}
                   >
-                    {"รายงาน"}
+                    {"ถูกใจ"}
                   </Button>
+                  </Tooltip>
+                  </div>
+                  <div>
+                    <span className="mr-4">
+                      <LikeOutlined /> {item?.like_post}
+                    </span>
+                    <span className="mr-4">
+                      <EyeOutlined /> {item?.view_post}
+                    </span>
+                  </div>
                 </div>
               </Card>
             ))}
@@ -254,9 +331,9 @@ const Review = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form name="report" onFinish={onFReport}>
+        <Form name="report" form={form3} onFinish={onFReport}>
           <Form.Item name="reports_detail">
-            <Checkbox.Group style={{ width: "100%" }} onChange={onChange}>
+            <Checkbox.Group style={{ width: "100%" }}>
               <Row gutter={[12, 12]}>
                 <Col span={24}>
                   <Checkbox value="ใช้ถ้อยคำหยาบคาย">ใช้ถ้อยคำหยาบคาย</Checkbox>
@@ -314,25 +391,38 @@ const Review = () => {
               </a>
             </div>
           </div>
-          <Paragraph
-            ellipsis={
-              ellipsis ? { rows: 5, expandable: true, symbol: "more" } : false
-            }
-          >
-            {parse(String(inreview?.review_detail))}
-          </Paragraph>
-          <div>{inreview?.satisfied_point}</div>
+          <Divider className="m-0" />
+          <div className="p-4">
+            <Paragraph
+              ellipsis={
+                ellipsis ? { rows: 5, expandable: true, symbol: "more" } : false
+              }
+            >
+              {parse(String(inreview?.review_detail))}
+            </Paragraph>
+          </div>
+          <Divider className="m-0" />
+          <div>เนื้อหาและความหน้าสนใจ :{inreview?.satisfied_point}/100</div>
+          <div>จำนวนงานและความเหมาะสม :{inreview?.appropriate_point}/100</div>
+          <div>อาจารย์ผู้สอน :{inreview?.teacher_point}/100</div>
           <div>เกรดที่ได้ : {inreview?.grade} </div>
           <div>
             ปีการศึกษา : {inreview?.semester} เทอม : {inreview?.term}
           </div>
+          <Divider className="mt-0" />
           <div className="flex">
-            <div>like:{inreview?.like_post}</div>
-            <div className="ml-4">view :{inreview?.view_post} </div>
+            <div>ถูกใจ:{inreview?.like_post}</div>
+            <div className="ml-4">ยอดวิว :{inreview?.view_post} </div>
           </div>
         </div>
-        <Button htmlType="submit" className="mb-5">
-          Like
+        <Button
+          onClick={() => {
+            onLikeCilck(inreview?.like_post);
+            getReviewCourse();
+          }}
+          className="mb-5"
+        >
+          ถูกใจ
         </Button>
         {comment?.map((item: any, index: any) => (
           <div>

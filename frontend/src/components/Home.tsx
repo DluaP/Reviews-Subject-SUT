@@ -7,7 +7,6 @@ import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
-import { fireNotification } from "./notification";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -34,27 +33,33 @@ const HomePage = () => {
     });
   };
 
-  const fetchData = () => {
-    baseURL.get("/course").then((res) => {
-      setDataCourse(res.data);
-    });
-  };
-  const onFinish = (e: any) => {
-    console.log(e);
+  const onSearch = (e: any) => {
+    if (!e.course_id && !e.course_name) {
+      getData();
+    } else {
+      console.log("e",e)
+      baseURL
+        .get(
+          `/course?course_id=${e.course_id}&course_name=${e.course_name}`
+        )
+        .then((res) => {
+          setDataCourse(res.data);
+        });
+    }
   };
 
   return (
     <div className="w-[100%]  ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col span={6}>
-              <Form.Item name="1" label="ชื่อวิชา">
+              <Form.Item name="course_id" label="ชื่อวิชา">
                 <Input placeholder="ชื่อวิชา" />
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="2" label="รหัสวิชา">
+              <Form.Item name="course_name" label="รหัสวิชา">
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
@@ -72,6 +77,7 @@ const HomePage = () => {
                 className="w-[100%] top-7 "
                 onClick={() => {
                   form.resetFields();
+                  getData();
                 }}
               >
                 ล้างข้อมูล

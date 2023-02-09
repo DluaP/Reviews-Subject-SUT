@@ -26,6 +26,7 @@ export const baseURL = axios.create({
 const Login = () => {
   const navigate = useNavigate();
   const { findByToken } = useUser();
+  const { user, setUser, userDetail, setUserDetail } = useUser();
 
   const signin = (data: any) => {
     baseURL.post("/auth/login", data).then((e: any) => {
@@ -63,6 +64,8 @@ const Login = () => {
   };
 
   useEffect(() => {
+    console.log("userDetail?.status",userDetail?.status)
+    console.log("user",user)
     test();
     
   }, []);

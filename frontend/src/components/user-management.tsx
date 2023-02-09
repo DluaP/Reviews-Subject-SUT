@@ -50,9 +50,24 @@ const UserManagement = () => {
         'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
     });
   };
+
+  const openNotification2 = () => {
+    notification.open({
+      message: 'คุณไม่ใช่Admin!!!',
+      description:
+        'โปรดเข้าสู่ระบบใหม่',
+    });
+  };
   
   const session = () => {
-    if(user !== undefined && userDetail?.status !== "admin"){
+    if(user !== undefined && userDetail?.id !== undefined){
+      if( String(userDetail?.status) !== "admin"){
+        console.log("userDetail?.status",userDetail?.status)
+        navigate("/login");
+        openNotification2();
+      } 
+      else{
+      }
     }else{
       navigate("/login");
       openNotification();

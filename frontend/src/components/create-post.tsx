@@ -38,7 +38,7 @@ const CreatePost = () => {
   };
   
   const session = () => {
-    if(user !== undefined){
+    if(user !== undefined && userDetail?.id !== undefined){
     }else{
       navigate("/login");
       openNotification();
@@ -99,10 +99,10 @@ const CreatePost = () => {
     <div>
       <div className=" w-[100%] ">
         <div className="px-[40vh] pt-[50px] pb-10 !content-center">
-          <Form onFinish={onFinish} name="reviews">
+          <Form onFinish={onFinish} layout="vertical" name="reviews">
             <Row gutter={[12, 12]}>
               <Col span={21}>
-                <Form.Item name="course">
+                <Form.Item name="course" >
                   <Select
                     showSearch
                     placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"
@@ -110,6 +110,7 @@ const CreatePost = () => {
                     onChange={onChange}
                     onSearch={onSearch}
                     options={options}
+                    
                   />
                 </Form.Item>
               </Col>
@@ -120,13 +121,14 @@ const CreatePost = () => {
               </Col>
 
               <Col span={24}>
-                <Form.Item name="review_detail">
+                <Form.Item name="review_detail" label="เขียนรีวิว" tooltip="ตัวอักษรไม่เกิน 255 ตัวอักษร">
                 <ReactQuill
                 theme="snow"
                 value={value}
                 onChange={setValue}
                 className="h-[300px] pb-8"
                 placeholder={"รีวิวเลย!!"}
+                
               />
                 </Form.Item>
               </Col>
@@ -142,11 +144,11 @@ const CreatePost = () => {
               <Col span={8}>
                 <Form.Item name="satisfied_point">
                   <Radio.Group className="pl-6">
-                    <Radio value="a1">1</Radio>
-                    <Radio value="a2">2</Radio>
-                    <Radio value="a3">3</Radio>
-                    <Radio value="a4">4</Radio>
-                    <Radio value="a5">5</Radio>
+                  <Radio value="0">1</Radio>
+                    <Radio value="25">2</Radio>
+                    <Radio value="50">3</Radio>
+                    <Radio value="75">4</Radio>
+                    <Radio value="100">5</Radio>
                   </Radio.Group>
                 </Form.Item>
               </Col>
@@ -156,11 +158,11 @@ const CreatePost = () => {
               <Col span={8}>
                 <Form.Item name="appropriate_point">
                   <Radio.Group className="pl-6">
-                    <Radio value="b1">1</Radio>
-                    <Radio value="b2">2</Radio>
-                    <Radio value="b3">3</Radio>
-                    <Radio value="b4">4</Radio>
-                    <Radio value="b5">5</Radio>
+                  <Radio value="0">1</Radio>
+                    <Radio value="25">2</Radio>
+                    <Radio value="50">3</Radio>
+                    <Radio value="75">4</Radio>
+                    <Radio value="100">5</Radio>
                   </Radio.Group>
                 </Form.Item>
               </Col>
@@ -170,11 +172,11 @@ const CreatePost = () => {
               <Col span={8}>
                 <Form.Item name="teacher_point">
                   <Radio.Group className="pl-6">
-                    <Radio value="c1">1</Radio>
-                    <Radio value="c2">2</Radio>
-                    <Radio value="c3">3</Radio>
-                    <Radio value="c4">4</Radio>
-                    <Radio value="c5">5</Radio>
+                    <Radio value="0">1</Radio>
+                    <Radio value="25">2</Radio>
+                    <Radio value="50">3</Radio>
+                    <Radio value="75">4</Radio>
+                    <Radio value="100">5</Radio>
                   </Radio.Group>
                 </Form.Item>
               </Col>
@@ -182,27 +184,27 @@ const CreatePost = () => {
               <Col span={24}>
                 <Form.Item name="grade" label="เกรดที่ได้">
                   <Select placeholder="Please select favourite colors">
-                    <Select.Option value="80">A</Select.Option>
-                    <Select.Option value="75">B+</Select.Option>
-                    <Select.Option value="70">B</Select.Option>
-                    <Select.Option value="65">C+</Select.Option>
-                    <Select.Option value="60">C</Select.Option>
-                    <Select.Option value="50">F</Select.Option>
-                    <Select.Option value="0">ไม่ระบุ</Select.Option>
+                    <Select.Option value="A">A</Select.Option>
+                    <Select.Option value="B+">B+</Select.Option>
+                    <Select.Option value="B">B</Select.Option>
+                    <Select.Option value="C+">C+</Select.Option>
+                    <Select.Option value="C">C</Select.Option>
+                    <Select.Option value="F">F</Select.Option>
+                    <Select.Option value="ไม่ระบุ">ไม่ระบุ</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item name="semester" label="ปีการศึกษา">
-                  <Input placeholder="ปีการศึกษา" />
+                  <Input placeholder="ปีการศึกษา" maxLength={255} />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item name="term" label="เทอม">
                   <Radio.Group>
-                    <Radio value="t1">1</Radio>
-                    <Radio value="t2">2</Radio>
-                    <Radio value="t3">3</Radio>
+                    <Radio value="1">1</Radio>
+                    <Radio value="2">2</Radio>
+                    <Radio value="3">3</Radio>
                   </Radio.Group>
                 </Form.Item>
               </Col>

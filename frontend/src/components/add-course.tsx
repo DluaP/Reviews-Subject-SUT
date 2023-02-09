@@ -29,6 +29,7 @@ const AddCourse = () => {
   const [dataCourse, setDataCourse] = useState([]);
   const navigate = useNavigate();
   const { user, setUser, userDetail, setUserDetail } = useUser();
+  const [form] = Form.useForm();
 
   const openNotification = () => {
     notification.open({
@@ -50,6 +51,21 @@ const AddCourse = () => {
     session()
   }, []);
 
+
+  const onSearch = (e: any) => {
+    if (!e.course_id && !e.course_name) {
+      getData();
+    } else {
+      console.log("e",e)
+      baseURL
+        .get(
+          `/course?course_id=${e.course_id}&course_name=${e.course_name}`
+        )
+        .then((res) => {
+          setDataCourse(res.data);
+        });
+    }
+  };
   const onFinish = (element: any) => {
     console.log(element);
     baseURL.post("/course", element).then((e: any) => {
@@ -120,7 +136,8 @@ const AddCourse = () => {
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form layout="vertical" onFinish={onFinish}>
+    
+        <Form layout="vertical" name="addCourse"onFinish={onFinish}>
           <Row
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
@@ -151,6 +168,40 @@ const AddCourse = () => {
           </Row>
         </Form>
 
+        <Form form={form} layout="vertical" onFinish={onSearch}>
+          <Row gutter={[12, 6]}>
+            <Col span={5}>
+              <Form.Item name="course_id" label="ชื่อผู้ใช้">
+                <Input placeholder="ขื่อผู้ใช้" />
+              </Form.Item>
+            </Col>
+            <Col span={5}>
+              <Form.Item name="course_name" label="ชื่อ">
+                <Input placeholder="ขื่อ" />
+              </Form.Item>
+            </Col>
+           
+            <Col span={2}>
+              <Button
+                htmlType="submit"
+                className="w-[100%] text-[white] bg-[#45B072] top-7"
+              >
+                ค้นหา
+              </Button>
+            </Col>
+            <Col span={2}>
+              <Button
+                className="w-[100%] top-7 "
+                onClick={() => {
+                  form.resetFields();
+                  getData();
+                }}
+              >
+                ล้างข้อมูล
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         <div>
           <div className="py-4 text-left" >จัดการวิชา</div>
           <Table dataSource={dataCourse} columns={columns} pagination={false} />

@@ -13,6 +13,7 @@ import {
     Tag,
     Typography,
     notification,
+    Popconfirm,
   } from "antd";
   import form from "antd/es/form";
   import { Col } from "antd/es/grid";
@@ -27,13 +28,13 @@ import {
 import { useUser } from "./context/user";
 
   export interface IreportManagement {
-    id: number;
-    report_id : number;
-    post_id: string;
-    student_id: string;
-    report_detail: string;
-    create_date: string;
-    update_date: string;
+    id:number;
+    user_id:string;
+    nickName:string;
+    review_id:string;
+    report_detail:string;
+    created_at: Date;
+    updated_at: Date;
 
   }
 
@@ -53,9 +54,24 @@ import { useUser } from "./context/user";
         'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
     });
   };
+
+  const openNotification2 = () => {
+    notification.open({
+      message: 'คุณไม่ใช่Admin!!!',
+      description:
+        'โปรดเข้าสู่ระบบใหม่',
+    });
+  };
   
   const session = () => {
-    if(user !== undefined && userDetail?.status !== "admin"){
+    if(user !== undefined && userDetail?.id !== undefined){
+      if( String(userDetail?.status) !== "admin"){
+        console.log("userDetail?.status",userDetail?.status)
+        navigate("/login");
+        openNotification2();
+      } 
+      else{
+      }
     }else{
       navigate("/login");
       openNotification();
@@ -65,93 +81,91 @@ import { useUser } from "./context/user";
     session()
   }, []);
 
-    const onFinish = (e: any) => {
-      console.log(e);
-    };
+  const onSearch = (e: any) => {
+    if (!e.review_id) {
+      getData();
+    } else {
+      baseURL
+        .get(
+          `/report?review_id=${e.review_id}`
+        )
+        .then((res) => {
+          setDatas(res.data);
+        });
+    }
+  };
 
     
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  //ttt
-  const onClose = () => {
-    setOpen(false);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+    const getData = () => {
+      baseURL.get("/report").then((e: any) => {
+        setDatas(e.data);
+      });
+    };
+  
+    useEffect(() => {
+      getData();
+    }, []);
+  
+    const fetchData = () => {
+      baseURL.get("/report").then((res) => {
+        setDatas(res.data);
+      });
+    };
+    const handleDelete = (id: any) => {
+      baseURL.delete(`/report/${id}`).then((res) => {
+        fetchData();
+        console.log("1111");
+      });
+      getData();
+    };
+  
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
 
-
-
-const dataSource = [
+  const columns: ColumnsType<IreportManagement> = [
     {
-      key: "1",
-      post_id: "202324-024",
-      report_id: "คำหยาบ,พาดพิง",
-      nickname: "ฟาร์มคนน่ารัก",
-    },
-  ];
-
-  const columns = [
-    {
-      title: "โพสต์รีวิว",
-      dataIndex: "post_id",
-      key: "post_id",
+      title: "โพสต์รีวิว Id",
+      dataIndex: "review_id",
+      key: "review_id",
     },
     {
       title: "การรายงาน",
-      dataIndex: "report_id",
-      key: "report_id",
+      dataIndex: "report_detail",
+      key: "report_detail",
     },
     {
       title: "จัดการ",
-      dataIndex: "manage",
-      key: "manage",
-      render: () => {
-        return (
-          <span>
-            <Space size="middle">
-              <Typography.Link>
-                <DeleteOutlined />
-              </Typography.Link>
-              <Typography.Link>
-                <FormOutlined />
-              </Typography.Link>
-            </Space>
-          </span>
-        );
-      },
+      // dataIndex: "manage",
+      render: (_, record) =>
+        data1.length >= 1 ? (
+          <Space size="middle" key={record?.id}>
+            <Popconfirm
+              key={record?.id}
+              title="ยืนยันการลบ ?"
+              cancelText="ยกเลิก"
+              okText="ยืนยัน"
+              okType="default"
+              onConfirm={() => {
+                handleDelete(record.id)
+                // console.log("de;ete", record.id);
+              }}
+            >
+              <DeleteOutlined />
+            </Popconfirm>
+          </Space>
+        ) : null,
     },
   ];
 
 return (
     <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col span={6}>
-              <Form.Item name="username" label="ชื่อผู้ใช้">
-                <Input placeholder="ขื่อผู้ใช้" />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item name="name" label="ชื่อ-สกุล">
-                <Input placeholder="ขื่อ-สกุล" />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item name="nickname" label="ชื่อเล่น">
-                <Input placeholder="ขื่อเล่น" />
+              <Form.Item name="review_id" label="โพสต์รีวิว Id">
+                <Input placeholder="โพสต์รีวิว Id" />
               </Form.Item>
             </Col>
             <Col span={3}>
@@ -167,6 +181,7 @@ return (
                 className="w-[100%] top-7 "
                 onClick={() => {
                   form.resetFields();
+                  getData();
                 }}
               >
                 ล้างข้อมูล
@@ -177,7 +192,7 @@ return (
         <div className="text-left text-2xl">
           รายงานรีวิว <br />
         </div>
-        <Table dataSource={dataSource} columns={columns} />;
+        <Table dataSource={data1} columns={columns} />
       </div>
 
       

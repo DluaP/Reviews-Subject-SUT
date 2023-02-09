@@ -52,8 +52,22 @@ const ReviewsManagement = () => {
     });
   };
   
+  const openNotification2 = () => {
+    notification.open({
+      message: 'คุณไม่ใช่Admin!!!',
+      description:
+        'โปรดเข้าสู่ระบบใหม่',
+    });
+  };
   const session = () => {
-    if(user !== undefined && userDetail?.status !== "admin"){
+    if(user !== undefined && userDetail?.id !== undefined){
+      if( String(userDetail?.status) !== "admin"){
+        console.log("userDetail?.status",userDetail?.status)
+        navigate("/login");
+        openNotification2();
+      } 
+      else{
+      }
     }else{
       navigate("/login");
       openNotification();
@@ -62,7 +76,21 @@ const ReviewsManagement = () => {
   useEffect(() => {
     session()
   }, []);
-  const onSearch = (e: any) => {};
+  const onSearch = (e: any) => {
+    if (!e.id ) {
+      getData();
+    } else {
+      console.log("e",e)
+      baseURL
+        .get(
+          `/course?id=${e.id}`
+        )
+        .then((res) => {
+          setDatas(res.data);
+        });
+    }
+  };
+
 
   const getData = () => {
     baseURL.get("/reviews").then((e: any) => {
@@ -146,26 +174,11 @@ const ReviewsManagement = () => {
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
-        <Form name="s" layout="vertical" form={form} onFinish={onSearch}>
+        <Form name="Search" layout="vertical" form={form} onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col span={5}>
-              <Form.Item name="username" label="ชื่อผู้ใช้">
-                <Input placeholder="ขื่อผู้ใช้" />
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Form.Item name="firstName" label="ชื่อ">
-                <Input placeholder="ขื่อ" />
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Form.Item name="lastName" label="นามสกุล">
-                <Input placeholder="นามสกุล" />
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Form.Item name="nickName" label="ชื่อเล่น">
-                <Input placeholder="ขื่อเล่น" />
+              <Form.Item name="id" label="Id">
+                <Input placeholder="Id" />
               </Form.Item>
             </Col>
             <Col span={2}>

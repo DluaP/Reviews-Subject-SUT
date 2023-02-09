@@ -37,7 +37,7 @@ const Profile = () => {
   };
   
   const session = () => {
-    if(user !== undefined){
+    if(user !== undefined && userDetail?.id !== undefined){
     }else{
       navigate("/login");
       openNotification();
