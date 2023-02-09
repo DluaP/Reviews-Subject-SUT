@@ -1,4 +1,4 @@
-import { Affix, Button, Divider, Drawer, Form, Input, Row, Select ,notification} from "antd";
+import { Affix, Button, Divider, Drawer, Form, Input, Row, Select ,notification, Grid} from "antd";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { useUser } from "./context/user";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  // const { xs, lg, xl } = Grid.useBreakpoint();
   const [form] = Form.useForm();
   const [dataCourse, setDataCourse] = useState([]);
   const { setCouresId } = useReview();
@@ -50,31 +51,34 @@ const HomePage = () => {
 
   return (
     <div className="w-[100%]  ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
-            <Col span={6}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="course_id" label="ชื่อวิชา">
                 <Input placeholder="ชื่อวิชา" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="course_name" label="รหัสวิชา">
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
 
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
                 htmlType="submit"
-                className="w-[100%] text-[white] bg-[#46B072] top-7"
+                className="w-[100%] text-[white] bg-[#46B072] "
               >
                 ค้นหา
               </Button>
+              </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
-                className="w-[100%] top-7 "
+                className="w-[100%] "
                 onClick={() => {
                   form.resetFields();
                   getData();
@@ -82,32 +86,35 @@ const HomePage = () => {
               >
                 ล้างข้อมูล
               </Button>
+              </Form.Item>
             </Col>
 
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
-                className="w-[100%] bg-[#FECC73] top-7"
+                className="w-[100%] bg-[#FECC73] "
                 onClick={() => {
                   {user !== undefined ? (navigate("/create-post")):(openNotification())}
                   }}
               >
                 เขียนรีวิว
               </Button>
+              </Form.Item>
             </Col>
             <Col span={17}></Col>
           </Row>
         </Form>
 
-        <Row gutter={[20, 20]} className="">
+        <Row gutter={[20, 20]} className="pt-4">
           {dataCourse?.map((item: any, index: any) => (
-            <Col span={8} >
+            <Col xs={24} md={12} lg={8}>
               <a
                 onClick={() => {
                   navigate("/review");
                   setCouresId(item?.id);
                 }}
               >
-                <div className="bg-[#F9ECCE] p-10 rounded-md !h-[110px]">
+                <div className="bg-[#F9ECCE] items-center py-10 rounded-md !h-[110px]">
                   {item?.course_id} {item?.course_name}
                 </div>
               </a>

@@ -131,7 +131,7 @@ const Login = () => {
                   <Input placeholder="ชื่อผู้ใช้" />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12} >
                 <Form.Item
                   name="firstName"
                   label="ชื่อ"
@@ -144,7 +144,7 @@ const Login = () => {
                   <Input placeholder="ชื่อ" />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12} >
                 <Form.Item
                   name="lastName"
                   label="นามสกุล"
@@ -157,7 +157,7 @@ const Login = () => {
                   <Input placeholder="นามสกุล" />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12} >
                 <Form.Item
                   name="nickName"
                   label="ชื่อเล่น"
@@ -170,7 +170,7 @@ const Login = () => {
                   <Input placeholder="ชื่อเล่น" />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12} >
                 <Form.Item
                   name="status"
                   label="สถานะ"
@@ -229,7 +229,7 @@ const Login = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="mx-[50vh]   !content-center border-2 border-[#F9ECCE] rounded-lg">
+<div className=" lg:mx-[30vh] md:mx-[10vh]  sm:mx-[5vh] mx-[20px] pt-[50px] !content-center border-2 border-[#F9ECCE] rounded-lg ">
         <Tabs
           defaultActiveKey="1"
           items={items}

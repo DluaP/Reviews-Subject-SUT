@@ -8,8 +8,8 @@ import {
   Popconfirm,
   Row,
   Select,
-  Typography,notification
-
+  Typography,
+  notification,
 } from "antd";
 import form from "antd/es/form";
 import { Col } from "antd/es/grid";
@@ -22,30 +22,28 @@ import { useReview } from "./context/review";
 import parse from "html-react-parser";
 
 const Profile = () => {
-  
   const navigate = useNavigate();
   const { user, setUser, userDetail, setUserDetail } = useUser();
   const { setEditReview } = useReview();
   const [form] = Form.useForm();
-  const [review, setReview ] = useState<any[]>([]);
+  const [review, setReview] = useState<any[]>([]);
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   const session = () => {
-    if(user !== undefined && userDetail?.id !== undefined){
-    }else{
+    if (user !== undefined && userDetail?.id !== undefined) {
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
     getReviewUserId();
-    session()
+    session();
   }, []);
   const getReviewUserId = () => {
     baseURL.get(`/reviews?user_id=${userDetail?.id}`).then((res) => {
@@ -62,18 +60,34 @@ const Profile = () => {
   };
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Row gutter={[12, 12]}>
-          <Col span={8}>
+          <Col xs={24} md={24} lg={8}>
             <div className="border-2 border-[#F9ECCE] rounded-lg">
               <Row gutter={[12, 12]} className="p-6">
                 <Col span={24}>
-                  <Image
-                    src="./images/test-men.jpg"
-                    preview={false}
-                    style={{ width: "100px", height: "100px" }}
-                    className="rounded-full text-center"
-                  />
+                  {userDetail?.status === "admin" ? (
+                    <Image
+                      src="./images/Admin.png"
+                      preview={false}
+                      style={{ width: "100px", height: "100px" }}
+                      className="rounded-full text-center"
+                    />
+                  ) : userDetail?.status === "teacher" ? (
+                    <Image
+                      src="./images/Teacher.png"
+                      preview={false}
+                      style={{ width: "100px", height: "100px" }}
+                      className="rounded-full text-center"
+                    />
+                  ) : (
+                    <Image
+                      src="./images/Student.png"
+                      preview={false}
+                      style={{ width: "100px", height: "100px" }}
+                      className="rounded-full text-center"
+                    />
+                  )}
                 </Col>
                 <Col span={24}>{userDetail?.nickName}</Col>
                 <div className=" text-left">
@@ -88,7 +102,7 @@ const Profile = () => {
             </div>
           </Col>
           {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
-          <Col span={16}>
+          <Col  xs={24} md={24} lg={16}>
             <div className=" text-left border-2 p-4 border-[#F9ECCE] rounded-lg">
               {review.length > 0 ? (
                 <>
@@ -98,11 +112,11 @@ const Profile = () => {
                       <div>{parse(item?.review_detail)}</div>
                       <Divider className="m-1" />
                       <Row>
-                        <Col span={3}>
+                        <Col  xs={7} md={5} lg={3}>
                           <Button
                             className="w-[100%] "
                             onClick={() => {
-                              setEditReview(item)
+                              setEditReview(item);
                               navigate("/edit-post");
                             }}
                           >
@@ -110,7 +124,7 @@ const Profile = () => {
                           </Button>
                         </Col>
 
-                        <Col span={3}>
+                        <Col xs={7} md={5} lg={3} className="ml-2">
                           <Popconfirm
                             key={item?.id}
                             title="ยืนยันการลบ ?"

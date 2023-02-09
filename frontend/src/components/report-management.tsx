@@ -160,25 +160,28 @@ import { useUser } from "./context/user";
 
 return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onSearch}>
-          <Row gutter={[12, 6]}>
-            <Col span={6}>
+          <Row gutter={[12, 6]} className="pb-4">
+          <Col xs={24} md={12} lg={6}>
               <Form.Item name="review_id" label="โพสต์รีวิว Id">
                 <Input placeholder="โพสต์รีวิว Id" />
               </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
                 htmlType="submit"
-                className="w-[100%] text-[white] bg-[#46B072] top-7"
+                className="w-[100%] text-[white] bg-[#46B072] "
               >
                 ค้นหา
               </Button>
+              </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
-                className="w-[100%] top-7 "
+                className="w-[100%]  "
                 onClick={() => {
                   form.resetFields();
                   getData();
@@ -186,6 +189,7 @@ return (
               >
                 ล้างข้อมูล
               </Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

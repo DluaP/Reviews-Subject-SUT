@@ -85,6 +85,7 @@ const EditPost = () => {
   };
 
   courseReviwe?.map((item: any) => {
+    <div key={item?.id}></div>;
     options.push({
       value: `${item?.course_id} ${item?.course_name}`,
       label: `${item?.course_id} ${item?.course_name}`,
@@ -94,10 +95,10 @@ const EditPost = () => {
   return (
     <div>
       <div className=" w-[100%] ">
-        <div className="px-[40vh] pt-[50px] pb-10 !content-center">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
           <Form onFinish={onFinish} form={form} name="reviews">
             <Row gutter={[12, 12]}>
-              <Col span={21}>
+            <Col xs={18} md={20} lg={21}>
                 <Form.Item name="course" initialValue={editReview?.course_name}>
                   <Select
                     showSearch
@@ -110,7 +111,7 @@ const EditPost = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3}>
+              <Col xs={6} md={4} lg={3}>
                 <Button className="w-[100%]" onClick={() => navigate("/profile")}>
                   ย้อนกลับ
                 </Button>
@@ -128,53 +129,52 @@ const EditPost = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={12}>ความพึงพอใจในวิชา</Col>
-              <Col span={4}></Col>
+              <Col xs={24} md={24} lg={24}>
+                ความพึงพอใจในวิชา
+              </Col>
+
+              <Col xs={1} md={1} lg={1}></Col>
+              <Col xs={24} md={24} lg={13}>เนื้อหาและความหน้าสนใจ</Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Col span={3}></Col>
-              <Col span={3}>พอใจมาก</Col>
+              <Form.Item name="satisfied_point">
+                <Radio.Group className="">
+                  <Radio value="0">1</Radio>
+                  <Radio value="25">2</Radio>
+                  <Radio value="50">3</Radio>
+                  <Radio value="75">4</Radio>
+                  <Radio value="100">5</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Col span={2}>พอใจมาก</Col>
 
-              <Col span={1}></Col>
-              <Col span={15}>เนื้อหาและความหน้าสนใจ</Col>
-              <Col span={8}>
-                <Form.Item name="satisfied_point">
-                  <Radio.Group className="pl-6">
-                    <Radio value="a1">1</Radio>
-                    <Radio value="a2">2</Radio>
-                    <Radio value="a3">3</Radio>
-                    <Radio value="a4">4</Radio>
-                    <Radio value="a5">5</Radio>
-                  </Radio.Group>
-                </Form.Item>
-              </Col>
+              <Col xs={1} md={1} lg={1}></Col>
+              <Col xs={24} md={24} lg={13}>จำนวนงานและความเหมาะสม</Col>
+              <Col span={2}>ไม่พอใจ</Col>
+              <Form.Item name="appropriate_point">
+                <Radio.Group className="">
+                  <Radio value="0">1</Radio>
+                  <Radio value="25">2</Radio>
+                  <Radio value="50">3</Radio>
+                  <Radio value="75">4</Radio>
+                  <Radio value="100">5</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Col span={2}>พอใจมาก</Col>
 
-              <Col span={1}></Col>
-              <Col span={15}>จำนวนงานและความเหมาะสม</Col>
-              <Col span={8}>
-                <Form.Item name="appropriate_point">
-                  <Radio.Group className="pl-6">
-                    <Radio value="b1">1</Radio>
-                    <Radio value="b2">2</Radio>
-                    <Radio value="b3">3</Radio>
-                    <Radio value="b4">4</Radio>
-                    <Radio value="b5">5</Radio>
-                  </Radio.Group>
-                </Form.Item>
-              </Col>
-
-              <Col span={1}></Col>
-              <Col span={15}>อาจารย์ผู้สอน</Col>
-              <Col span={8}>
+              <Col xs={1} md={1} lg={1}></Col>
+              <Col xs={24} md={24} lg={13}>อาจารย์ผู้สอน</Col>
+              <Col span={2}>ไม่พอใจ</Col>
                 <Form.Item name="teacher_point">
-                  <Radio.Group className="pl-6">
-                    <Radio value="c1">1</Radio>
-                    <Radio value="c2">2</Radio>
-                    <Radio value="c3">3</Radio>
-                    <Radio value="c4">4</Radio>
-                    <Radio value="c5">5</Radio>
+                  <Radio.Group className="">
+                    <Radio value="0">1</Radio>
+                    <Radio value="25">2</Radio>
+                    <Radio value="50">3</Radio>
+                    <Radio value="75">4</Radio>
+                    <Radio value="100">5</Radio>
                   </Radio.Group>
                 </Form.Item>
-              </Col>
+                <Col span={2}>พอใจมาก</Col>
+
 
               <Col span={24}>
                 <Form.Item name="grade" label="เกรดที่ได้">
@@ -219,19 +219,14 @@ const EditPost = () => {
                 </p>
               </Col>
 
-              <Col span={10}></Col>
-              <Col span={4}>
-                {/* <Popconfirm
-                  title="คำเตือน!!!"
-                  description="เนื้อหาไม่มีคำหยาบคาย และ เนื้อหาไม่มีการพาดพิงถึงผู้อื่น"
-                  onConfirm={onFinish}
-                  onOpenChange={() => console.log("open change")}
-                ></Popconfirm>{" "} */}
+             
+              <Col xs={6} md={8} lg={10}></Col>
+              <Col xs={8} md={6} lg={4}>
                 <Button htmlType="submit" className="w-[100%]">
                   แก้ไข
                 </Button>
               </Col>
-              <Col span={10}></Col>
+              <Col xs={6} md={8} lg={10}></Col>
             </Row>
           </Form>
         </div>

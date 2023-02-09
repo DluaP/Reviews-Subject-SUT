@@ -40,7 +40,7 @@ const Review = () => {
   const [form3] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { courseId } = useReview();
-  const [review, setReview] = useState<any[]>([]);
+  const [review, setReview] = useState<any[] | any>([]);
   const [comment, setComment] = useState<any[]>([]);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [inreview, setInreviw] = useState<any>();
@@ -49,17 +49,19 @@ const Review = () => {
   const [commentId, setCommentId] = useState();
   const [like, setLike] = useState<number>();
   const [view, setView] = useState<number>();
+  let likeNumber = 0;
+  let viewNumber = 0;
   useEffect(() => {
     getReviewCourse();
   }, [courseId]);
 
   const onLikeCilck = async (e: any) => {
-    console.log("like_post", e?.like_post);
-    setLike(Number(e?.like_post) + 1);
-    console.log("like", Number(like));
-    
+    // console.log("like_post", e?.like_post);
+    // setLike(Number(e?.like_post) + 1);
+    // console.log("like", Number(like));
+
     await baseURL
-      .patch(`/reviews/${e?.id}`, { like_post: like })
+      .patch(`/reviews/${e?.id}`, { like_post: Number(e?.like_post) + 1 })
       .then((res: any) => {
         // localStorage.setItem("access-token", e.data.access_token);
         // setLike(Number(e?.like_post) + 1);
@@ -67,11 +69,12 @@ const Review = () => {
         console.log("tttt", res);
       });
   };
+
   const onViewCilck = async (e: any) => {
     console.log("setView", e?.setView);
     setLike(Number(e?.setView) + 1);
     console.log("view", Number(view));
-    
+
     await baseURL
       .patch(`/reviews/${e?.id}`, { view_post: view })
       .then((res: any) => {
@@ -81,19 +84,43 @@ const Review = () => {
         console.log("tttt", res);
       });
   };
-  const onSearch = (e: any) => {
-    // if (!e.semester && !e.orderBy ) {
-    //   getReviewCourse();
-    // } else {
-    //   console.log("e",e)
-    //   baseURL
-    //     .get(
-    //       `/review?semester=${e.semester}`
-    //     )
-    //     .then((res) => {
-    //       setReview(res.data);
-    //     });
-    // }
+  const onSearch = async (e: any) => {
+    console.log(e);
+    if (!e.semester && e.orderBy === "created_at") {
+      getReviewCourse();
+    } else if (e.semester && e.orderBy === "created_at") {
+      delete e.orderBy;
+      await baseURL
+        .get(`/reviews?course_id=${courseId}&semester=${Number(e.semester)}`)
+        .then((res) => {
+          console.log(res);
+          setReview(res.data);
+        });
+    } else if (e.orderBy === "like_post") {
+      delete e.orderBy;
+      await baseURL
+        .get(
+          `/reviews?course_id=${courseId}&semester=${Number(
+            e.semester
+          )}&like_post="DESC"`
+        )
+        .then((res) => {
+          console.log(res);
+          setReview(res.data);
+        });
+    } else if (e.orderBy === "view_post") {
+      delete e.orderBy;
+      await baseURL
+        .get(
+          `/reviews?course_id=${courseId}&semester=${Number(
+            e.semester
+          )}&view_post="DESC"`
+        )
+        .then((res) => {
+          console.log(res);
+          setReview(res.data);
+        });
+    } else getReviewCourse();
   };
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
@@ -200,19 +227,20 @@ const Review = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
-            <Col span={6}>
-              <Form.Item name="semester" label="ปี">
+            <Col xs={24} md={12} lg={6}>
+              <Form.Item name="semester" label="ปี" className="!m-0">
                 <Input placeholder="ปี" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item
                 name="orderBy"
                 label="เรียงตาม"
                 initialValue="created_at"
+                className="!m-0"
               >
                 <Select>
                   <Select.Option value="created_at">ทั้งหมด</Select.Option>
@@ -221,15 +249,18 @@ const Review = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3} >
+            <Form.Item  className="!m-0">
               <Button
                 htmlType="submit"
                 className="w-[100%] text-[white] bg-[#46B072] top-7"
               >
                 ค้นหา
               </Button>
+              </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item  className="!m-0">
               <Button
                 className="w-[100%] top-7 "
                 onClick={() => {
@@ -238,8 +269,10 @@ const Review = () => {
               >
                 ล้างข้อมูล
               </Button>
+              </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item  className="!mx-0 !mt-0 !mb-4">
               <Button
                 className="w-[100%] top-7 "
                 onClick={() => {
@@ -248,11 +281,12 @@ const Review = () => {
               >
                 ย้อนกลับ
               </Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>
         <Row gutter={[20, 20]} className="pt-6">
-          <Col span={24} className="text-left text-4xl">
+          <Col span={24} className="text-left text-4xl pt-6">
             {review[0]?.course_name}
           </Col>
         </Row>
@@ -262,6 +296,7 @@ const Review = () => {
           <div>
             {review?.map((item: any, index: any) => (
               <Card
+              key={item?.id}
                 style={{ width: "100%" }}
                 className="bg-[#F9ECCE] rounded-md !text-left mb-3"
               >
@@ -277,38 +312,46 @@ const Review = () => {
                 <div className=" border-b-2 pb-3 mb-2 mt-4">
                   โดย : {item?.nickName}
                 </div>
-                
+
                 <div className="justify-between flex">
                   <div>
-                  <Button
-                    className=" text-[black] bg-[#FED584] "
-                    onClick={async (e) => {
-                      await setInreviw(item);
-                      console.log("item", item);
-                      showModal2();
-                      getComment(item?.id);
-                      getReviewCourse();
-                      // setView(item?.view_post);
-                      // onViewCilck(item);
-                    }}
-                  >
-                    {"ดูรีวิวนี้"}
-                  </Button>
-                  <Tooltip title="Double click!!">
-                  <Button
-                    className=" text-[black] bg-[#FED584] "
-                    onClick={() => {
-                      // setLike(item?.like_post+1);
-                      // getReviewCourse();
-                      console.log("item?.like_post", item?.like_post);
-                      // likeC();
-                      // onLikeCilck(item);
-                      getReviewCourse();
-                    }}
-                  >
-                    {"ถูกใจ"}
-                  </Button>
-                  </Tooltip>
+                    <Button
+                      className=" text-[black] bg-[#FED584]"
+                      onClick={async (e) => {
+                        showModal2();
+                        getComment(item?.id);
+                        getReviewCourse();
+                        viewNumber = item?.view_post + 1;
+                        await baseURL
+                          .patch(`reviews/${item?.id}`, {
+                            view_post: viewNumber,
+                          })
+                          .then((res) => {
+                            console.log(res);
+                            setInreviw({ ...item, view_post: viewNumber });
+                            getReviewCourse();
+                          });
+                        // setView(item?.view_post);
+                        // onViewCilck(item);
+                      }}
+                    >
+                      {"ดูรีวิวนี้"}
+                    </Button>
+                    {/* <Tooltip title="Double click!!">
+                      <Button
+                        className=" text-[black] bg-[#FED584] "
+                        onClick={() => {
+                          // setLike(item?.like_post+1);
+                          // getReviewCourse();
+                          console.log("item?.like_post", item?.like_post);
+                          // likeC();
+                          // onLikeCilck(item);
+                          getReviewCourse();
+                        }}
+                      >
+                        {"ถูกใจ"}
+                      </Button>
+                    </Tooltip> */}
                   </div>
                   <div>
                     <span className="mr-4">
@@ -412,20 +455,27 @@ const Review = () => {
           <Divider className="mt-0" />
           <div className="flex">
             <div>ถูกใจ:{inreview?.like_post}</div>
-            <div className="ml-4">ยอดวิว :{inreview?.view_post} </div>
+            <div className="ml-4">ยอดวิว :{inreview?.view_post } </div>
           </div>
         </div>
         <Button
-          onClick={() => {
-            onLikeCilck(inreview?.like_post);
-            getReviewCourse();
+          onClick={async () => {
+            likeNumber = inreview?.like_post + 1;
+            baseURL
+              .patch(`reviews/${inreview?.id}`, {
+                like_post: likeNumber,
+              })
+              .then((res) => {
+                setInreviw({ ...inreview, like_post: likeNumber });
+                getReviewCourse();
+              });
           }}
           className="mb-5"
         >
           ถูกใจ
         </Button>
         {comment?.map((item: any, index: any) => (
-          <div>
+          <div key={item?.id}>
             <div className="flex justify-between">
               <div>{item?.nickName}</div>
               {String(userDetail?.id) === String(item?.user_id) ? (

@@ -9,7 +9,7 @@ import {
   Popconfirm,
   Card,
   Col,
-  notification
+  notification,
 } from "antd";
 
 import { useEffect, useState } from "react";
@@ -42,45 +42,41 @@ const UserManagement = () => {
   const [data1, setDatas] = useState([]);
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
-
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
 
   const openNotification2 = () => {
     notification.open({
-      message: 'คุณไม่ใช่Admin!!!',
-      description:
-        'โปรดเข้าสู่ระบบใหม่',
+      message: "คุณไม่ใช่Admin!!!",
+      description: "โปรดเข้าสู่ระบบใหม่",
     });
   };
-  
+
   const session = () => {
-    if(user !== undefined && userDetail?.id !== undefined){
-      if( String(userDetail?.status) !== "admin"){
-        console.log("userDetail?.status",userDetail?.status)
+    if (user !== undefined && userDetail?.id !== undefined) {
+      if (String(userDetail?.status) !== "admin") {
+        console.log("userDetail?.status", userDetail?.status);
         navigate("/login");
         openNotification2();
-      } 
-      else{
+      } else {
       }
-    }else{
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
-    session()
+    session();
   }, []);
   const onSearch = (e: any) => {
     if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
       getData();
     } else {
-      console.log("e",e)
+      console.log("e", e);
       baseURL
         .get(
           `/users?username=${e.username}&firstName=${e.firstName}&lastName=${e.lastName}&nickName=${e.nickName}`
@@ -192,47 +188,51 @@ const UserManagement = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form form={form} layout="vertical" onFinish={onSearch}>
-          <Row gutter={[12, 6]}>
-            <Col span={5}>
+          <Row gutter={[12, 6]} className="pb-4">
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="username" label="ชื่อผู้ใช้">
                 <Input placeholder="ขื่อผู้ใช้" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="firstName" label="ชื่อ">
                 <Input placeholder="ขื่อ" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="lastName" label="นามสกุล">
                 <Input placeholder="นามสกุล" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="nickName" label="ชื่อเล่น">
                 <Input placeholder="ขื่อเล่น" />
               </Form.Item>
             </Col>
-            <Col span={2}>
-              <Button
-                htmlType="submit"
-                className="w-[100%] text-[white] bg-[#45B072] top-7"
-              >
-                ค้นหา
-              </Button>
+            <Col xs={12} md={6} lg={3}>
+              <Form.Item className="!m-0">
+                <Button
+                  htmlType="submit"
+                  className="w-[100%] text-[white] bg-[#45B072] "
+                >
+                  ค้นหา
+                </Button>
+              </Form.Item>
             </Col>
-            <Col span={2}>
-              <Button
-                className="w-[100%] top-7 "
-                onClick={() => {
-                  form.resetFields();
-                  getData();
-                }}
-              >
-                ล้างข้อมูล
-              </Button>
+            <Col xs={12} md={6} lg={3}>
+              <Form.Item className="!m-0">
+                <Button
+                  className="w-[100%]  "
+                  onClick={() => {
+                    form.resetFields();
+                    getData();
+                  }}
+                >
+                  ล้างข้อมูล
+                </Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

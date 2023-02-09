@@ -25,30 +25,27 @@ const EditProfile = () => {
   const [form] = Form.useForm();
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
-
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   const session = () => {
-    if(user !== undefined && userDetail?.id !== undefined){
-    }else{
+    if (user !== undefined && userDetail?.id !== undefined) {
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
-
-    session()
+    session();
   }, []);
   const onFinish = (e: any) => {
     baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
       console.log("e", e);
-      setUserDetail(e)
+      setUserDetail(e);
     });
 
     console.log(e);
@@ -56,39 +53,53 @@ const EditProfile = () => {
   useEffect(() => {
     form.setFieldsValue({
       ...userDetail,
-    }); 
-    console.log("userDetail?.id",userDetail?.id)
+    });
+    console.log("userDetail?.id", userDetail?.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetail]);
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form layout="vertical" form={form} onFinish={onFinish}>
           <Row
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
           >
-            <Col span={12} className="p-4">
+            <Col  xs={24} md={24} lg={12} className="p-4">
               <div className="border-2 border-[#F9ECCE] rounded-lg text-left">
                 <Row gutter={[12, 0]} className="p-2">
                   <Col span={24}>
                     <div className="text-xl">จัดการโปรไฟล์</div>
                   </Col>
-                  <Col span={6}>
-                    <Image
-                      src="./images/test-men.jpg"
-                      preview={false}
-                      style={{ width: "100%" }}
-                      className="rounded-full text-center"
-                    />
-                    <Button className="w-[100%]">อัพโหลดรูปภาพ</Button>
-                  </Col> 
+                  <Col xs={24} md={24} lg={8} className="text-center pt-4">
+                    {userDetail?.status === "admin" ? (
+                      <Image
+                        src="./images/Admin.png"
+                        preview={false}
+                        style={{ width: "100px", height: "100px" }}
+                        className="rounded-full text-center"
+                      />
+                    ) : userDetail?.status === "teacher" ? (
+                      <Image
+                        src="./images/Teacher.png"
+                        preview={false}
+                        style={{ width: "100px", height: "100px" }}
+                        className="rounded-full text-center"
+                      />
+                    ) : (
+                      <Image
+                        src="./images/Student.png"
+                        preview={false}
+                        style={{ width: "100px", height: "100px" }}
+                        className="rounded-full text-center"
+                      />
+                    )}
+                  </Col>
                   <Form.Item name="id">
-                      <Input  hidden/>
-                    </Form.Item>
-                  <Col span={18}>
-                 
+                    <Input hidden />
+                  </Form.Item>
+                  <Col xs={24} md={24} lg={16}>
                     <Form.Item name="nickName" label="ชื่อเล่น">
                       <Input placeholder="ชื่อเล่น" />
                     </Form.Item>
@@ -110,8 +121,8 @@ const EditProfile = () => {
                     <Form.Item name="email" label="email">
                       <Input placeholder="email" />
                     </Form.Item>
-                    
-                    <Form.Item name="status" >
+
+                    <Form.Item name="status">
                       <Input hidden />
                     </Form.Item>
                   </Col>
@@ -119,7 +130,7 @@ const EditProfile = () => {
               </div>
             </Col>
             {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
-            <Col span={12} className="p-4">
+            <Col xs={24} md={24} lg={12} className="p-4">
               <div className="border-2 border-[#F9ECCE] rounded-lg text-left">
                 <Row gutter={[12, 0]} className="p-2">
                   <Col span={24}>
@@ -148,18 +159,18 @@ const EditProfile = () => {
                 </Row>
               </div>
             </Col>
-            <Col span={9}></Col>
-            <Col span={3}>
+            <Col xs={5} md={7} lg={9}></Col>
+            <Col xs={7} md={5} lg={3}>
               <Button htmlType="submit" className="w-[100%]">
                 บันทึก
               </Button>
             </Col>
-            <Col span={3}>
+            <Col xs={7} md={5} lg={3}>
               <Button className="w-[100%]" onClick={() => navigate("/")}>
                 Back
               </Button>
             </Col>
-            <Col span={9}></Col>
+            <Col xs={5} md={7} lg={9}></Col>
           </Row>
         </Form>
       </div>

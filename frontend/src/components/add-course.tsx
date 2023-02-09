@@ -135,7 +135,7 @@ const AddCourse = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-      <div className="px-[40vh] pt-[50px] pb-[100px] text-center justify-center ">
+      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
     
         <Form layout="vertical" name="addCourse"onFinish={onFinish}>
           <Row
@@ -156,7 +156,7 @@ const AddCourse = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24} className="justify-end text-right ">
-                  <Button htmlType="submit" className="w-[10%] mr-2">
+                  <Button htmlType="submit" className="  w-[10%] mr-2">
                     เพิ่ม
                   </Button>
                   <Button onClick={() => navigate("/")} className="w-[10%]">
@@ -170,28 +170,31 @@ const AddCourse = () => {
 
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
-            <Col span={5}>
+            <Col  xs={12} md={12} lg={6}>
               <Form.Item name="course_id" label="ชื่อผู้ใช้">
                 <Input placeholder="ขื่อผู้ใช้" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col xs={12} md={12} lg={6}>
               <Form.Item name="course_name" label="ชื่อ">
                 <Input placeholder="ขื่อ" />
               </Form.Item>
             </Col>
            
-            <Col span={2}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
                 htmlType="submit"
-                className="w-[100%] text-[white] bg-[#45B072] top-7"
+                className="w-[100%] text-[white] bg-[#45B072] "
               >
                 ค้นหา
               </Button>
+              </Form.Item>
             </Col>
-            <Col span={2}>
+            <Col xs={12} md={6} lg={3}>
+            <Form.Item className="!m-0" >
               <Button
-                className="w-[100%] top-7 "
+                className="!w-[100%] "
                 onClick={() => {
                   form.resetFields();
                   getData();
@@ -199,6 +202,7 @@ const AddCourse = () => {
               >
                 ล้างข้อมูล
               </Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>
