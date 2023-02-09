@@ -28,46 +28,48 @@ const Login = () => {
   const { findByToken } = useUser();
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
-  const signin = (data: any) => {
-    baseURL.post("/auth/login", data).then((e: any) => {
+  const signin = async (data: any) => {
+    await baseURL.post("/auth/login", data).then((e: any) => {
       setToken(e.data.access_token);
       findByToken(e.data.access_token);
       navigate("/", { replace: true });
-      // localStorage.setItem("access-token", e.data.access_token);
-      // console.log("setToken", setToken(e.data.access_token));
-      // console.log(e.data.access_token);
-    });
 
-    fireNotification({ type: "success" });
+      if (e.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
+      // localStorage.setItem("access-token", e.data.access_token);
+      
+    });
   };
 
-  const signup = (element: any) => {
+  const signup = async (element: any) => {
     if (element.confirm != element.password) {
       fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
     } else {
-      console.log(element);
-      baseURL.post("/users", element).then((e: any) => {
-        console.log(e);
+     
+      await baseURL.post("/users", element).then((e: any) => {
+        if (e.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
       });
-      fireNotification({ type: "success" });
+    
       window.location.reload();
     }
   };
   const onChange = (key: string) => {
-    console.log(key);
   };
 
   const test = () => {
     baseURL.get("/users").then((e: any) => {
-      console.log(e);
     });
   };
 
   useEffect(() => {
-    console.log("userDetail?.status",userDetail?.status)
-    console.log("user",user)
     test();
-    
   }, []);
 
   const items: TabsProps["items"] = [
@@ -101,7 +103,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input.Password placeholder="รหัสผ่าน"  />
+                  <Input.Password placeholder="รหัสผ่าน" />
                 </Form.Item>
               </Col>
             </Row>
@@ -131,7 +133,7 @@ const Login = () => {
                   <Input placeholder="ชื่อผู้ใช้" />
                 </Form.Item>
               </Col>
-              <Col xs={24} md={12} >
+              <Col xs={24} md={12}>
                 <Form.Item
                   name="firstName"
                   label="ชื่อ"
@@ -144,7 +146,7 @@ const Login = () => {
                   <Input placeholder="ชื่อ" />
                 </Form.Item>
               </Col>
-              <Col xs={24} md={12} >
+              <Col xs={24} md={12}>
                 <Form.Item
                   name="lastName"
                   label="นามสกุล"
@@ -157,7 +159,7 @@ const Login = () => {
                   <Input placeholder="นามสกุล" />
                 </Form.Item>
               </Col>
-              <Col xs={24} md={12} >
+              <Col xs={24} md={12}>
                 <Form.Item
                   name="nickName"
                   label="ชื่อเล่น"
@@ -170,7 +172,7 @@ const Login = () => {
                   <Input placeholder="ชื่อเล่น" />
                 </Form.Item>
               </Col>
-              <Col xs={24} md={12} >
+              <Col xs={24} md={12}>
                 <Form.Item
                   name="status"
                   label="สถานะ"
@@ -201,7 +203,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input.Password placeholder="รหัสผ่าน"  />
+                  <Input.Password placeholder="รหัสผ่าน" />
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -214,7 +216,7 @@ const Login = () => {
                     },
                   ]}
                 >
-                  <Input.Password placeholder="ยืนยัน รหัสผ่าน"  />
+                  <Input.Password placeholder="ยืนยัน รหัสผ่าน" />
                 </Form.Item>
               </Col>
             </Row>
@@ -229,7 +231,7 @@ const Login = () => {
 
   return (
     <div className="w-[100%] h-[100vh] ">
-<div className=" lg:mx-[30vh] md:mx-[10vh]  sm:mx-[5vh] mx-[20px] pt-[50px] !content-center border-2 border-[#F9ECCE] rounded-lg ">
+      <div className=" lg:mx-[30vh] md:mx-[10vh]  sm:mx-[5vh] mx-[20px] pt-[50px] !content-center border-2 border-[#F9ECCE] rounded-lg ">
         <Tabs
           defaultActiveKey="1"
           items={items}

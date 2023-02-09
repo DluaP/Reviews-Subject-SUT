@@ -17,6 +17,7 @@ import parse from "html-react-parser";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
 import { useNavigate } from "react-router-dom";
+import { fireNotification } from "./notification";
 
 export interface IreviewManagement {
   id: number;
@@ -43,63 +44,52 @@ const ReviewsManagement = () => {
   const navigate = useNavigate();
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
-
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   const openNotification2 = () => {
     notification.open({
-      message: 'คุณไม่ใช่Admin!!!',
-      description:
-        'โปรดเข้าสู่ระบบใหม่',
+      message: "คุณไม่ใช่Admin!!!",
+      description: "โปรดเข้าสู่ระบบใหม่",
     });
   };
   const session = () => {
-    if(user !== undefined && userDetail?.id !== undefined){
-      if( String(userDetail?.status) !== "admin"){
-        console.log("userDetail?.status",userDetail?.status)
+    if (user !== undefined && userDetail?.id !== undefined) {
+      if (String(userDetail?.status) !== "admin") {
         navigate("/login");
         openNotification2();
-      } 
-      else{
+      } else {
       }
-    }else{
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
-    session()
+    session();
   }, []);
-  const onSearch = (e: any) => {
-    if (!e.id ) {
+  const onSearch = async (e: any) => {
+    if (!e.id) {
       getData();
     } else {
-      console.log("e",e)
-      baseURL
-        .get(
-          `/course?id=${e.id}`
-        )
-        .then((res) => {
-          setDatas(res.data);
-        });
+      await baseURL.get(`/course?id=${e.id}`).then((res) => {
+        setDatas(res.data);
+      });
     }
   };
 
-
-  const getData = () => {
-    baseURL.get("/reviews").then((e: any) => {
+  const getData = async () => {
+    await baseURL.get("/reviews").then((e: any) => {
       setDatas(e.data);
     });
   };
 
-  const fetchData = () => {
-    baseURL.get("/reviews").then((res) => {
+  const fetchData = async () => {
+    await baseURL.get("/reviews").then((res) => {
       setDatas(res.data);
     });
   };
@@ -108,10 +98,14 @@ const ReviewsManagement = () => {
     getData();
   }, []);
 
-  const handleDelete = (id: any) => {
-    baseURL.delete(`/reviews/${id}`).then((res) => {
+  const handleDelete = async (id: any) => {
+    await baseURL.delete(`/reviews/${id}`).then((res) => {
       fetchData();
-      console.log("1111");
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
     });
     getData();
   };
@@ -161,7 +155,6 @@ const ReviewsManagement = () => {
               okType="default"
               onConfirm={() => {
                 handleDelete(record.id);
-                // console.log("de;ete", record.id);
               }}
             >
               <DeleteOutlined />
@@ -175,33 +168,33 @@ const ReviewsManagement = () => {
     <div className="w-[100%] h-[100vh] ">
       <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
         <Form name="Search" layout="vertical" form={form} onFinish={onSearch}>
-          <Row gutter={[12, 6] }className="pb-4">
-          <Col xs={24} md={12} lg={6}>
+          <Row gutter={[12, 6]} className="pb-4">
+            <Col xs={24} md={12} lg={6}>
               <Form.Item name="id" label="Id">
                 <Input placeholder="Id" />
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                htmlType="submit"
-                className="w-[100%] text-[white] bg-[#45B072]"
-              >
-                ค้นหา
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  htmlType="submit"
+                  className="w-[100%] text-[white] bg-[#45B072]"
+                >
+                  ค้นหา
+                </Button>
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                className="w-[100%] "
-                onClick={() => {
-                  form.resetFields();
-                  getData();
-                }}
-              >
-                ล้างข้อมูล
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  className="w-[100%] "
+                  onClick={() => {
+                    form.resetFields();
+                    getData();
+                  }}
+                >
+                  ล้างข้อมูล
+                </Button>
               </Form.Item>
             </Col>
           </Row>

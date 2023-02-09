@@ -11,7 +11,7 @@ import {
   Radio,
   Row,
   Select,
-  notification 
+  notification,
 } from "antd";
 import ReactQuill from "react-quill"; // ES6
 import { useEffect, useState } from "react";
@@ -31,27 +31,23 @@ const EditPost = () => {
   let options: any = [];
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
-
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   const session = () => {
-    if(user !== undefined && userDetail?.id !== undefined){
-    }else{
+    if (user !== undefined && userDetail?.id !== undefined) {
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
-
-    session()
+    session();
   }, []);
-
 
   useEffect(() => {
     fetchCourse();
@@ -61,20 +57,25 @@ const EditPost = () => {
   }, []);
 
   const onChange = (value: string) => {
-    console.log(`selected ${value}`);
+    
   };
 
   const onSearch = (value: string) => {
-    console.log("search:", value);
+    
   };
 
   const onFinish = async (e: any) => {
-    console.log(e);
+    
     delete e.course;
     await baseURL.patch(`/reviews/${editReview?.id}`, e).then((e: any) => {
       // localStorage.setItem("access-token", e.data.access_token);
-      console.log("tttt", e);
-      fireNotification({ type: "success" });
+      navigate("/profile");
+      if (e.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
+      
     });
   };
 
@@ -95,10 +96,10 @@ const EditPost = () => {
   return (
     <div>
       <div className=" w-[100%] ">
-      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
+        <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
           <Form onFinish={onFinish} form={form} name="reviews">
             <Row gutter={[12, 12]}>
-            <Col xs={18} md={20} lg={21}>
+              <Col xs={18} md={20} lg={21}>
                 <Form.Item name="course" initialValue={editReview?.course_name}>
                   <Select
                     showSearch
@@ -112,7 +113,10 @@ const EditPost = () => {
                 </Form.Item>
               </Col>
               <Col xs={6} md={4} lg={3}>
-                <Button className="w-[100%]" onClick={() => navigate("/profile")}>
+                <Button
+                  className="w-[100%]"
+                  onClick={() => navigate("/profile")}
+                >
                   ย้อนกลับ
                 </Button>
               </Col>
@@ -134,7 +138,9 @@ const EditPost = () => {
               </Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>เนื้อหาและความหน้าสนใจ</Col>
+              <Col xs={24} md={24} lg={13}>
+                เนื้อหาและความหน้าสนใจ
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
               <Form.Item name="satisfied_point">
                 <Radio.Group className="">
@@ -148,7 +154,9 @@ const EditPost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>จำนวนงานและความเหมาะสม</Col>
+              <Col xs={24} md={24} lg={13}>
+                จำนวนงานและความเหมาะสม
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
               <Form.Item name="appropriate_point">
                 <Radio.Group className="">
@@ -162,19 +170,20 @@ const EditPost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>อาจารย์ผู้สอน</Col>
+              <Col xs={24} md={24} lg={13}>
+                อาจารย์ผู้สอน
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
-                <Form.Item name="teacher_point">
-                  <Radio.Group className="">
-                    <Radio value="0">1</Radio>
-                    <Radio value="25">2</Radio>
-                    <Radio value="50">3</Radio>
-                    <Radio value="75">4</Radio>
-                    <Radio value="100">5</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Col span={2}>พอใจมาก</Col>
-
+              <Form.Item name="teacher_point">
+                <Radio.Group className="">
+                  <Radio value="0">1</Radio>
+                  <Radio value="25">2</Radio>
+                  <Radio value="50">3</Radio>
+                  <Radio value="75">4</Radio>
+                  <Radio value="100">5</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Col span={2}>พอใจมาก</Col>
 
               <Col span={24}>
                 <Form.Item name="grade" label="เกรดที่ได้">
@@ -219,11 +228,10 @@ const EditPost = () => {
                 </p>
               </Col>
 
-             
               <Col xs={6} md={8} lg={10}></Col>
               <Col xs={8} md={6} lg={4}>
                 <Button htmlType="submit" className="w-[100%]">
-                  แก้ไข
+                  บันทึก
                 </Button>
               </Col>
               <Col xs={6} md={8} lg={10}></Col>

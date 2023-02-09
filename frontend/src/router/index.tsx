@@ -53,7 +53,7 @@ export const APP_ROUTER: RouteObject[] = [
     element: <AddCourse />,
   },
   {
-    path:"/reviews-management",
-    element: <ReviewsManagement/>
-  }
+    path: "/reviews-management",
+    element: <ReviewsManagement />,
+  },
 ];

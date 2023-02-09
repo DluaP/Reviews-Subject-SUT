@@ -33,50 +33,49 @@ const AddCourse = () => {
 
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   const session = () => {
-    if(user !== undefined){
-    }else{
+    if (user !== undefined) {
+    } else {
       navigate("/login");
       openNotification();
     }
-  }
+  };
   useEffect(() => {
-
-    session()
+    session();
   }, []);
 
-
-  const onSearch = (e: any) => {
+  const onSearch = async (e: any) => {
     if (!e.course_id && !e.course_name) {
       getData();
     } else {
-      console.log("e",e)
-      baseURL
-        .get(
-          `/course?course_id=${e.course_id}&course_name=${e.course_name}`
-        )
+      
+      await baseURL
+        .get(`/course?course_id=${e.course_id}&course_name=${e.course_name}`)
         .then((res) => {
           setDataCourse(res.data);
         });
     }
   };
-  const onFinish = (element: any) => {
-    console.log(element);
-    baseURL.post("/course", element).then((e: any) => {
-      console.log("tttt", e);
-      fireNotification({ type: "success" });
+  const onFinish = async (element: any) => {
+    
+    await baseURL.post("/course", element).then((e: any) => {
+      
+     if (e.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
       fetchData();
     });
   };
 
-  const getData = () => {
-    baseURL.get("/course").then((e: any) => {
+  const getData = async () => {
+    await baseURL.get("/course").then((e: any) => {
       setDataCourse(e.data);
     });
   };
@@ -85,15 +84,19 @@ const AddCourse = () => {
     getData();
   }, []);
 
-  const fetchData = () => {
-    baseURL.get("/course").then((res) => {
+  const fetchData = async () => {
+    await baseURL.get("/course").then((res) => {
       setDataCourse(res.data);
     });
   };
-  const handleDelete = (id: any) => {
-    baseURL.delete(`/course/${id}`).then((res) => {
+  const handleDelete = async (id: any) => {
+    await baseURL.delete(`/course/${id}`).then((res) => {
       fetchData();
-      console.log("1111");
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      };
     });
     getData();
   };
@@ -123,7 +126,7 @@ const AddCourse = () => {
               okType="default"
               onConfirm={() => {
                 handleDelete(record.id);
-                // console.log("de;ete", record.id);
+                
               }}
             >
               <DeleteOutlined />
@@ -136,8 +139,7 @@ const AddCourse = () => {
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
-    
-        <Form layout="vertical" name="addCourse"onFinish={onFinish}>
+        <Form layout="vertical" name="addCourse" onFinish={onFinish}>
           <Row
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
@@ -170,7 +172,7 @@ const AddCourse = () => {
 
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
-            <Col  xs={12} md={12} lg={6}>
+            <Col xs={12} md={12} lg={6}>
               <Form.Item name="course_id" label="ชื่อผู้ใช้">
                 <Input placeholder="ขื่อผู้ใช้" />
               </Form.Item>
@@ -180,34 +182,34 @@ const AddCourse = () => {
                 <Input placeholder="ขื่อ" />
               </Form.Item>
             </Col>
-           
+
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                htmlType="submit"
-                className="w-[100%] text-[white] bg-[#45B072] "
-              >
-                ค้นหา
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  htmlType="submit"
+                  className="w-[100%] text-[white] bg-[#45B072] "
+                >
+                  ค้นหา
+                </Button>
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                className="!w-[100%] "
-                onClick={() => {
-                  form.resetFields();
-                  getData();
-                }}
-              >
-                ล้างข้อมูล
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  className="!w-[100%] "
+                  onClick={() => {
+                    form.resetFields();
+                    getData();
+                  }}
+                >
+                  ล้างข้อมูล
+                </Button>
               </Form.Item>
             </Col>
           </Row>
         </Form>
         <div>
-          <div className="py-4 text-left" >จัดการวิชา</div>
+          <div className="py-4 text-left">จัดการวิชา</div>
           <Table dataSource={dataCourse} columns={columns} pagination={false} />
         </div>
       </div>

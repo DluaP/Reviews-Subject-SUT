@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
+import { fireNotification } from "./notification";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -42,19 +43,22 @@ const EditProfile = () => {
   useEffect(() => {
     session();
   }, []);
-  const onFinish = (e: any) => {
-    baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
-      console.log("e", e);
+  const onFinish = async (e: any) => {
+    await baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
+      
       setUserDetail(e);
     });
 
-    console.log(e);
   };
   useEffect(() => {
     form.setFieldsValue({
       ...userDetail,
     });
-    console.log("userDetail?.id", userDetail?.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetail]);
 
@@ -66,7 +70,7 @@ const EditProfile = () => {
             gutter={[12, 12]}
             className="border-2 border-[#F9ECCE] rounded-lg "
           >
-            <Col  xs={24} md={24} lg={12} className="p-4">
+            <Col xs={24} md={24} lg={12} className="p-4">
               <div className="border-2 border-[#F9ECCE] rounded-lg text-left">
                 <Row gutter={[12, 0]} className="p-2">
                   <Col span={24}>

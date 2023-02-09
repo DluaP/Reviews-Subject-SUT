@@ -31,7 +31,6 @@ function Home({}: Props) {
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
   const triger = () => {
-    console.log("userDetail?.status",userDetail?.status)
     setOpen(!open);
   };
 
@@ -79,28 +78,28 @@ function Home({}: Props) {
       {userDetail?.status !== "admin" ? (
         <Drawer placement="right" onClose={triger} open={open}>
           <div className="text-center justify-center items-center">
-          {userDetail?.status === "admin" ? (
-                    <Image
-                      src="./images/Admin.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  ) : userDetail?.status === "teacher" ? (
-                    <Image
-                      src="./images/Teacher.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  ) : (
-                    <Image
-                      src="./images/Student.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  )}
+            {userDetail?.status === "admin" ? (
+              <Image
+                src="./images/Admin.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            ) : userDetail?.status === "teacher" ? (
+              <Image
+                src="./images/Teacher.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            ) : (
+              <Image
+                src="./images/Student.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            )}
 
             <p className="m-2">
               {userDetail?.firstName} {userDetail?.lastName}
@@ -183,28 +182,28 @@ function Home({}: Props) {
                 className="rounded-full text-center"
               />
             ) : ("")} */}
-             {userDetail?.status === "admin" ? (
-                    <Image
-                      src="./images/Admin.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  ) : userDetail?.status === "teacher" ? (
-                    <Image
-                      src="./images/Teacher.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  ) : (
-                    <Image
-                      src="./images/Student.png"
-                      preview={false}
-                      style={{ width: "100px", height: "100px" }}
-                      className="rounded-full text-center"
-                    />
-                  )}
+            {userDetail?.status === "admin" ? (
+              <Image
+                src="./images/Admin.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            ) : userDetail?.status === "teacher" ? (
+              <Image
+                src="./images/Teacher.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            ) : (
+              <Image
+                src="./images/Student.png"
+                preview={false}
+                style={{ width: "100px", height: "100px" }}
+                className="rounded-full text-center"
+              />
+            )}
 
             <p className="m-2">{userDetail?.nickName}</p>
           </div>

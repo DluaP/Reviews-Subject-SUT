@@ -51,19 +51,19 @@ const CreatePost = () => {
   }, []);
 
   const onChange = (value: string) => {
-    console.log(`selected ${value}`);
+    
   };
 
   const onSearch = (value: string) => {
-    console.log("search:", value);
+   
   };
 
-  const onFinish = (e: any) => {
-    console.log(e);
+  const onFinish = async (e: any) => {
+    
     let course_name = `${e.course.split(" ")[0]} ${e.course.split(" ")[1]}`;
     let course_id = `${e.course.split(" ")[2]}`;
     delete e.course;
-    baseURL
+    await baseURL
       .post("/reviews", {
         ...e,
         nickName: userDetail?.nickName,
@@ -73,9 +73,13 @@ const CreatePost = () => {
         user_id: userDetail?.id,
       })
       .then((e: any) => {
+        navigate("/");
+        if (e.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
         // localStorage.setItem("access-token", e.data.access_token);
-        console.log("tttt", e);
-        fireNotification({ type: "success" });
       });
   };
 
@@ -96,7 +100,7 @@ const CreatePost = () => {
   return (
     <div>
       <div className=" w-[100%] ">
-      <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
+        <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
           <Form onFinish={onFinish} layout="vertical" name="reviews">
             <Row gutter={[12, 12]}>
               <Col xs={18} md={20} lg={21}>
@@ -138,7 +142,9 @@ const CreatePost = () => {
               </Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>เนื้อหาและความหน้าสนใจ</Col>
+              <Col xs={24} md={24} lg={13}>
+                เนื้อหาและความหน้าสนใจ
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
               <Form.Item name="satisfied_point">
                 <Radio.Group className="">
@@ -152,7 +158,9 @@ const CreatePost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>จำนวนงานและความเหมาะสม</Col>
+              <Col xs={24} md={24} lg={13}>
+                จำนวนงานและความเหมาะสม
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
               <Form.Item name="appropriate_point">
                 <Radio.Group className="">
@@ -166,18 +174,20 @@ const CreatePost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>อาจารย์ผู้สอน</Col>
+              <Col xs={24} md={24} lg={13}>
+                อาจารย์ผู้สอน
+              </Col>
               <Col span={2}>ไม่พอใจ</Col>
-                <Form.Item name="teacher_point">
-                  <Radio.Group className="">
-                    <Radio value="0">1</Radio>
-                    <Radio value="25">2</Radio>
-                    <Radio value="50">3</Radio>
-                    <Radio value="75">4</Radio>
-                    <Radio value="100">5</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Col span={2}>พอใจมาก</Col>
+              <Form.Item name="teacher_point">
+                <Radio.Group className="">
+                  <Radio value="0">1</Radio>
+                  <Radio value="25">2</Radio>
+                  <Radio value="50">3</Radio>
+                  <Radio value="75">4</Radio>
+                  <Radio value="100">5</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Col span={2}>พอใจมาก</Col>
 
               <Col span={24}>
                 <Form.Item name="grade" label="เกรดที่ได้">

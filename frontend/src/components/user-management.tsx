@@ -18,6 +18,7 @@ import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
+import { fireNotification } from "./notification";
 
 export interface IuserManagement {
   id: number;
@@ -59,7 +60,6 @@ const UserManagement = () => {
   const session = () => {
     if (user !== undefined && userDetail?.id !== undefined) {
       if (String(userDetail?.status) !== "admin") {
-        console.log("userDetail?.status", userDetail?.status);
         navigate("/login");
         openNotification2();
       } else {
@@ -72,12 +72,11 @@ const UserManagement = () => {
   useEffect(() => {
     session();
   }, []);
-  const onSearch = (e: any) => {
+  const onSearch = async (e: any) => {
     if (!e.username && !e.lastName && !e.firstName && !e.nickName) {
       getData();
     } else {
-      console.log("e", e);
-      baseURL
+      await baseURL
         .get(
           `/users?username=${e.username}&firstName=${e.firstName}&lastName=${e.lastName}&nickName=${e.nickName}`
         )
@@ -93,8 +92,8 @@ const UserManagement = () => {
     });
   };
 
-  const fetchData = () => {
-    baseURL.get("/users").then((res) => {
+  const fetchData = async () => {
+    await baseURL.get("/users").then((res) => {
       setDatas(res.data);
     });
   };
@@ -103,10 +102,14 @@ const UserManagement = () => {
     getData();
   }, []);
 
-  const handleDelete = (id: any) => {
-    baseURL.delete(`/users/${id}`).then((res) => {
+  const handleDelete = async (id: any) => {
+    await baseURL.delete(`/users/${id}`).then((res) => {
       fetchData();
-      console.log("1111");
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
     });
     getData();
   };
@@ -148,10 +151,16 @@ const UserManagement = () => {
             className="w-[100%]"
             placeholder="สถานะ"
             defaultValue={`${rc?.status}`}
-            onChange={(e) => {
-              baseURL.patch(`/users/${rc?.id}`, { status: e }).then((res) => {
-                console.log("e", res.status);
-              });
+            onChange={async (e) => {
+              await baseURL
+                .patch(`/users/${rc?.id}`, { status: e })
+                .then((res) => {
+                  if (res.status == 201 || 200) {
+                    fireNotification({ type: "success" });
+                  } else {
+                    fireNotification({ type: "error" });
+                  }
+                });
             }}
             options={[
               { value: "student", label: "student" },
@@ -176,7 +185,6 @@ const UserManagement = () => {
               okType="default"
               onConfirm={() => {
                 handleDelete(record.id);
-                // console.log("de;ete", record.id);
               }}
             >
               <DeleteOutlined />

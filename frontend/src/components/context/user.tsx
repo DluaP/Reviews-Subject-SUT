@@ -9,14 +9,12 @@ const UserProvider = ({ children }: { children: JSX.Element }) => {
   const [userDetail, setUserDetail] = useState<any>();
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       getUserDetail();
     }
   }, [user]);
 
   useEffect(() => {
-    console.log(userDetail);
   }, [userDetail]);
 
   const getUserDetail = async () => {

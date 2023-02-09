@@ -1,4 +1,15 @@
-import { Affix, Button, Divider, Drawer, Form, Input, Row, Select ,notification, Grid} from "antd";
+import {
+  Affix,
+  Button,
+  Divider,
+  Drawer,
+  Form,
+  Input,
+  Row,
+  Select,
+  notification,
+  Grid,
+} from "antd";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
@@ -18,31 +29,27 @@ const HomePage = () => {
 
   const openNotification = () => {
     notification.open({
-      message: 'คำเเตือน!!!',
-      description:
-        'โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว',
+      message: "คำเเตือน!!!",
+      description: "โปรดเข้าสู่ระบบก่อนทำการเขียนรีวิว",
     });
   };
-  
+
   useEffect(() => {
     getData();
   }, []);
 
-  const getData = () => {
-    baseURL.get("/course").then((e: any) => {
+  const getData = async () => {
+    await baseURL.get("/course").then((e: any) => {
       setDataCourse(e.data);
     });
   };
 
-  const onSearch = (e: any) => {
+  const onSearch = async (e: any) => {
     if (!e.course_id && !e.course_name) {
       getData();
     } else {
-      console.log("e",e)
-      baseURL
-        .get(
-          `/course?course_id=${e.course_id}&course_name=${e.course_name}`
-        )
+      await baseURL
+        .get(`/course?course_id=${e.course_id}&course_name=${e.course_name}`)
         .then((res) => {
           setDataCourse(res.data);
         });
@@ -55,59 +62,63 @@ const HomePage = () => {
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col xs={24} md={12} lg={6}>
-              <Form.Item name="course_id" label="ชื่อวิชา">
+              <Form.Item name="course_id" label="ชื่อวิชา" className="!m-0">
                 <Input placeholder="ชื่อวิชา" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12} lg={6}>
-              <Form.Item name="course_name" label="รหัสวิชา">
+              <Form.Item name="course_name" label="รหัสวิชา" className="!m-0">
                 <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
 
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                htmlType="submit"
-                className="w-[100%] text-[white] bg-[#46B072] "
-              >
-                ค้นหา
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  htmlType="submit"
+                  className="w-[100%] text-[white] bg-[#46B072] top-7"
+                >
+                  ค้นหา
+                </Button>
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                className="w-[100%] "
-                onClick={() => {
-                  form.resetFields();
-                  getData();
-                }}
-              >
-                ล้างข้อมูล
-              </Button>
+              <Form.Item className="!m-0 ">
+                <Button
+                  className="w-[100%] top-7"
+                  onClick={() => {
+                    form.resetFields();
+                    getData();
+                  }}
+                >
+                  ล้างข้อมูล
+                </Button>
               </Form.Item>
             </Col>
 
             <Col xs={12} md={6} lg={3}>
-            <Form.Item className="!m-0" >
-              <Button
-                className="w-[100%] bg-[#FECC73] "
-                onClick={() => {
-                  {user !== undefined ? (navigate("/create-post")):(openNotification())}
+              <Form.Item className="!m-0">
+                <Button
+                  className="w-[100%] bg-[#FECC73] top-7 "
+                  onClick={() => {
+                    {
+                      user !== undefined
+                        ? navigate("/create-post")
+                        : openNotification();
+                    }
                   }}
-              >
-                เขียนรีวิว
-              </Button>
+                >
+                  เขียนรีวิว
+                </Button>
               </Form.Item>
             </Col>
             <Col span={17}></Col>
           </Row>
         </Form>
 
-        <Row gutter={[20, 20]} className="pt-4">
+        <Row gutter={[20, 20]} className="pt-10">
           {dataCourse?.map((item: any, index: any) => (
-            <Col xs={24} md={12} lg={8}>
+            <Col xs={24} md={12} lg={8} key={item?.id}>
               <a
                 onClick={() => {
                   navigate("/review");

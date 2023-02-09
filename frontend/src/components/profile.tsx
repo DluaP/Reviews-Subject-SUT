@@ -20,6 +20,7 @@ import { useUser } from "./context/user";
 import { baseURL } from "./login";
 import { useReview } from "./context/review";
 import parse from "html-react-parser";
+import { fireNotification } from "./notification";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -45,17 +46,20 @@ const Profile = () => {
     getReviewUserId();
     session();
   }, []);
-  const getReviewUserId = () => {
-    baseURL.get(`/reviews?user_id=${userDetail?.id}`).then((res) => {
-      console.log(res.data);
+  const getReviewUserId = async () => {
+    await baseURL.get(`/reviews?user_id=${userDetail?.id}`).then((res) => {
       setReview(res.data);
     });
   };
 
-  const handleDelete = (id: any) => {
-    baseURL.delete(`/reviews/${id}`).then((res) => {
+  const handleDelete = async (id: any) => {
+    await baseURL.delete(`/reviews/${id}`).then((res) => {
       getReviewUserId();
-      console.log("1111");
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
     });
   };
   return (
@@ -102,7 +106,7 @@ const Profile = () => {
             </div>
           </Col>
           {/* ข้อมูลส่วนนี้ต้องทำเป็น for loop*/}
-          <Col  xs={24} md={24} lg={16}>
+          <Col xs={24} md={24} lg={16}>
             <div className=" text-left border-2 p-4 border-[#F9ECCE] rounded-lg">
               {review.length > 0 ? (
                 <>
@@ -112,7 +116,7 @@ const Profile = () => {
                       <div>{parse(item?.review_detail)}</div>
                       <Divider className="m-1" />
                       <Row>
-                        <Col  xs={7} md={5} lg={3}>
+                        <Col xs={7} md={5} lg={3}>
                           <Button
                             className="w-[100%] "
                             onClick={() => {
@@ -133,7 +137,6 @@ const Profile = () => {
                             okType="default"
                             onConfirm={() => {
                               handleDelete(item?.id);
-                              // console.log("de;ete", record.id);
                             }}
                           >
                             <Button className="w-[100%] ">ลบ</Button>

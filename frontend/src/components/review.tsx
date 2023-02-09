@@ -30,6 +30,7 @@ import { log } from "console";
 import parse from "html-react-parser";
 import { useUser } from "./context/user";
 import { EllipsisOutlined, EyeOutlined, LikeOutlined } from "@ant-design/icons";
+import { fireNotification } from "./notification";
 
 const { Paragraph, Text } = Typography;
 
@@ -55,37 +56,7 @@ const Review = () => {
     getReviewCourse();
   }, [courseId]);
 
-  const onLikeCilck = async (e: any) => {
-    // console.log("like_post", e?.like_post);
-    // setLike(Number(e?.like_post) + 1);
-    // console.log("like", Number(like));
-
-    await baseURL
-      .patch(`/reviews/${e?.id}`, { like_post: Number(e?.like_post) + 1 })
-      .then((res: any) => {
-        // localStorage.setItem("access-token", e.data.access_token);
-        // setLike(Number(e?.like_post) + 1);
-        getReviewCourse();
-        console.log("tttt", res);
-      });
-  };
-
-  const onViewCilck = async (e: any) => {
-    console.log("setView", e?.setView);
-    setLike(Number(e?.setView) + 1);
-    console.log("view", Number(view));
-
-    await baseURL
-      .patch(`/reviews/${e?.id}`, { view_post: view })
-      .then((res: any) => {
-        // localStorage.setItem("access-token", e.data.access_token);
-        // setLike(Number(e?.like_post) + 1);
-        getReviewCourse();
-        console.log("tttt", res);
-      });
-  };
   const onSearch = async (e: any) => {
-    console.log(e);
     if (!e.semester && e.orderBy === "created_at") {
       getReviewCourse();
     } else if (e.semester && e.orderBy === "created_at") {
@@ -93,7 +64,6 @@ const Review = () => {
       await baseURL
         .get(`/reviews?course_id=${courseId}&semester=${Number(e.semester)}`)
         .then((res) => {
-          console.log(res);
           setReview(res.data);
         });
     } else if (e.orderBy === "like_post") {
@@ -105,7 +75,6 @@ const Review = () => {
           )}&like_post="DESC"`
         )
         .then((res) => {
-          console.log(res);
           setReview(res.data);
         });
     } else if (e.orderBy === "view_post") {
@@ -117,14 +86,9 @@ const Review = () => {
           )}&view_post="DESC"`
         )
         .then((res) => {
-          console.log(res);
           setReview(res.data);
         });
     } else getReviewCourse();
-  };
-
-  const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log("checked = ", checkedValues);
   };
 
   const showModal = () => {
@@ -133,15 +97,14 @@ const Review = () => {
 
   const onFReport = async (e: any) => {
     form3.resetFields();
-    console.log("event", e);
     let reports_detail = "";
     for (let i = 0; i < e.reports_detail.length; i++) {
+      <div key={i}></div>
       // if ((i = 0)) {
       //   reports_detail = `${e?.reports_detail[i]}`;
       // }
       reports_detail = `${reports_detail}${e?.reports_detail[i]}, `;
     }
-    console.log(reports_detail);
     delete e.reports_detail;
 
     await baseURL
@@ -153,7 +116,11 @@ const Review = () => {
         review_id: inreview?.id,
       })
       .then((res) => {
-        console.log("ส่งค่าจ้าา", res.data);
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
       });
     setIsModalOpen(false);
   };
@@ -174,7 +141,6 @@ const Review = () => {
 
   const getReviewCourse = async () => {
     await baseURL.get(`/reviews?course_id=${courseId}`).then((res) => {
-      console.log(res.data);
       setReview(res.data);
     });
   };
@@ -196,7 +162,6 @@ const Review = () => {
         })
         .then((res: any) => {
           getComment(res.data?.review_id);
-          console.log(res.data);
           form2.resetFields();
         });
     } else {
@@ -206,15 +171,18 @@ const Review = () => {
 
   const getComment = async (id: string) => {
     await baseURL.get(`/comment?review_id=${id}`).then((res) => {
-      console.log("comentttttt", res.data);
       setComment(res.data);
     });
   };
 
   const deleteComment = async (e: any) => {
     await baseURL.delete(`/comment/${commentId}`).then((res) => {
-      console.log("comentttttt", res.data);
       getComment(inreview?.id);
+      if (res.status == 201 || 200) {
+        fireNotification({ type: "success" });
+      } else {
+        fireNotification({ type: "error" });
+      }
     });
   };
 
@@ -249,44 +217,44 @@ const Review = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col xs={12} md={6} lg={3} >
-            <Form.Item  className="!m-0">
-              <Button
-                htmlType="submit"
-                className="w-[100%] text-[white] bg-[#46B072] top-7"
-              >
-                ค้นหา
-              </Button>
+            <Col xs={12} md={6} lg={3}>
+              <Form.Item className="!m-0">
+                <Button
+                  htmlType="submit"
+                  className="w-[100%] text-[white] bg-[#46B072] top-7"
+                >
+                  ค้นหา
+                </Button>
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item  className="!m-0">
-              <Button
-                className="w-[100%] top-7 "
-                onClick={() => {
-                  form.resetFields();
-                }}
-              >
-                ล้างข้อมูล
-              </Button>
+              <Form.Item className="!m-0">
+                <Button
+                  className="w-[100%] top-7 "
+                  onClick={() => {
+                    form.resetFields();
+                  }}
+                >
+                  ล้างข้อมูล
+                </Button>
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>
-            <Form.Item  className="!mx-0 !mt-0 !mb-4">
-              <Button
-                className="w-[100%] top-7 "
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                ย้อนกลับ
-              </Button>
+              <Form.Item className="!mx-0 !mt-0 !mb-4">
+                <Button
+                  className="w-[100%] top-7 "
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  ย้อนกลับ
+                </Button>
               </Form.Item>
             </Col>
           </Row>
         </Form>
         <Row gutter={[20, 20]} className="pt-6">
-          <Col span={24} className="text-left text-4xl pt-6">
+          <Col span={24} className="text-left text-4xl pt-6 pb-4">
             {review[0]?.course_name}
           </Col>
         </Row>
@@ -296,7 +264,7 @@ const Review = () => {
           <div>
             {review?.map((item: any, index: any) => (
               <Card
-              key={item?.id}
+                key={item?.id}
                 style={{ width: "100%" }}
                 className="bg-[#F9ECCE] rounded-md !text-left mb-3"
               >
@@ -327,7 +295,6 @@ const Review = () => {
                             view_post: viewNumber,
                           })
                           .then((res) => {
-                            console.log(res);
                             setInreviw({ ...item, view_post: viewNumber });
                             getReviewCourse();
                           });
@@ -343,7 +310,6 @@ const Review = () => {
                         onClick={() => {
                           // setLike(item?.like_post+1);
                           // getReviewCourse();
-                          console.log("item?.like_post", item?.like_post);
                           // likeC();
                           // onLikeCilck(item);
                           getReviewCourse();
@@ -427,7 +393,6 @@ const Review = () => {
                   e.preventDefault();
                   showModal();
                   await setInreviw(inreview);
-                  // console.log("eeee", e);
                 }}
               >
                 รายงาน
@@ -455,17 +420,17 @@ const Review = () => {
           <Divider className="mt-0" />
           <div className="flex">
             <div>ถูกใจ:{inreview?.like_post}</div>
-            <div className="ml-4">ยอดวิว :{inreview?.view_post } </div>
+            <div className="ml-4">ยอดวิว :{inreview?.view_post} </div>
           </div>
         </div>
         <Button
           onClick={async () => {
             likeNumber = inreview?.like_post + 1;
-            baseURL
+            await baseURL
               .patch(`reviews/${inreview?.id}`, {
                 like_post: likeNumber,
               })
-              .then((res) => {
+              .then((res) => {            
                 setInreviw({ ...inreview, like_post: likeNumber });
                 getReviewCourse();
               });
@@ -485,7 +450,6 @@ const Review = () => {
                       onClick={async (e) => {
                         e.preventDefault();
                         await setCommentId(item?.id);
-                        // console.log("eeee", e);
                       }}
                     >
                       <Space>

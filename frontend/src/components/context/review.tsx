@@ -7,10 +7,16 @@ const ReviewProvider = ({ children }: { children: JSX.Element }) => {
   const [editReview, setEditReview] = useState<any>();
   const [courseReviwe, setCouresReview] = useState<any[]>();
 
-
   return (
     <ReviewContext.Provider
-      value={{ courseId, setCouresId, courseReviwe, setCouresReview, editReview, setEditReview }}
+      value={{
+        courseId,
+        setCouresId,
+        courseReviwe,
+        setCouresReview,
+        editReview,
+        setEditReview,
+      }}
     >
       {children}
     </ReviewContext.Provider>
