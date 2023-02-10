@@ -24,7 +24,7 @@ export function refreshPage() {
 //    (user !== undefined ? (""):(navigate("/login")))
 //   }, []);
 // }
-function Home({}: Props) {
+function NavHome({}: Props) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(10);
@@ -305,4 +305,4 @@ function Home({}: Props) {
   );
 }
 
-export default Home;
+export default NavHome;
