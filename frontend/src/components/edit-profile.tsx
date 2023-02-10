@@ -108,8 +108,18 @@ const EditProfile = () => {
                     <Input hidden />
                   </Form.Item>
                   <Col xs={24} md={24} lg={16}>
-                    <Form.Item name="nickName" label="นามแฝง">
-                      <Input placeholder="นามแฝง" />
+                    <Form.Item
+                      name="nickName"
+                      label="นามแฝง"
+                      rules={[
+                        {
+                          required: true,
+                          message: "กรุณากรอกนามแฝง",
+                        },
+                      ]}
+                      tooltip="นามแฝงไม่เกิน 12 ตัวอักษร"
+                    >
+                      <Input placeholder="นามแฝง" maxLength={12} />
                     </Form.Item>
                     <Form.Item name="bio" label="เกี่ยวกับฉัน">
                       <TextArea rows={2} />
@@ -127,7 +137,7 @@ const EditProfile = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item name="email" label="email">
-                      <Input placeholder="email" />
+                      <Input placeholder="email" type="email" />
                     </Form.Item>
 
                     <Form.Item name="status">
@@ -150,18 +160,58 @@ const EditProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="firstName" label="ชื่อ">
+                    <Form.Item
+                      name="firstName"
+                      label="ชื่อ"
+                      rules={[
+                        {
+                          pattern: new RegExp(/^[a-zA-Zก-๏]*$/),
+                          message: "ชื่อเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น",
+                        },
+                        {
+                          required: true,
+                          message: "กรุณาข้อมูล",
+                        },
+                      ]}
+                    >
                       <Input placeholder="ชื่อ" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="lastName" label="นามสกุล">
+                    <Form.Item
+                      name="lastName"
+                      label="นามสกุล"
+                      rules={[
+                        {
+                          pattern: new RegExp(/^[a-zA-Zก-๏]*$/),
+                          message: "ชื่อเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น",
+                        },
+                        {
+                          required: true,
+                          message: "กรุณาข้อมูล",
+                        },
+                      ]}
+                    >
                       <Input placeholder="นามสกุล" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="password" label="Password">
-                      <Input.Password placeholder="Password" />
+                    <Form.Item
+                      name="password"
+                      label="Password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "กรุณากรอกรหัสผ่าน",
+                        },
+                      ]}
+                      tooltip="รหัสผ่านต้องมากกว่า 8 ตัวอักษร ไม่เกิน 20 ตัวอักษร"
+                    >
+                      <Input.Password
+                        placeholder="รหัสผ่าน"
+                        maxLength={20}
+                        minLength={8}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>

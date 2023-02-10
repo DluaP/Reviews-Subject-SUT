@@ -1,12 +1,14 @@
 import {
   Affix,
   Button,
+  Checkbox,
   Col,
   Divider,
   Drawer,
   Form,
   Image,
   Input,
+  Modal,
   notification,
   Popconfirm,
   Radio,
@@ -23,10 +25,12 @@ import { fireNotification } from "./notification";
 
 const CreatePost = () => {
   const navigate = useNavigate();
+  const [form3] = Form.useForm();
   const { courseReviwe, setCouresReview } = useReview();
   const [value, setValue] = useState("");
   let options: any = [];
   const { user, setUser, userDetail, setUserDetail } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openNotification = () => {
     notification.open({
@@ -43,13 +47,27 @@ const CreatePost = () => {
     }
   };
   useEffect(() => {
-    // session();
+    session();
   }, []);
 
   useEffect(() => {
     fetchCourse();
   }, []);
 
+  const onFReport = async (e: any) => {
+    console.log("eee", e);
+     if (e.reports_detail) {
+      if (e.reports_detail[0] == "a1" && e.reports_detail[1] == "a2") {
+        onFinish(e);
+      } else {
+        handleCancel();
+        fireNotification({ type: "error", description: `กรุณาใช้คำให้สุภาพ` });
+      }
+    }else{
+      handleCancel();
+      fireNotification({ type: "error", description: `กรุณาใช้คำให้สุภาพ` });
+    }
+  };
   const onChange = (value: string) => {};
 
   const onSearch = (value: string) => {};
@@ -98,11 +116,23 @@ const CreatePost = () => {
     });
   });
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div>
       <div className=" w-[100%] ">
         <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] !text-left justify-center ">
-          <Form onFinish={onFinish} layout="vertical" name="reviews">
+          <Form
+            // onFinish={onFinish}
+            layout="vertical"
+            form={form3}
+            name="reviews"
+          >
             <Row gutter={[12, 12]}>
               <Col xs={18} md={20} lg={21}>
                 <Form.Item
@@ -110,7 +140,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณาใส่รหัสวิชาและชื่อวิชา'
+                      message: "กรุณาใส่รหัสวิชาและชื่อวิชา",
                     },
                   ]}
                 >
@@ -138,7 +168,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกข้อมูล'
+                      message: "กรุณากรอกข้อมูล",
                     },
                   ]}
                 >
@@ -165,7 +195,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'กรุณากรอกข้อมูล'
+                    message: "กรุณากรอกข้อมูล",
                   },
                 ]}
               >
@@ -187,7 +217,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'กรุณากรอกข้อมูล'
+                    message: "กรุณากรอกข้อมูล",
                   },
                 ]}
               >
@@ -209,7 +239,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'กรุณากรอกข้อมูล'
+                    message: "กรุณากรอกข้อมูล",
                   },
                 ]}
               >
@@ -230,7 +260,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกข้อมูล'
+                      message: "กรุณากรอกข้อมูล",
                     },
                   ]}
                 >
@@ -251,12 +281,16 @@ const CreatePost = () => {
                   label="ปีการศึกษา"
                   rules={[
                     {
+                      pattern: new RegExp(/^[0-9]*$/),
+                      message: "ปีการศึกษาเป็นตัวเลขเท่านั้น",
+                    },
+                    {
                       required: true,
-                      message: 'กรุณากรอกข้อมูล'
+                      message: "กรุณากรอกข้อมูล",
                     },
                   ]}
                 >
-                  <Input placeholder="ปีการศึกษา" maxLength={255} />
+                  <Input placeholder="ปีการศึกษา" maxLength={4} />
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -266,7 +300,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกข้อมูล'
+                      message: "กรุณากรอกข้อมูล",
                     },
                   ]}
                 >
@@ -295,7 +329,7 @@ const CreatePost = () => {
 
               <Col xs={6} md={8} lg={10}></Col>
               <Col xs={8} md={6} lg={4}>
-                <Button htmlType="submit" className="w-[100%]">
+                <Button onClick={showModal} className="w-[100%]">
                   โพสต์เลย!!
                 </Button>
               </Col>
@@ -304,6 +338,34 @@ const CreatePost = () => {
           </Form>
         </div>
       </div>
+
+      <Modal
+        title="คำเตือน!!!"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form name="reviews" form={form3} onFinish={onFReport}>
+          <Form.Item name="reports_detail">
+            <Checkbox.Group style={{ width: "100%" }}>
+              <Row gutter={[12, 12]}>
+                <Col span={24}>
+                  <Checkbox value="a1">เนื้อหาไม่หยาบคาย</Checkbox>
+                </Col>
+                <Col span={24}>
+                  <Checkbox value="a2">
+                    เนื้อหาไม่มีการพาดพิงถึงผู้อื่นที่ทำให้ได้รับความเสียหาย
+                  </Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit">ยืนยัน</Button>
+            <Button onClick={handleCancel}>ยกเลิก</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

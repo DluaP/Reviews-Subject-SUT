@@ -79,8 +79,6 @@ const Login = () => {
             });
           }
         });
-
-      
     }
   };
   const onChange = (key: string) => {};
@@ -106,27 +104,34 @@ const Login = () => {
                   name="username"
                   label="ชื่อผู้ใช้"
                   rules={[
+                    {pattern: new RegExp(/^[a-zA-Z0-9]*$/),  message: "ชื่อผู้ใช้เป็นภาษาอังกฤษหรือตัวเลขเท่านั้น"},
                     {
                       required: true,
-                      message: 'กรุณากรอกชื่อผู้ใช้'
+                      message: "กรุณากรอกชื่อผู้ใช้",
                     },
                   ]}
+                  
                 >
-                  <Input placeholder="ชื่อผู้ใช้" />
+                  <Input
+                    placeholder="ชื่อผู้ใช้"
+                    maxLength={12}
+                    
+                  />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
                   name="password"
                   label="รหัสผ่าน"
+                  
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกรหัสผ่าน'
+                      message: "กรุณากรอกรหัสผ่าน",
                     },
                   ]}
                 >
-                  <Input.Password placeholder="รหัสผ่าน" />
+                  <Input.Password placeholder="รหัสผ่าน" maxLength={20} />
                 </Form.Item>
               </Col>
             </Row>
@@ -147,14 +152,16 @@ const Login = () => {
                 <Form.Item
                   name="username"
                   label="ชื่อผู้ใช้"
+                  tooltip="ชื่อผู้ใช้ต้องมากกว่า 6 ตัวอักษร ไม่เกิน 12 ตัวอักษร"
                   rules={[
+                    {pattern: new RegExp(/^[a-zA-Z0-9]*$/),  message: "ชื่อผู้ใช้เป็นภาษาอังกฤษหรือตัวเลขเท่านั้น"},
                     {
                       required: true,
-                      message: 'กรุณากรอกชื่อผู้ใช้'
+                      message: "กรุณากรอกชื่อผู้ใช้",
                     },
                   ]}
                 >
-                  <Input placeholder="ชื่อผู้ใช้" />
+                  <Input placeholder="ชื่อผู้ใช้" maxLength={12} minLength={6}/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -162,13 +169,14 @@ const Login = () => {
                   name="firstName"
                   label="ชื่อ"
                   rules={[
+                    {pattern: new RegExp(/^[a-zA-Zก-๏]*$/),  message: "ชื่อเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น"},
                     {
                       required: true,
-                      message: 'กรุณากรอกชื่อ'
+                      message: "กรุณากรอกชื่อ",
                     },
                   ]}
                 >
-                  <Input placeholder="ชื่อ" />
+                  <Input placeholder="ชื่อ" maxLength={20} />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -176,14 +184,14 @@ const Login = () => {
                   name="lastName"
                   label="นามสกุล"
                   rules={[
+                    {pattern: new RegExp(/^[a-zA-Zก-๏]*$/),  message: "นามสกุลเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น"},
                     {
                       required: true,
-                      message: 'กรุณากรอกนามสกุล'
+                      message: "กรุณากรอกนามสกุล",
                     },
-                    
                   ]}
                 >
-                  <Input placeholder="นามสกุล" />
+                  <Input placeholder="นามสกุล" maxLength={20} />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -193,11 +201,12 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกนามแฝง'
+                      message: "กรุณากรอกนามแฝง",
                     },
                   ]}
+                  tooltip="นามแฝงไม่เกิน 12 ตัวอักษร"
                 >
-                  <Input placeholder="นามแฝง" />
+                  <Input placeholder="นามแฝง" maxLength={12} />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -207,7 +216,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกสถานะ'
+                      message: "กรุณากรอกสถานะ",
                     },
                   ]}
                   initialValue="studen"
@@ -229,11 +238,12 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกรหัสผ่าน'
+                      message: "กรุณากรอกรหัสผ่าน",
                     },
                   ]}
+                  tooltip="รหัสผ่านต้องมากกว่า 8 ตัวอักษร ไม่เกิน 20 ตัวอักษร"
                 >
-                  <Input.Password placeholder="รหัสผ่าน" />
+                  <Input.Password placeholder="รหัสผ่าน" maxLength={20} minLength={8}/>
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -243,11 +253,14 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'กรุณากรอกยืนยันรหัสผ่าน'
+                      message: "กรุณากรอกยืนยันรหัสผ่าน",
                     },
                   ]}
                 >
-                  <Input.Password placeholder="ยืนยัน รหัสผ่าน" />
+                  <Input.Password
+                    placeholder="ยืนยัน รหัสผ่าน"
+                    maxLength={20}
+                  />
                 </Form.Item>
               </Col>
             </Row>

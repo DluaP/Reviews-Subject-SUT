@@ -199,7 +199,7 @@ const AddCourse = () => {
               <Form.Item className="!m-0">
                 <Button
                   htmlType="submit"
-                  className="w-[100%] text-[white] bg-[#45B072] "
+                  className="w-[100%] text-[white] bg-[#45B072] top-7 "
                 >
                   ค้นหา
                 </Button>
@@ -208,7 +208,7 @@ const AddCourse = () => {
             <Col xs={12} md={6} lg={3}>
               <Form.Item className="!m-0">
                 <Button
-                  className="!w-[100%] "
+                  className="!w-[100%] top-7"
                   onClick={() => {
                     form.resetFields();
                     getData();
