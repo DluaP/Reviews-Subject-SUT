@@ -56,27 +56,29 @@ const EditPost = () => {
     });
   }, []);
 
-  const onChange = (value: string) => {
-    
-  };
+  const onChange = (value: string) => {};
 
-  const onSearch = (value: string) => {
-    
-  };
+  const onSearch = (value: string) => {};
 
   const onFinish = async (e: any) => {
-    
     delete e.course;
-    await baseURL.patch(`/reviews/${editReview?.id}`, e).then((e: any) => {
-      // localStorage.setItem("access-token", e.data.access_token);
-      navigate("/profile");
-      if (e.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-      
-    });
+    await baseURL
+      .patch(`/reviews/${editReview?.id}`, e)
+      .then((e: any) => {
+        // localStorage.setItem("access-token", e.data.access_token);
+        navigate("/profile");
+        if (e.status == 201 || 200) {
+          fireNotification({
+            type: "success",
+            description: "แก้ไขข้อมูลสำเร็จ",
+          });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
   };
 
   const fetchCourse = async () => {
@@ -137,8 +139,7 @@ const EditPost = () => {
                 ความพึงพอใจในวิชา
               </Col>
 
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 เนื้อหาและความหน้าสนใจ
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
@@ -152,9 +153,7 @@ const EditPost = () => {
                 </Radio.Group>
               </Form.Item>
               <Col span={2}>พอใจมาก</Col>
-
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 จำนวนงานและความเหมาะสม
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
@@ -168,9 +167,7 @@ const EditPost = () => {
                 </Radio.Group>
               </Form.Item>
               <Col span={2}>พอใจมาก</Col>
-
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 อาจารย์ผู้สอน
               </Col>
               <Col span={2}>ไม่พอใจ</Col>

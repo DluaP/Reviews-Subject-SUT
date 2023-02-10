@@ -44,16 +44,20 @@ const EditProfile = () => {
     session();
   }, []);
   const onFinish = async (e: any) => {
-    await baseURL.patch(`/users/${userDetail?.id}`, e).then((res) => {
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-      
-      setUserDetail(e);
-    });
+    await baseURL
+      .patch(`/users/${userDetail?.id}`, e)
+      .then((res) => {
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
 
+        setUserDetail(e);
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
   };
   useEffect(() => {
     form.setFieldsValue({

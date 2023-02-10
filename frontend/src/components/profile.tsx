@@ -53,14 +53,19 @@ const Profile = () => {
   };
 
   const handleDelete = async (id: any) => {
-    await baseURL.delete(`/reviews/${id}`).then((res) => {
-      getReviewUserId();
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-    });
+    await baseURL
+      .delete(`/reviews/${id}`)
+      .then((res) => {
+        getReviewUserId();
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
   };
   return (
     <div className="w-[100%] h-[100vh] ">
@@ -112,7 +117,9 @@ const Profile = () => {
                 <>
                   {review?.map((item: any, index: any) => (
                     <>
-                      <div className="!text-lx">{item?.course_name}</div>
+                      <div className="!text-lx" key={item?.id}>
+                        {item?.course_name}
+                      </div>
                       <div>{parse(item?.review_detail)}</div>
                       <Divider className="m-1" />
                       <Row>

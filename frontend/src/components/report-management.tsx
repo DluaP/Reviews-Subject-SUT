@@ -102,14 +102,19 @@ const ReportManagement = () => {
     });
   };
   const handleDelete = async (id: any) => {
-    await baseURL.delete(`/report/${id}`).then((res) => {
-      fetchData();
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-    });
+    await baseURL
+      .delete(`/report/${id}`)
+      .then((res) => {
+        fetchData();
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
     getData();
   };
 
@@ -161,7 +166,7 @@ const ReportManagement = () => {
               <Form.Item className="!m-0">
                 <Button
                   htmlType="submit"
-                  className="w-[100%] text-[white] bg-[#46B072] "
+                  className="w-[100%] text-[white] bg-[#46B072] top-7"
                 >
                   ค้นหา
                 </Button>
@@ -170,7 +175,7 @@ const ReportManagement = () => {
             <Col xs={12} md={6} lg={3}>
               <Form.Item className="!m-0">
                 <Button
-                  className="w-[100%]  "
+                  className="w-[100%] top-7 "
                   onClick={() => {
                     form.resetFields();
                     getData();
@@ -182,7 +187,7 @@ const ReportManagement = () => {
             </Col>
           </Row>
         </Form>
-        <div className="text-left text-2xl">
+        <div className="text-left text-2xl pt-6">
           รายงานรีวิว <br />
         </div>
         <Table dataSource={data1} columns={columns} />

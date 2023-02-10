@@ -14,10 +14,10 @@ export const fireNotification = ({
   description,
 }: NotificationProps) => {
   const messages: { [K in NotificationTypes]: string } = {
-    success: ("สำเร็จ"),
-    info: ("warning"),
-    warning: ("warning"),
-    error: ("error-occurred"),
+    success: "สำเร็จ",
+    info: "warning",
+    warning: "warning",
+    error: "error",
   };
   const msg = message || messages[type];
 
@@ -27,6 +27,5 @@ export const fireNotification = ({
     style: { borderRadius: "4px" },
     description: description,
     // closeIcon: <></>,
-    
   });
 };

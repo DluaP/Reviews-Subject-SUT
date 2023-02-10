@@ -53,25 +53,33 @@ const AddCourse = () => {
     if (!e.course_id && !e.course_name) {
       getData();
     } else {
-      
       await baseURL
         .get(`/course?course_id=${e.course_id}&course_name=${e.course_name}`)
         .then((res) => {
           setDataCourse(res.data);
+        })
+        .catch((e: any) => {
+          fireNotification({ type: "error", description: `${e?.message}` });
         });
     }
   };
   const onFinish = async (element: any) => {
-    
-    await baseURL.post("/course", element).then((e: any) => {
-      
-     if (e.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-      fetchData();
-    });
+    await baseURL
+      .post("/course", element)
+      .then((e: any) => {
+        if (e.status == 201 || 200) {
+          fireNotification({
+            type: "success",
+            description: "เพิ่มข้อมูลสำเร็จ",
+          });
+        } else {
+          fireNotification({ type: "error" });
+        }
+        fetchData();
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
   };
 
   const getData = async () => {
@@ -90,14 +98,19 @@ const AddCourse = () => {
     });
   };
   const handleDelete = async (id: any) => {
-    await baseURL.delete(`/course/${id}`).then((res) => {
-      fetchData();
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      };
-    });
+    await baseURL
+      .delete(`/course/${id}`)
+      .then((res) => {
+        fetchData();
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success", description: "ลบข้อมูลสำเร็จ" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
     getData();
   };
 
@@ -126,7 +139,6 @@ const AddCourse = () => {
               okType="default"
               onConfirm={() => {
                 handleDelete(record.id);
-                
               }}
             >
               <DeleteOutlined />

@@ -18,6 +18,7 @@ import { useNavigate, NavLink, Route, Routes } from "react-router-dom";
 import { useReview } from "./context/review";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
+import { fireNotification } from "./notification";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -52,6 +53,9 @@ const HomePage = () => {
         .get(`/course?course_id=${e.course_id}&course_name=${e.course_name}`)
         .then((res) => {
           setDataCourse(res.data);
+        })
+        .catch((e: any) => {
+          fireNotification({ type: "error", description: `${e?.message}` });
         });
     }
   };
@@ -62,13 +66,13 @@ const HomePage = () => {
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col xs={24} md={12} lg={6}>
-              <Form.Item name="course_id" label="ชื่อวิชา" className="!m-0">
-                <Input placeholder="ชื่อวิชา" />
+              <Form.Item name="course_id" label="รหัสวิชา" className="!m-0">
+                <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12} lg={6}>
-              <Form.Item name="course_name" label="รหัสวิชา" className="!m-0">
-                <Input placeholder="รหัสวิชา" />
+              <Form.Item name="course_name" label="ชื่อวิชา" className="!m-0">
+                <Input placeholder="ชื่อวิชา" />
               </Form.Item>
             </Col>
 

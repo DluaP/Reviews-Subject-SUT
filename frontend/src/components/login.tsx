@@ -29,43 +29,63 @@ const Login = () => {
   const { user, setUser, userDetail, setUserDetail } = useUser();
 
   const signin = async (data: any) => {
-    await baseURL.post("/auth/login", data).then((e: any) => {
-      setToken(e.data.access_token);
-      findByToken(e.data.access_token);
-      navigate("/", { replace: true });
+    await baseURL
+      .post("/auth/login", data)
+      .then((e: any) => {
+        setToken(e.data.access_token);
+        findByToken(e.data.access_token);
+        navigate("/", { replace: true });
 
-      if (e.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-      // localStorage.setItem("access-token", e.data.access_token);
-      
-    });
+        if (e.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+        // localStorage.setItem("access-token", e.data.access_token);
+      })
+      .catch((e: any) => {
+        if (e.message === "Network Error") {
+          fireNotification({ type: "error", description: `${e?.message}` });
+        } else {
+          fireNotification({
+            type: "error",
+            description: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+          });
+        }
+      });
   };
 
   const signup = async (element: any) => {
     if (element.confirm != element.password) {
       fireNotification({ type: "error", description: "รหัสไม่ตรงกัน" });
     } else {
-     
-      await baseURL.post("/users", element).then((e: any) => {
-        if (e.status == 201 || 200) {
-          fireNotification({ type: "success" });
-        } else {
-          fireNotification({ type: "error" });
-        }
-      });
-    
+      await baseURL
+        .post("/users", element)
+        .then((e: any) => {
+          if (e.status == 201 || 200) {
+            fireNotification({ type: "success" });
+          } else {
+            fireNotification({ type: "error" });
+          }
+        })
+        .catch((e: any) => {
+          if (e.message === "Network Error") {
+            fireNotification({ type: "error", description: `${e?.message}` });
+          } else {
+            fireNotification({
+              type: "error",
+              description: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+            });
+          }
+        });
+
       window.location.reload();
     }
   };
-  const onChange = (key: string) => {
-  };
+  const onChange = (key: string) => {};
 
   const test = () => {
-    baseURL.get("/users").then((e: any) => {
-    });
+    baseURL.get("/users").then((e: any) => {});
   };
 
   useEffect(() => {

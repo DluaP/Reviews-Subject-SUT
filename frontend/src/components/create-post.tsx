@@ -43,23 +43,18 @@ const CreatePost = () => {
     }
   };
   useEffect(() => {
-    session();
+    // session();
   }, []);
 
   useEffect(() => {
     fetchCourse();
   }, []);
 
-  const onChange = (value: string) => {
-    
-  };
+  const onChange = (value: string) => {};
 
-  const onSearch = (value: string) => {
-   
-  };
+  const onSearch = (value: string) => {};
 
   const onFinish = async (e: any) => {
-    
     let course_name = `${e.course.split(" ")[0]} ${e.course.split(" ")[1]}`;
     let course_id = `${e.course.split(" ")[2]}`;
     delete e.course;
@@ -75,11 +70,17 @@ const CreatePost = () => {
       .then((e: any) => {
         navigate("/");
         if (e.status == 201 || 200) {
-          fireNotification({ type: "success" });
+          fireNotification({
+            type: "success",
+            description: "เพิ่มข้อมูลสำเร็จ",
+          });
         } else {
           fireNotification({ type: "error" });
         }
         // localStorage.setItem("access-token", e.data.access_token);
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
       });
   };
 
@@ -104,7 +105,14 @@ const CreatePost = () => {
           <Form onFinish={onFinish} layout="vertical" name="reviews">
             <Row gutter={[12, 12]}>
               <Col xs={18} md={20} lg={21}>
-                <Form.Item name="course">
+                <Form.Item
+                  name="course"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <Select
                     showSearch
                     placeholder="ค้นหารหัสวิชา หรือ ชื่อวิชา"
@@ -126,6 +134,11 @@ const CreatePost = () => {
                   name="review_detail"
                   label="เขียนรีวิว"
                   tooltip="ตัวอักษรไม่เกิน 255 ตัวอักษร"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
                 >
                   <ReactQuill
                     theme="snow"
@@ -141,12 +154,18 @@ const CreatePost = () => {
                 ความพึงพอใจในวิชา
               </Col>
 
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 เนื้อหาและความหน้าสนใจ
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="satisfied_point">
+              <Form.Item
+                name="satisfied_point"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -156,13 +175,18 @@ const CreatePost = () => {
                 </Radio.Group>
               </Form.Item>
               <Col span={2}>พอใจมาก</Col>
-
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 จำนวนงานและความเหมาะสม
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="appropriate_point">
+              <Form.Item
+                name="appropriate_point"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -172,13 +196,18 @@ const CreatePost = () => {
                 </Radio.Group>
               </Form.Item>
               <Col span={2}>พอใจมาก</Col>
-
-              <Col xs={1} md={1} lg={1}></Col>
-              <Col xs={24} md={24} lg={13}>
+              <Col xs={24} md={24} lg={11} className="!pl-4">
                 อาจารย์ผู้สอน
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="teacher_point">
+              <Form.Item
+                name="teacher_point"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -190,7 +219,15 @@ const CreatePost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col span={24}>
-                <Form.Item name="grade" label="เกรดที่ได้">
+                <Form.Item
+                  name="grade"
+                  label="เกรดที่ได้"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <Select placeholder="Please select favourite colors">
                     <Select.Option value="A">A</Select.Option>
                     <Select.Option value="B+">B+</Select.Option>
@@ -203,12 +240,28 @@ const CreatePost = () => {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="semester" label="ปีการศึกษา">
+                <Form.Item
+                  name="semester"
+                  label="ปีการศึกษา"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <Input placeholder="ปีการศึกษา" maxLength={255} />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="term" label="เทอม">
+                <Form.Item
+                  name="term"
+                  label="เทอม"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <Radio.Group>
                     <Radio value="1">1</Radio>
                     <Radio value="2">2</Radio>

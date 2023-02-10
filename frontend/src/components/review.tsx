@@ -96,37 +96,45 @@ const Review = () => {
   };
 
   const onFReport = async (e: any) => {
-    form3.resetFields();
-    let reports_detail = "";
-    for (let i = 0; i < e.reports_detail.length; i++) {
-      <div key={i}></div>
-      // if ((i = 0)) {
-      //   reports_detail = `${e?.reports_detail[i]}`;
-      // }
-      reports_detail = `${reports_detail}${e?.reports_detail[i]}, `;
-    }
-    delete e.reports_detail;
+    if (user !== undefined) {
+      form3.resetFields();
+      let reports_detail = "";
+      for (let i = 0; i < e.reports_detail.length; i++) {
+        <div key={i}></div>;
+        // if ((i = 0)) {
+        //   reports_detail = `${e?.reports_detail[i]}`;
+        // }
+        reports_detail = `${reports_detail}${e?.reports_detail[i]}, `;
+      }
+      delete e.reports_detail;
 
-    await baseURL
-      .post(`/report`, {
-        ...e,
-        report_detail: reports_detail,
-        user_id: userDetail?.id,
-        nickName: userDetail?.nickName,
-        review_id: inreview?.id,
-      })
-      .then((res) => {
-        if (res.status == 201 || 200) {
-          fireNotification({ type: "success" });
-        } else {
-          fireNotification({ type: "error" });
-        }
-      });
-    setIsModalOpen(false);
+      await baseURL
+        .post(`/report`, {
+          ...e,
+          report_detail: reports_detail,
+          user_id: userDetail?.id,
+          nickName: userDetail?.nickName,
+          review_id: inreview?.id,
+        })
+        .then((res) => {
+          if (res.status == 201 || 200) {
+            fireNotification({ type: "success" });
+          } else {
+            fireNotification({ type: "error" });
+          }
+        })
+        .catch((e: any) => {
+          fireNotification({ type: "error", description: `${e?.message}` });
+        });
+      setIsModalOpen(false);
+    } else {
+      openNotification2();
+    }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    form3.resetFields();
   };
 
   const showModal2 = () => {
@@ -151,6 +159,12 @@ const Review = () => {
       description: `กรุณาเข้าสู่ระบบก่อนแสดงความคิดเห็น `,
     });
   };
+  const openNotification2 = () => {
+    notification.open({
+      message: "คำเเตือน!!!",
+      description: `กรุณาเข้าสู่ระบบก่อนรายงาน `,
+    });
+  };
   const onFComment = async (e: any) => {
     if (user !== undefined && userDetail?.id !== undefined) {
       await baseURL
@@ -163,6 +177,9 @@ const Review = () => {
         .then((res: any) => {
           getComment(res.data?.review_id);
           form2.resetFields();
+        })
+        .catch((e: any) => {
+          fireNotification({ type: "error", description: `${e?.message}` });
         });
     } else {
       openNotification();
@@ -176,14 +193,19 @@ const Review = () => {
   };
 
   const deleteComment = async (e: any) => {
-    await baseURL.delete(`/comment/${commentId}`).then((res) => {
-      getComment(inreview?.id);
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-    });
+    await baseURL
+      .delete(`/comment/${commentId}`)
+      .then((res) => {
+        getComment(inreview?.id);
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
   };
 
   const items: MenuProps["items"] = [
@@ -419,8 +441,12 @@ const Review = () => {
           </div>
           <Divider className="mt-0" />
           <div className="flex">
-            <div>ถูกใจ:{inreview?.like_post}</div>
-            <div className="ml-4">ยอดวิว :{inreview?.view_post} </div>
+            <div>
+              <LikeOutlined />:{inreview?.like_post}
+            </div>
+            <div className="ml-4">
+              <EyeOutlined /> :{inreview?.view_post}{" "}
+            </div>
           </div>
         </div>
         <Button
@@ -430,20 +456,21 @@ const Review = () => {
               .patch(`reviews/${inreview?.id}`, {
                 like_post: likeNumber,
               })
-              .then((res) => {            
+              .then((res) => {
                 setInreviw({ ...inreview, like_post: likeNumber });
                 getReviewCourse();
               });
           }}
           className="mb-5"
         >
-          ถูกใจ
+          <LikeOutlined /> ถูกใจ
         </Button>
         {comment?.map((item: any, index: any) => (
           <div key={item?.id}>
             <div className="flex justify-between">
               <div>{item?.nickName}</div>
-              {String(userDetail?.id) === String(item?.user_id) ? (
+              {String(userDetail?.id) === String(item?.user_id) ||
+              String(userDetail?.status) === "admin" ? (
                 <div>
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <a

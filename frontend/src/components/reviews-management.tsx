@@ -99,14 +99,19 @@ const ReviewsManagement = () => {
   }, []);
 
   const handleDelete = async (id: any) => {
-    await baseURL.delete(`/reviews/${id}`).then((res) => {
-      fetchData();
-      if (res.status == 201 || 200) {
-        fireNotification({ type: "success" });
-      } else {
-        fireNotification({ type: "error" });
-      }
-    });
+    await baseURL
+      .delete(`/reviews/${id}`)
+      .then((res) => {
+        fetchData();
+        if (res.status == 201 || 200) {
+          fireNotification({ type: "success" });
+        } else {
+          fireNotification({ type: "error" });
+        }
+      })
+      .catch((e: any) => {
+        fireNotification({ type: "error", description: `${e?.message}` });
+      });
     getData();
   };
 
@@ -178,7 +183,7 @@ const ReviewsManagement = () => {
               <Form.Item className="!m-0">
                 <Button
                   htmlType="submit"
-                  className="w-[100%] text-[white] bg-[#45B072]"
+                  className="w-[100%] text-[white] bg-[#45B072] top-7"
                 >
                   ค้นหา
                 </Button>
@@ -187,7 +192,7 @@ const ReviewsManagement = () => {
             <Col xs={12} md={6} lg={3}>
               <Form.Item className="!m-0">
                 <Button
-                  className="w-[100%] "
+                  className="w-[100%] top-7"
                   onClick={() => {
                     form.resetFields();
                     getData();
@@ -199,12 +204,11 @@ const ReviewsManagement = () => {
             </Col>
           </Row>
         </Form>
-        <div className="border-2 border-[#F9ECCE] rounded-lg text-left p-4">
-          <div className="text-left text-2xl">
-            จัดการผู้ใช้ <br />
-          </div>
-          <Table dataSource={data1} columns={columns} pagination={false} />
+
+        <div className="text-left text-2xl p-4">
+          จัดการรีวิว <br />
         </div>
+        <Table dataSource={data1} columns={columns} pagination={false} />
       </div>
     </div>
   );
