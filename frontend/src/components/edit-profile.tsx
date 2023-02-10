@@ -126,8 +126,8 @@ const EditProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item name="facebook" label="facebok">
-                      <Input placeholder="facebok" />
+                    <Form.Item name="facebook" label="facebook">
+                      <Input placeholder="facebook" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>

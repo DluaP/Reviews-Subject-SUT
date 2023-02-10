@@ -225,7 +225,7 @@ const EditPost = () => {
                     },
                   ]}
                 >
-                  <Select placeholder="Please select favourite colors">
+                  <Select placeholder="เกรดที่ได้">
                   <Select.Option value="A">A</Select.Option>
                     <Select.Option value="B+">B+</Select.Option>
                     <Select.Option value="B">B</Select.Option>
