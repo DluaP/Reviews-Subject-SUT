@@ -124,7 +124,12 @@ const EditPost = () => {
               </Col>
 
               <Col span={24}>
-                <Form.Item name="review_detail">
+                <Form.Item name="review_detail"  rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                   <ReactQuill
                     theme="snow"
                     value={values}
@@ -143,7 +148,12 @@ const EditPost = () => {
                 เนื้อหาและความหน้าสนใจ
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="satisfied_point">
+              <Form.Item name="satisfied_point" rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -157,7 +167,12 @@ const EditPost = () => {
                 จำนวนงานและความเหมาะสม
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="appropriate_point">
+              <Form.Item name="appropriate_point" rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -171,7 +186,12 @@ const EditPost = () => {
                 อาจารย์ผู้สอน
               </Col>
               <Col span={2}>ไม่พอใจ</Col>
-              <Form.Item name="teacher_point">
+              <Form.Item name="teacher_point" rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                 <Radio.Group className="">
                   <Radio value="0">1</Radio>
                   <Radio value="25">2</Radio>
@@ -183,7 +203,12 @@ const EditPost = () => {
               <Col span={2}>พอใจมาก</Col>
 
               <Col span={24}>
-                <Form.Item name="grade" label="เกรดที่ได้">
+                <Form.Item name="grade" label="เกรดที่ได้" rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                   <Select placeholder="Please select favourite colors">
                     <Select.Option value="80">A</Select.Option>
                     <Select.Option value="75">B+</Select.Option>
@@ -196,12 +221,22 @@ const EditPost = () => {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="semester" label="ปีการศึกษา">
+                <Form.Item name="semester" label="ปีการศึกษา"rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                   <Input placeholder="ปีการศึกษา" />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="term" label="เทอม">
+                <Form.Item name="term" label="เทอม"rules={[
+                    {
+                      required: true,
+                      message: 'กรุณาข้อมูล'
+                    },
+                  ]}>
                   <Radio.Group>
                     <Radio value="t1">1</Radio>
                     <Radio value="t2">2</Radio>

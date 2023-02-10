@@ -143,7 +143,7 @@ const UserManagement = () => {
       },
     },
     {
-      title: "ชื่อเล่น",
+      title: "นามแฝง",
       dataIndex: "nickName",
       key: "nickName",
     },
@@ -226,8 +226,8 @@ const UserManagement = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={12} lg={6}>
-              <Form.Item name="nickName" label="ชื่อเล่น">
-                <Input placeholder="ขื่อเล่น" />
+              <Form.Item name="nickName" label="นามแฝง">
+                <Input placeholder="นามแฝง" />
               </Form.Item>
             </Col>
             <Col xs={12} md={6} lg={3}>

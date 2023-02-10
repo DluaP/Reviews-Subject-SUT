@@ -110,6 +110,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณาใส่รหัสวิชาและชื่อวิชา'
                     },
                   ]}
                 >
@@ -137,6 +138,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกข้อมูล'
                     },
                   ]}
                 >
@@ -163,6 +165,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
+                    message: 'กรุณากรอกข้อมูล'
                   },
                 ]}
               >
@@ -184,6 +187,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
+                    message: 'กรุณากรอกข้อมูล'
                   },
                 ]}
               >
@@ -205,6 +209,7 @@ const CreatePost = () => {
                 rules={[
                   {
                     required: true,
+                    message: 'กรุณากรอกข้อมูล'
                   },
                 ]}
               >
@@ -225,6 +230,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกข้อมูล'
                     },
                   ]}
                 >
@@ -246,6 +252,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกข้อมูล'
                     },
                   ]}
                 >
@@ -259,6 +266,7 @@ const CreatePost = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกข้อมูล'
                     },
                   ]}
                 >

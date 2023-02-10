@@ -108,8 +108,8 @@ const EditProfile = () => {
                     <Input hidden />
                   </Form.Item>
                   <Col xs={24} md={24} lg={16}>
-                    <Form.Item name="nickName" label="ชื่อเล่น">
-                      <Input placeholder="ชื่อเล่น" />
+                    <Form.Item name="nickName" label="นามแฝง">
+                      <Input placeholder="นามแฝง" />
                     </Form.Item>
                     <Form.Item name="bio" label="เกี่ยวกับฉัน">
                       <TextArea rows={2} />

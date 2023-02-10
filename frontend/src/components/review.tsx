@@ -18,6 +18,7 @@ import {
   Space,
   notification,
   Tooltip,
+  message,
 } from "antd";
 import { Col } from "antd/es/grid";
 import { Image } from "antd";
@@ -29,7 +30,7 @@ import { baseURL } from "./login";
 import { log } from "console";
 import parse from "html-react-parser";
 import { useUser } from "./context/user";
-import { EllipsisOutlined, EyeOutlined, LikeOutlined } from "@ant-design/icons";
+import { EllipsisOutlined, EyeOutlined, LikeOutlined,SendOutlined } from "@ant-design/icons";
 import { fireNotification } from "./notification";
 
 const { Paragraph, Text } = Typography;
@@ -215,6 +216,13 @@ const Review = () => {
     },
   ];
 
+  const info = () => {
+    messageApi.open({
+      type: 'info',
+      content: `เยี่ยม!!`,
+    });
+  };
+  const [messageApi, contextHolder] = message.useMessage();
   return (
     <div className="w-[100%] h-[100vh] ">
       <div className=" lg:px-[30vh] md:px-[10vh]  sm:px-[5vh] px-[20px] pt-[50px] pb-[100px] text-center justify-center ">
@@ -320,26 +328,13 @@ const Review = () => {
                             setInreviw({ ...item, view_post: viewNumber });
                             getReviewCourse();
                           });
-                        // setView(item?.view_post);
-                        // onViewCilck(item);
+         
+  
                       }}
                     >
                       {"ดูรีวิวนี้"}
                     </Button>
-                    {/* <Tooltip title="Double click!!">
-                      <Button
-                        className=" text-[black] bg-[#FED584] "
-                        onClick={() => {
-                          // setLike(item?.like_post+1);
-                          // getReviewCourse();
-                          // likeC();
-                          // onLikeCilck(item);
-                          getReviewCourse();
-                        }}
-                      >
-                        {"ถูกใจ"}
-                      </Button>
-                    </Tooltip> */}
+                   
                   </div>
                   <div>
                     <span className="mr-4">
@@ -449,6 +444,7 @@ const Review = () => {
             </div>
           </div>
         </div>
+        {contextHolder}
         <Button
           onClick={async () => {
             likeNumber = inreview?.like_post + 1;
@@ -459,6 +455,7 @@ const Review = () => {
               .then((res) => {
                 setInreviw({ ...inreview, like_post: likeNumber });
                 getReviewCourse();
+                info();
               });
           }}
           className="mb-5"
@@ -506,7 +503,7 @@ const Review = () => {
                 style={{ width: "calc(100% - 75px)", borderRight: "none" }}
                 placeholder="แสดงความิดเห็น"
               />
-              <Button htmlType="submit">Submit</Button>
+              <Button htmlType="submit" >ส่ง</Button>
             </div>
           </Form.Item>
         </Form>

@@ -64,6 +64,7 @@ const Login = () => {
         .then((e: any) => {
           if (e.status == 201 || 200) {
             fireNotification({ type: "success" });
+            window.location.reload();
           } else {
             fireNotification({ type: "error" });
           }
@@ -74,12 +75,12 @@ const Login = () => {
           } else {
             fireNotification({
               type: "error",
-              description: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+              description: "ชื่อผู้ใช้หรือนางแฝงมีผู้ใช้แล้ว",
             });
           }
         });
 
-      window.location.reload();
+      
     }
   };
   const onChange = (key: string) => {};
@@ -107,6 +108,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกชื่อผู้ใช้'
                     },
                   ]}
                 >
@@ -120,6 +122,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกรหัสผ่าน'
                     },
                   ]}
                 >
@@ -147,6 +150,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกชื่อผู้ใช้'
                     },
                   ]}
                 >
@@ -160,6 +164,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกชื่อ'
                     },
                   ]}
                 >
@@ -173,7 +178,9 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกนามสกุล'
                     },
+                    
                   ]}
                 >
                   <Input placeholder="นามสกุล" />
@@ -182,14 +189,15 @@ const Login = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   name="nickName"
-                  label="ชื่อเล่น"
+                  label="นามแฝง"
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกนามแฝง'
                     },
                   ]}
                 >
-                  <Input placeholder="ชื่อเล่น" />
+                  <Input placeholder="นามแฝง" />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -199,6 +207,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกสถานะ'
                     },
                   ]}
                   initialValue="studen"
@@ -220,6 +229,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกรหัสผ่าน'
                     },
                   ]}
                 >
@@ -233,6 +243,7 @@ const Login = () => {
                   rules={[
                     {
                       required: true,
+                      message: 'กรุณากรอกยืนยันรหัสผ่าน'
                     },
                   ]}
                 >
