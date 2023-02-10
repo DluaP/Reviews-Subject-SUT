@@ -76,7 +76,7 @@ const ReviewsManagement = () => {
     if (!e.id) {
       getData();
     } else {
-      await baseURL.get(`/course?id=${e.id}`).then((res) => {
+      await baseURL.get(`/reviews?id=${e.id}`).then((res) => {
         setDatas(res.data);
       });
     }
