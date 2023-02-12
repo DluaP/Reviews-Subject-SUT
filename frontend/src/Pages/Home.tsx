@@ -11,11 +11,10 @@ import { useUser } from "../components/context/user";
 import { log } from "console";
 import { baseURL } from "../components/login";
 import Logo from "../components/images/Logo.png";
-import Student from "../components/images/Student.png"
-import Admin from "../components/images/Admin.png"
-import Teacher from "../components/images/Teacher.png"
-// import {Logo} from 
-
+import Student from "../components/images/Student.png";
+import Admin from "../components/images/Admin.png";
+import Teacher from "../components/images/Teacher.png";
+// import {Logo} from
 
 type Props = {};
 
@@ -108,9 +107,7 @@ function NavHome({}: Props) {
               />
             )}
 
-            <p className="m-2">
-              {userDetail?.firstName} {userDetail?.lastName}
-            </p>
+            <p className="m-2">{userDetail?.nickName}</p>
           </div>
           <Divider className="my-1" />
           <div className="p-2">
@@ -165,30 +162,6 @@ function NavHome({}: Props) {
       ) : (
         <Drawer placement="right" onClose={triger} open={open}>
           <div className="text-center justify-center items-center">
-            {/* {userDetail?.status === "admin" ? (
-              <Image
-                src="./images/Admin.png"
-                preview={false}
-                style={{ width: "100px", height: "100px" }}
-                className="rounded-full text-center"
-              />
-            ) : ("")}
-            {userDetail?.status === "teacher" ? (
-              <Image
-                src="./images/Teacher.png"
-                preview={false}
-                style={{ width: "100px", height: "100px" }}
-                className="rounded-full text-center"
-              />
-            ) : ("")}
-           {userDetail?.status === "student" ? (
-              <Image
-                src="./images/Student.png"
-                preview={false}
-                style={{ width: "100px", height: "100px" }}
-                className="rounded-full text-center"
-              />
-            ) : ("")} */}
             {userDetail?.status === "admin" ? (
               <Image
                 src={Admin}
