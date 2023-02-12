@@ -185,13 +185,13 @@ const AddCourse = () => {
         <Form form={form} layout="vertical" onFinish={onSearch}>
           <Row gutter={[12, 6]}>
             <Col xs={12} md={12} lg={6}>
-              <Form.Item name="course_id" label="ชื่อผู้ใช้">
-                <Input placeholder="ขื่อผู้ใช้" />
+              <Form.Item name="course_id" label="รหัสวิชา">
+                <Input placeholder="รหัสวิชา" />
               </Form.Item>
             </Col>
             <Col xs={12} md={12} lg={6}>
-              <Form.Item name="course_name" label="ชื่อ">
-                <Input placeholder="ขื่อ" />
+              <Form.Item name="course_name" label="ชื่อวิชา">
+                <Input placeholder="ขื่อวิชา" />
               </Form.Item>
             </Col>
 
