@@ -21,6 +21,9 @@ import { baseURL } from "./login";
 import { useReview } from "./context/review";
 import parse from "html-react-parser";
 import { fireNotification } from "./notification";
+import Student from "../components/images/Student.png"
+import Admin from "../components/images/Admin.png"
+import Teacher from "../components/images/Teacher.png"
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -77,21 +80,21 @@ const Profile = () => {
                 <Col span={24}>
                   {userDetail?.status === "admin" ? (
                     <Image
-                      src="./images/Admin.png"
+                      src={Admin}
                       preview={false}
                       style={{ width: "100px", height: "100px" }}
                       className="rounded-full text-center"
                     />
                   ) : userDetail?.status === "teacher" ? (
                     <Image
-                      src="./images/Teacher.png"
+                      src={Teacher}
                       preview={false}
                       style={{ width: "100px", height: "100px" }}
                       className="rounded-full text-center"
                     />
                   ) : (
                     <Image
-                      src="./images/Student.png"
+                      src={Student}
                       preview={false}
                       style={{ width: "100px", height: "100px" }}
                       className="rounded-full text-center"

@@ -20,7 +20,7 @@ import { useUser } from "./context/user";
 import { fireNotification } from "./notification";
 
 export const baseURL = axios.create({
-  baseURL: "http://digiproj.sut.ac.th:9997",
+  baseURL: "http://localhost:9997",
 });
 
 const Login = () => {

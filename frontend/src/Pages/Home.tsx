@@ -10,6 +10,13 @@ import { UserOutlined, MenuOutlined } from "@ant-design/icons";
 import { useUser } from "../components/context/user";
 import { log } from "console";
 import { baseURL } from "../components/login";
+import Logo from "../components/images/Logo.png";
+import Student from "../components/images/Student.png"
+import Admin from "../components/images/Admin.png"
+import Teacher from "../components/images/Teacher.png"
+// import {Logo} from 
+
+
 type Props = {};
 
 export function refreshPage() {
@@ -70,7 +77,7 @@ function NavHome({}: Props) {
         <button onClick={() => navigate("/")}>
           <Image
             style={{ width: "100%", height: "100%" }}
-            src="./images/Logo.png"
+            src={Logo}
             preview={false}
           />
         </button>
@@ -80,21 +87,21 @@ function NavHome({}: Props) {
           <div className="text-center justify-center items-center">
             {userDetail?.status === "admin" ? (
               <Image
-                src="./images/Admin.png"
+                src={Admin}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"
               />
             ) : userDetail?.status === "teacher" ? (
               <Image
-                src="./images/Teacher.png"
+                src={Teacher}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"
               />
             ) : (
               <Image
-                src="./images/Student.png"
+                src={Student}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"
@@ -184,21 +191,21 @@ function NavHome({}: Props) {
             ) : ("")} */}
             {userDetail?.status === "admin" ? (
               <Image
-                src="./images/Admin.png"
+                src={Admin}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"
               />
             ) : userDetail?.status === "teacher" ? (
               <Image
-                src="./images/Teacher.png"
+                src={Teacher}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"
               />
             ) : (
               <Image
-                src="./images/Student.png"
+                src={Student}
                 preview={false}
                 style={{ width: "100px", height: "100px" }}
                 className="rounded-full text-center"

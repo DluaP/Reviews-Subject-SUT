@@ -19,6 +19,9 @@ import TextArea from "antd/es/input/TextArea";
 import { baseURL } from "./login";
 import { useUser } from "./context/user";
 import { fireNotification } from "./notification";
+import Student from "../components/images/Student.png"
+import Admin from "../components/images/Admin.png"
+import Teacher from "../components/images/Teacher.png"
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -83,21 +86,21 @@ const EditProfile = () => {
                   <Col xs={24} md={24} lg={8} className="text-center pt-4">
                     {userDetail?.status === "admin" ? (
                       <Image
-                        src="./images/Admin.png"
+                        src={Admin}
                         preview={false}
                         style={{ width: "100px", height: "100px" }}
                         className="rounded-full text-center"
                       />
                     ) : userDetail?.status === "teacher" ? (
                       <Image
-                        src="./images/Teacher.png"
+                        src={Teacher}
                         preview={false}
                         style={{ width: "100px", height: "100px" }}
                         className="rounded-full text-center"
                       />
                     ) : (
                       <Image
-                        src="./images/Student.png"
+                        src={Student}
                         preview={false}
                         style={{ width: "100px", height: "100px" }}
                         className="rounded-full text-center"
